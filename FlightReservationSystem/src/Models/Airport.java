@@ -5,14 +5,12 @@ package Models;
  * Ideally, this class only holds data queried from server.
  */
 public class Airport {
-	private double latitude;
-	private double longitude;
+	private int gmtOffset;
 	private String code;
 	private String name;
 	
-	public Airport(String name, String code, double latitude, double longitude) {
-		this.latitude = latitude;
-		this.longitude = longitude;
+	public Airport(String name, String code, int gmtOffset) {
+		this.gmtOffset = gmtOffset;
 		this.code = code;
 		this.name = name;
 	}
@@ -26,14 +24,9 @@ public class Airport {
 	}
 	
 	/*
-	 * TODO: implement getGMTOffset
 	 * returns local time offset from GMT in hours
 	 */
 	public int getGMTOffset() {
-		return 0;
-	}
-	
-	public double[] getCoordinates() {
-		
+		return gmtOffset;
 	}
 }

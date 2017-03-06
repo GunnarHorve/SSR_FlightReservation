@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,31 +10,72 @@ import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-/*print*/
 public class main {
 
-	public static void main(String[] args) {//set comments
-		Double lat = 33.641045;
-		Double lng = -84.427764;
-		getGMTOffsetFromAPI(lat, lng);
+	public static void main(String[] args) {
+		run();
+	}
+	
+	public static void run() {
+		try {
+			//loading airports.xml document
+			File fXmlFile = new File("src/airports.xml");
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder;
+			dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(fXmlFile);
+			Element root = doc.getDocumentElement();
+			
+			//looping through each airport
+			NodeList Airports = root.getElementsByTagName("Airport");
+			for(int i = 0; i < Airports.getLength(); i++) {
+				Element Airport = (Element) Airports.item(i);					
+				NodeList children = Airport.getChildNodes();
+				
+				//extracting lat/long fields
+				double[] coords = new double[2];
+				for(int j = 0; j < children.getLength(); j++) {
+					String name = children.item(j).getNodeName();
+					String val = "";
+					if(name.equals("Latitude")) {
+						val = children.item(j).getTextContent();
+						coords[0] = Double.parseDouble(val);
+					} else if(name.equals("Longitude")) {
+						val = children.item(j).getTextContent();
+						coords[1] = Double.parseDouble(val);
+					}
+				}
+				System.out.println("Airport " + i + "/" + Airports.getLength());
+				insertGMTField(doc, Airport, coords);
+			}
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/*
 	 * queries an API to get a GMT offset in hours (requires 1s between queries)
 	 */
-	static int getGMTOffsetFromAPI(Double lat, Double lng) {
-		
+	static int getGMTOffsetFromAPI(double[] coords) {
 		try {
 			//query server
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1); //api requires >1s between queries
 			String baseStr = "http://api.timezonedb.com/v2/get-time-zone?key=7SAIBM5LH9VW&by=position";
-			URL url = new URL(baseStr + "&lat=" + lat + "&lng=" + lng);
+			URL url = new URL(baseStr + "&lat=" + coords[0] + "&lng=" + coords[1]);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			
@@ -67,7 +109,34 @@ public class main {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return -1;
+	}
+	
+	/*
+	 *  Inserts a GMT offset field into the given DOM,
+	 *  then saves to file
+	 */
+	public static void insertGMTField(Document doc, Element Airport, double[] coords) {
+		//inserting GMTOffset field
+		boolean offsetExists = Airport.getElementsByTagName("GMTOffset").getLength() == 1;
+		if(offsetExists) { return; }
+		int offsetTime = getGMTOffsetFromAPI(coords);
+		
+		Element offset = doc.createElement("GMTOffset");
+		offset.appendChild(doc.createTextNode(offsetTime + ""));
+		Airport.appendChild(offset);
+		
+		Source source = new DOMSource(doc);
+		File file = new File("src/airports.xml");
+	    StreamResult result = new StreamResult(file);
+		
+	    try {
+		    Transformer xformer = TransformerFactory.newInstance().newTransformer();
+			xformer.transform(source, result);
+			return;
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/*
