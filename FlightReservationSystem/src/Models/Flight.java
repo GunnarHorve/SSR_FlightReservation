@@ -1,5 +1,9 @@
 package Models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /*
  * A model meant to contain data about a given flight.
  * Ideally, this class only holds data queried from server.
@@ -12,8 +16,8 @@ public class Flight {
 	public Airport dep;			// departing airpot
 	public Airport arr;			// arrival airport
 	
-	public String depTime;		// departure time
-	public String arrTime;		// arrival time
+	public String depTime;		// departure time formatted as: "YYYY MMM DD HH:MM" + " GMT"
+	public String arrTime;		// arrival time   formatted as: "YYYY MMM DD HH:MM" + " GMT"
 	
 	public double firstPrice;	// first class ticket price
 	public double coachPrice;	// coach class ticket price
@@ -33,5 +37,35 @@ public class Flight {
 		this.coachPrice = coachPrice;
 		this.firstSeats = firstSeats;
 		this.coachSeats = coachSeats;
+	}
+	
+	/*
+	 * Returns departure time in ms since epoch
+	 */
+	public Long getEpochDeparture() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd hh:mm zzz");
+		
+		try {
+			Date date = sdf.parse(this.depTime);
+			return date.getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return -1L;
+	}
+	
+	/*
+	 * Returns arrival time in ms since epoch
+	 */
+	public Long getEpochArrival() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd hh:mm zzz");
+		
+		try {
+			Date date = sdf.parse(this.arrTime);
+			return date.getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return -1L;
 	}
 }
