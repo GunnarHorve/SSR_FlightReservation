@@ -1,3 +1,4 @@
+package GUI;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -5,8 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonListener;
-
-import Models.DateChooserJButton;
 
 import java.awt.GridBagLayout;
 import javax.swing.JTextPane;
