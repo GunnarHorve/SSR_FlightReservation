@@ -9,25 +9,30 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import XMLParser.Airport;
-import XMLParser.Airplane;
+import Models.Airplane;
+import Models.Airport;
+import Models.Flight;
 
 
 public class XMLParser {
 	public static void main(String[] args){
-		File file = new File("src/Data/airports.xml");
-		List<Airport> airports = readAirport(file);
-		for(Airport airport : airports){
-			System.out.println(airport.toString());
-		}
-		File file1 = new File("src/Data/Airplanes.xml");
-		List<Airplane> airplanes = readAirplane(file1);
-		for(Airplane airplane : airplanes){
-			System.out.println(airplane.toString());
+//		File file = new File("src/Data/airports.xml");
+//		List<Airport> airports = readAirport(file);
+//		for(Airport airport : airports){
+//			System.out.println(airport.toString());
+//		}
+//		File file1 = new File("src/Data/Airplanes.xml");
+//		List<Airplane> airplanes = readAirplane(file1);
+//		for(Airplane airplane : airplanes){
+//			System.out.println(airplane.toString());
+//		}
+		File file2 = new File("src/Data/ArrivingFlights.xml");
+		List<Flight> flights = readFlight(file2);
+		for(Flight flight : flights){
+			System.out.println(flight.toString());
 		}
 //		loopXMLFile();
 	}
@@ -43,12 +48,9 @@ public class XMLParser {
 				Node airportNode = airportList.item(i);
 				if(airportNode.getNodeType() == Node.ELEMENT_NODE){
 					Element airportElement = (Element)airportNode;
-					Airport airport = new Airport();
-					airport.setName(airportElement.getAttribute("Name"));
-					airport.setCode(airportElement.getAttribute("Code"));
-					airport.setLatitude(String.valueOf(airportElement.getElementsByTagName("Latitude").item(0).getTextContent()));
-					airport.setLongtitude(String.valueOf(airportElement.getElementsByTagName("Longitude").item(0).getTextContent()));
-					airport.setGMTOffset(String.valueOf(airportElement.getElementsByTagName("GMTOffset").item(0).getTextContent()));
+					Airport airport = new Airport(airportElement.getAttribute("Name"),
+							airportElement.getAttribute("Code"),
+							Integer.valueOf(airportElement.getElementsByTagName("GMTOffset").item(0).getTextContent()));
 					lists.add(airport);
 				}
 			}
@@ -70,11 +72,9 @@ public class XMLParser {
 				Node airplaneNode = airplaneList.item(i);
 				if(airplaneNode.getNodeType() == Node.ELEMENT_NODE){
 					Element airplaneElement = (Element)airplaneNode;
-					Airplane airplane = new Airplane();
-					airplane.setManufacturer(airplaneElement.getAttribute("Manufacturer"));
-					airplane.setModel(airplaneElement.getAttribute("Model"));
-					airplane.setTotFirst(Integer.valueOf(airplaneElement.getElementsByTagName("FirstClassSeats").item(0).getTextContent()));
-					airplane.setTotCoach(Integer.valueOf(airplaneElement.getElementsByTagName("CoachSeats").item(0).getTextContent()));
+					Airplane airplane = new Airplane(airplaneElement.getAttribute("Manufacturer"),airplaneElement.getAttribute("Model"),
+							Integer.valueOf(airplaneElement.getElementsByTagName("FirstClassSeats").item(0).getTextContent()),
+							Integer.valueOf(airplaneElement.getElementsByTagName("CoachSeats").item(0).getTextContent()));
 					lists.add(airplane);
 				}
 			}
@@ -84,46 +84,87 @@ public class XMLParser {
 		return lists;
 	}
 	
-//	//traversal the xml file
-//	private static void loopXMLFile(){
-//		try{
-//			File file = new File("src/Data/Airplanes.xml");
-//			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-//			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-//			Document doc = dBuilder.parse(file);
-//			if(doc.hasChildNodes()){
-//				printNode(doc.getChildNodes());
-//			}
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	private static void printNode(NodeList nodeList){
-//		for(int i =0;i<nodeList.getLength();i++){
-//			Node node = nodeList.item(i);
-//			if(node.getNodeType() == Node.ELEMENT_NODE){
-//				System.out.println("<"+node.getNodeName()+">");
-//				System.out.println(node.getTextContent());
-//				if(node.hasAttributes()){
-//					NamedNodeMap nodeMap = node.getAttributes();
-//					for(int j =0;j<nodeMap.getLength();j++){
-//						Node nd = nodeMap.item(j);
-//						System.out.println(nd.getNodeName() +"="+nd.getNodeValue());
-//					}
-//				}
-//				if(node.hasChildNodes()){
-//					printNode(node.getChildNodes());
-//				}
-//				System.out.println("<"+node.getNodeName()+"/>");
-//			}
-//		}
-//	}
+	public static Airplane getAirplaneModel(String airplaneType){
+		File file = new File("src/Data/Airplanes.xml");
+		List<Airplane> airplanes = readAirplane(file);
+		for(Airplane airplane : airplanes){
+			if(airplane.model.equals(airplaneType)){
+				return airplane;
+			}
+		}
+		return null;
+	}
 	
-	//creat XML file
-//	public static void createXMLFile(List<Flight> flights){
-//		Document doc;
-//		Element 
-//	}
+	public static Airport getAirport(String airportType){
+		File file = new File("src/Data/airports.xml");
+		List<Airport> airports = readAirport(file);
+		for(Airport airport : airports){
+			if(airport.code.equals(airportType)){
+				return airport;
+			}
+		}
+		return null;
+	}
 	
+	//parse the arrivingFlight and departingFlight xml file
+	public static List<Flight> readFlight(File file){
+		List<Flight> lists = new ArrayList<Flight>();
+		try{
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(file);
+			NodeList flightList = doc.getElementsByTagName("Flight");
+			for(int i =0;i<flightList.getLength();i++){
+				Node flightNode = flightList.item(i);
+				if(flightNode.getNodeType()==Node.ELEMENT_NODE){
+					Element flightElement = (Element)flightNode;
+					String airplaneType = flightElement.getAttribute("Airplane");
+					NodeList departureList = flightElement.getElementsByTagName("Departure");
+					String departureCode=null,depTime=null;
+					for(int j=0;j<departureList.getLength();j++){
+						Node departureNode = departureList.item(j);
+						Element departureElement = (Element)departureNode;
+						departureCode = departureElement.getElementsByTagName("Code").item(0).getTextContent();
+						depTime = departureElement.getElementsByTagName("Time").item(0).getTextContent();
+					}
+					
+					NodeList arrivalList = flightElement.getElementsByTagName("Arrival");
+					String arrivalCode=null,arrTime=null;
+					for(int k=0;k<arrivalList.getLength();k++){
+						Node arrivalNode = arrivalList.item(k);
+						Element arrivalElement = (Element)arrivalNode;
+						arrivalCode = arrivalElement.getElementsByTagName("Code").item(0).getTextContent();
+						arrTime = arrivalElement.getElementsByTagName("Time").item(0).getTextContent();
+					}
+					
+					NodeList seatingList = flightElement.getElementsByTagName("Seating");
+					double firstPrice=0,coachPrice=0;
+					int firstNum=0,coachNum=0;
+					for(int j=0;j<seatingList.getLength();j++){
+						Node seatingNode = seatingList.item(j);
+						Element seatingElement = (Element)seatingNode;
+						NodeList firstList = seatingElement.getElementsByTagName("FirstClass");
+				    	firstNum = Integer.parseInt(seatingElement.getElementsByTagName("FirstClass").item(0).getTextContent());
+					    Node firstNode = firstList.item(0);
+					    Element firstElement = (Element)firstNode;
+					    int len1 =  firstElement.getAttribute("Price").length();
+					    firstPrice = Double.valueOf(firstElement.getAttribute("Price").substring(1,len1-1));
+					    NodeList coachList = seatingElement.getElementsByTagName("Coach");
+					    coachNum = Integer.parseInt(seatingElement.getElementsByTagName("Coach").item(0).getTextContent());
+					    Node coachNode = coachList.item(0);
+					    Element coachElement = (Element)coachNode;
+					    int len = coachElement.getAttribute("Price").length();
+					    coachPrice = Double.valueOf(coachElement.getAttribute("Price").substring(1, len-1));   
+					}
+					Flight flight = new Flight(getAirplaneModel(airplaneType),Integer.parseInt(flightElement.getAttribute("FlightTime")),
+							Integer.parseInt(flightElement.getAttribute("Number")),getAirport(departureCode),getAirport(arrivalCode),
+							depTime,arrTime,firstPrice,coachPrice,firstNum,coachNum);
+					lists.add(flight);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return lists;
+	}	
 }
