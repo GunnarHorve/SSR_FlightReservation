@@ -1,7 +1,7 @@
-//package first;
+package flightFinder;
 import java.util.*;
 
-public class firstSearch {
+public class FlightSearch {
 	  public static void main(String[] args) {
 		  List<List<Integer>> exm = new ArrayList<List<Integer>>();
 		  String[] inputLines = {"2 1", "3 1","1 4","2 5","2 3","3 5","4 5"};
@@ -17,7 +17,7 @@ public class firstSearch {
 		  }
 		  
 		  
-		  firstSearch transfershow = new firstSearch();
+		  FlightSearch transfershow = new FlightSearch();
 		  Set<Integer> transans = transfershow.search(exm.size(),exm,3);
 		  for(int every: transans )
 	        {             
