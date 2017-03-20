@@ -39,6 +39,11 @@ public class Flight {
 		this.coachSeats = coachSeats;
 	}
 	
+	public String toString(){
+		return "Airplane[type = "+type+",duration = "+duration+",num = "+num+",dep = "+dep+",arr = "+arr+",depTime = "+depTime+","
+				+ "arrTime = "+arrTime+",firstPrice = "+firstPrice+",coachPrice = "+coachPrice+",firstSeats = "+firstSeats+",coachSeats = "+coachSeats+",]";
+	}
+	
 	/*
 	 * Returns departure time in ms since epoch
 	 */
