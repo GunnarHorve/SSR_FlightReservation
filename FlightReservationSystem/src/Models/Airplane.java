@@ -2,10 +2,6 @@ package Models;
 
 public class Airplane {
 
-<<<<<<< HEAD
-
-=======
->>>>>>> branch 'master' of https://github.com/GunnarHorve/SSR_FlightReservation/
 
 	String manufacturer;	// manufacturer of this plane
 	public String model;			// model number of this plane
