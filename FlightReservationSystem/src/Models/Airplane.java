@@ -2,7 +2,10 @@ package Models;
 
 public class Airplane {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/GunnarHorve/SSR_FlightReservation/
 
 	String manufacturer;	// manufacturer of this plane
 	public String model;			// model number of this plane
@@ -14,5 +17,8 @@ public class Airplane {
 		this.model = model;
 		this.totFirst = totFirst;
 		this.totCoach = totCoach;
+	}
+	public String toString(){
+		return "Airplane[manufacturer = "+manufacturer+",model = "+model+",totFirst = "+totFirst+",totCoach = "+totCoach+"]";
 	}
 }

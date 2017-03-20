@@ -34,7 +34,6 @@ public class XMLParser {
 		for(Flight flight : flights){
 			System.out.println(flight.toString());
 		}
-//		loopXMLFile();
 	}
 	//parse the airports xml file
 	public static List<Airport> readAirport(File file){
