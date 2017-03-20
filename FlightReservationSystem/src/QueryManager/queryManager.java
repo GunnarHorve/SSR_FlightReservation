@@ -18,9 +18,6 @@ public class queryManager {
 		for(Flight flight : flights){
 			System.out.println(flight.toString());
 		}
-		
-		
-		
 	}
 	
 	
