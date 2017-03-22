@@ -24,17 +24,7 @@ public class queryManager {
 		
 		
 	}
-	public static String getDate(String str){
-		//String temp = "";
-		int count = 0;
-		int i = 0;
-		while(count<3){
-			if(str.charAt(i)==' ') count++;
-			++i;
-		}
-		
-	return str.substring(0, i);
-	}
+
 	
 		
 	
@@ -89,12 +79,25 @@ public static List<Airport> getAllAirports(){
 		}
 		return selectedFlights;
 	}
+	
+	public static String getDate(String str){
+		//String temp = "";
+		int count = 0;
+		int i = 0;
+		while(count<3){
+			if(str.charAt(i)==' ') count++;
+			++i;
+		}
+		
+	return str.substring(0, i);
+	}
+	
 	public static List<Flight> getFlights_noDep(Airport arrAirport,String date){
 		List<Flight> flights = getAllFlights();
 		List<Flight> selectedFlights = new ArrayList<>();
 		for(Flight flight : flights){
 			try{
-				if(arrAirport.code.equals(flight.arr.code)&&
+				if(arrAirport.code.equals(getDate(flight.arr.code))&&
 				date.equals(flight.depTime))
 				selectedFlights.add(flight);
 			}catch(Exception e){
