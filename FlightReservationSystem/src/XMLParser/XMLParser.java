@@ -1,8 +1,14 @@
 package XMLParser;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,11 +35,17 @@ public class XMLParser {
 //		for(Airplane airplane : airplanes){
 //			System.out.println(airplane.toString());
 //		}
-		File file2 = new File("src/Data/ArrivingFlights.xml");
-		List<Flight> flights = readFlight(file2);
-		for(Flight flight : flights){
-			System.out.println(flight.toString());
-		}
+//		File file2 = new File("src/Data/ArrivingFlights.xml");
+//		List<Flight> flights = readFlight(file2);
+//		for(Flight flight : flights){
+//			System.out.println(flight.toString());
+//		}
+		String Time = "2017 May 10 20:21";
+		Date date = Format(Time);
+		System.out.println(date);
+		
+		
+		
 	}
 	//parse the airports xml file
 	public static List<Airport> readAirport(File file){
@@ -105,6 +117,18 @@ public class XMLParser {
 		return null;
 	}
 	
+	
+	public static Date Format(String time){
+		try{
+			DateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm"+"GMT",Locale.ENGLISH);
+			Date date = sdf.parse(time);
+			return date;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	//parse the arrivingFlight and departingFlight xml file
 	public static List<Flight> readFlight(File file){
 		List<Flight> lists = new ArrayList<Flight>();
@@ -125,6 +149,7 @@ public class XMLParser {
 						Element departureElement = (Element)departureNode;
 						departureCode = departureElement.getElementsByTagName("Code").item(0).getTextContent();
 						depTime = departureElement.getElementsByTagName("Time").item(0).getTextContent();
+						
 					}
 					
 					NodeList arrivalList = flightElement.getElementsByTagName("Arrival");

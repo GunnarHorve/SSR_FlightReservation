@@ -19,6 +19,7 @@ public class Flight {
 	public String depTime;		// departure time formatted as: "YYYY MMM DD HH:MM" + " GMT"
 	public String arrTime;		// arrival time   formatted as: "YYYY MMM DD HH:MM" + " GMT"
 	
+	
 	public double firstPrice;	// first class ticket price
 	public double coachPrice;	// coach class ticket price
 	
