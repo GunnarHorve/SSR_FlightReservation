@@ -26,6 +26,23 @@ public class queryManager {
 //		String str = "2017 May 10 00:54 GMT";
 //		System.out.println(getDate(str));
 
+		Airport arrAirport = new Airport("arrAirport","BOS",5);
+		Airport depAirport = new Airport("depAirport","CVG",5);
+		List<Flight> flights = getFlights(arrAirport,depAirport, "2017 May 10 00:54 GMT");
+		for(Flight flight : flights){
+			System.out.println(flight.toString());
+		}
+		
+		
+		List<Flight> depFlights = getDepFlights(depAirport,"2017 May 10 00:54 GMT");
+		for(Flight flight : depFlights){
+			System.out.println(flight.toString());
+		}
+		
+		List<Flight> arrFlights = getArrFlights(arrAirport,"2017 May 10 02:31 GMT");
+		for(Flight flight : arrFlights){
+			System.out.println(flight.toString());
+		}
 	}
 
 	
@@ -109,6 +126,38 @@ public static List<Airport> getAllAirports(){
 			}
 		}
 		return selectedFlights;
+
+	}
+	public static List<Flight> getDepFlights(Airport depAirport, String date){
+		List<Flight> flights = getAllFlights();
+		List<Flight> selectedFlights = new ArrayList<> ();
+		for(Flight flight: flights){
+			try{
+				if(depAirport.code.equals(flight.dep.code)&&
+						date.equals(flight.depTime))
+					selectedFlights.add(flight);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return selectedFlights;		
+	}
+	
+	public static List<Flight> getArrFlights(Airport arrAirport, String date){
+		List<Flight> flights = getAllFlights();
+		List<Flight> selectedFlights = new ArrayList<> ();
+		for(Flight flight: flights){
+			try{
+				if(arrAirport.code.equals(flight.arr.code)&&
+						date.equals(flight.arrTime))
+					selectedFlights.add(flight);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return selectedFlights;		
 	}
 	
 	

@@ -1,8 +1,26 @@
-//package first;
+package flightFinder;
 import java.util.*;
 
-public class firstSearch {
+import Models.Airplane;
+import Models.Airport;
+import Models.Flight;
+import QueryManager.queryManager;
+
+public class FlightTrail{
 	  public static void main(String[] args) {
+		  
+	  List<Airport> allAirport = queryManager.getAllAirports();
+		  for(Airport airport : allAirport){
+			  System.out.println(airport);
+			  System.out.println(allAirport.size());
+		  }
+		  
+		List<Flight> allFlights = queryManager.getAllFlights();
+			for(Flight flight: allFlights){
+				System.out.println(flight);
+				System.out.println(allFlights.size());
+			}
+		  
 		  List<List<Integer>> exm = new ArrayList<List<Integer>>();
 		  String[] inputLines = {"2 1", "3 1","1 4","2 5","2 3","3 5","4 5"};
 		  
@@ -17,7 +35,7 @@ public class firstSearch {
 		  }
 		  
 		  
-		  firstSearch transfershow = new firstSearch();
+		  FlightSearch transfershow = new FlightSearch();
 		  Set<Integer> transans = transfershow.search(exm.size(),exm,3);
 		  for(int every: transans )
 	        {             
@@ -51,7 +69,7 @@ public class firstSearch {
 	  }
 		
 
-	  
+	 
 	  
 	  private Map<Integer, Set<Integer>> initializeGraph(int n, List<List<Integer>> simplelist) {
 	        Map<Integer, Set<Integer>> graph = new HashMap<>();
@@ -70,6 +88,7 @@ public class firstSearch {
 	  }
 	  
 }
+
 
 
 
