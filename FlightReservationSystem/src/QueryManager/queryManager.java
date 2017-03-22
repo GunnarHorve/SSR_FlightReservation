@@ -1,6 +1,7 @@
 package QueryManager;
 
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +13,31 @@ import XMLParser.XMLParser;
 public class queryManager {
 	public static void main(String[] args){
 
-		Airport arrAirport = new Airport("arrAirport","BOS",5);
-		Airport depAirport = new Airport("depAirport","CVG",5);
-		List<Flight> flights = getFlights(arrAirport,depAirport,"2017 May 10 00:54 GMT");
-		for(Flight flight : flights){
-			System.out.println(flight.toString());
-		}
+//		Airport arrAirport = new Airport("arrAirport","BOS",5);
+//		Airport depAirport = new Airport("depAirport","CVG",5);
+//		List<Flight> flights = getFlights(arrAirport,depAirport,"2017 May 10 00:54 GMT");
+//		for(Flight flight : flights){
+//			System.out.println(flight.toString());
+//		}
+		String str = "2017 May 10 00:54 GMT";
+		System.out.println(getDate(str));
+		
+		
 	}
+	public static String getDate(String str){
+		//String temp = "";
+		int count = 0;
+		int i = 0;
+		while(count<3){
+			if(str.charAt(i)==' ') count++;
+			++i;
+		}
+		
+	return str.substring(0, i);
+	}
+	
+		
+	
 	
 	
 	public static List<Flight> requestFlights(){
@@ -70,6 +89,21 @@ public static List<Airport> getAllAirports(){
 		}
 		return selectedFlights;
 	}
+	public static List<Flight> getFlights_noDep(Airport arrAirport,String date){
+		List<Flight> flights = getAllFlights();
+		List<Flight> selectedFlights = new ArrayList<>();
+		for(Flight flight : flights){
+			try{
+				if(arrAirport.code.equals(flight.arr.code)&&
+				date.equals(flight.depTime))
+				selectedFlights.add(flight);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return selectedFlights;
+	}
+	
 	
 	
 	
