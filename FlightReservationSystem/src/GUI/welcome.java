@@ -1,39 +1,25 @@
 package GUI;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicButtonListener;
-
-import java.awt.GridBagLayout;
-import javax.swing.JTextPane;
-import java.awt.GridBagConstraints;
-import javax.swing.JSpinner;
-import java.awt.Insets;
-import javax.swing.JScrollBar;
-import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.ComboBoxEditor;
-
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.JButton;
-import javax.swing.SpinnerNumberModel;
-import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JCheckBox;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.EmptyBorder;
 
-
-public class welcome extends JFrame implements ActionListener {
+public class welcome extends JFrame {
 
 	JPanel contentPane;
 	JComboBox comboBox, comboBox_1;
@@ -213,31 +199,40 @@ public class welcome extends JFrame implements ActionListener {
 		rdbtnNewRadioButton_1_1.setSelected(true);
 		group1.add(rdbtnNewRadioButton_2);
 		group1.add(rdbtnNewRadioButton_1_1);
-		
-		
-		JLabel ticket = new JLabel();
-		ticket.setText("Number of Ticket");
 		txtpnStopover.setText("Number of Tickets");
-		GridBagConstraints gbc_ticket = new GridBagConstraints();
-		gbc_ticket.insets = new Insets(0, 0, 5, 5);
-		gbc_ticket.fill = GridBagConstraints.VERTICAL;
-		gbc_ticket.gridx = 0;
-		gbc_ticket.gridy = 8;
-		contentPane.add(ticket, gbc_ticket);
-		
-		JSpinner spinner_1 = new JSpinner();
-		GridBagConstraints gbc_spinner_1 = new GridBagConstraints();
-		gbc_spinner_1.insets = new Insets(0, 0, 5, 5);
-		gbc_spinner_1.fill = GridBagConstraints.VERTICAL;
-		gbc_spinner_1.gridx = 1;
-		gbc_spinner_1.gridy = 8;
-		contentPane.add(spinner_1, gbc_spinner_1);
 		
 		
 		JButton btnCheck = new JButton("check");
 		btnCheck.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
+				java.util.Date date=datepicker.getDate();
+				System.out.println(date.toString());
+
+				
+				if ((rdbtnRoundWay.isSelected())){
+					if (rdbtnNewRadioButton_2.isSelected()){
+						System.out.println("roundwaytravel, firstclass seat");
+						//Airport arrAirport=comboBox.getSelectedItem().toString()
+						//Airport depAirport=comboBox_1.getSelectedItem().
+						//List <Flight> result= QueryManager.queryManager.getFlights(arrAirport, depAirport, date);
+						
+					}
+					
+					if (rdbtnNewRadioButton_1_1.isSelected()) {System.out.println("roundwaytravel, coach seat");}
+					//
+				}
+				else
+					if(rdbtnNewRadioButton_1_1.isSelected()){
+					System.out.println("onewaytravel, coach seat");
+					
+					
+				}
+					else if(rdbtnNewRadioButton_2.isSelected()) {System.out.println("onewaytravel, first seat");}
+			
+			
+			
 			}
+			
 		});
 		GridBagConstraints gbc_btnCheck = new GridBagConstraints();
 		gbc_btnCheck.fill = GridBagConstraints.HORIZONTAL;
@@ -245,34 +240,7 @@ public class welcome extends JFrame implements ActionListener {
 		gbc_btnCheck.gridx = 1;
 		gbc_btnCheck.gridy = 9;
 		contentPane.add(btnCheck, gbc_btnCheck);
-		btnCheck.addActionListener(this);
-		if (rdbtnRoundWay.isSelected()){System.out.println("23");}
-	}
-	public void actionPerformed(ActionEvent e) {
 		
-		//java.util.Date date= datepicker.getDate();
-		
-		
-		/*if (rdbtnRoundWay.isSelected()){
-			if (rdbtnNewRadioButton.isSelected()){
-				System.out.println("roundwaytravel, firstclass seat");
-				//
-				
-			}
-			
-			System.out.println("roundwaytravel, coach seat");
-			//
-		}
-		if(rdbtnNewRadioButton.isSelected()){
-			System.out.println("onewaytravel, firstclass seat");
-			// 
-			
-		}
-		System.out.println("onewaytravel, coach seat");
-	
-		// TODO Auto-generated method stub
-	*/
-	
 	}
 	
 }

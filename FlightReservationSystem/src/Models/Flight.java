@@ -47,10 +47,7 @@ public class Flight {
 	/*
 	 * Returns departure time in ms since epoch
 	 */
-	public String toString(){
-		return "Airplane[type = "+type+",duration = "+duration+",num = "+num+",dep = "+dep+",arr = "+arr+",depTime = "+depTime+","
-				+ "arrTime = "+arrTime+",firstPrice = "+firstPrice+",coachPrice = "+coachPrice+",firstSeats = "+firstSeats+",coachSeats = "+coachSeats+",]";
-	}
+	
 	
 	public Long getEpochDeparture() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd hh:mm zzz");
