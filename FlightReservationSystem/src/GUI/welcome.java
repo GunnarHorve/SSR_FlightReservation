@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -18,6 +19,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
+
+import Models.Flight;
 
 public class welcome extends JFrame {
 
@@ -207,14 +210,15 @@ public class welcome extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				java.util.Date date=datepicker.getDate();
 				System.out.println(date.toString());
+				List <Flight> result= QueryManager.queryManager.getFlights_noDep(comboBox_1.getSelectedItem().toString(), date);
+				for (Flight flight:result){System.out.println(flight.toString());}
 
-				
+				System.out.println(result);
 				if ((rdbtnRoundWay.isSelected())){
 					if (rdbtnNewRadioButton_2.isSelected()){
 						System.out.println("roundwaytravel, firstclass seat");
-						//Airport arrAirport=comboBox.getSelectedItem().toString()
-						//Airport depAirport=comboBox_1.getSelectedItem().
-						//List <Flight> result= QueryManager.queryManager.getFlights(arrAirport, depAirport, date);
+						
+						//List <Flight> result= QueryManager.queryManager.getFlights_noDep(comboBox.getSelectedItem().toString(), date);
 						
 					}
 					
