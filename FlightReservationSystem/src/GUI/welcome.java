@@ -10,6 +10,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -22,7 +23,9 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
+import Models.Airport;
 import Models.Flight;
+import QueryManager.queryManager;
 
 public class welcome extends JFrame {
 
@@ -33,22 +36,6 @@ public class welcome extends JFrame {
 	JSpinner spinner,spinner_1;
 	JButton btncheck;
 	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					welcome frame = new welcome();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -74,16 +61,10 @@ public class welcome extends JFrame {
 		gbc_txtpnDepartAirport.gridx = 0;
 		gbc_txtpnDepartAirport.gridy = 1;
 		contentPane.add(txtpnDepartAirport, gbc_txtpnDepartAirport);
+				
+		List<String> airports = queryManager.getAllAirports().stream().map(Airport::getName).collect(Collectors.toList());
 		
-		String[] airports = {"Please Choose from Below","Hartsfield-Jackson Atlanta International","Ted Stevens Anchorage International Airport","Austin-Bergstrom International","Baltimore/Washington International",
-				"Logan International","Charlotte Douglas International","Chicago Midway Airport","Chicago O'Hare International","Cincinnati/Northern Kentucky International","Cleveland Hopkins International",
-				"Port Columbus International","Dallas/Ft. Worth International - DFW Airport","Denver International Airport","Detroit Metropolitan Wayne County Airport","Fort Lauderdale/Hollywood International",
-				"Southwest Florida International","Bradley International","Hawaii Honolulu International","George Bush Intercontinental","William P. Hobby Airport","Indianapolis International","Kansas City International",
-				"McCarran International","Los Angeles International","Memphis International","Miami International Airport","Minneapolis/St. Paul International","Nashville International","Louis Armstrong International",
-				"John F. Kennedy International","LaGuardia International","Newark Liberty International","Metropolitan Oakland International","Ontario International","Orlando International","Philadelphia International","Sky Harbor International",
-				"Pittsburgh International","Portland International","Raleigh-Durham International","Sacramento International","Salt Lake City International","San Antonio International","Lindbergh Field International","San Francisco International",
-				"Mineta San Jos¨¦ International","John Wayne Airport, Orange County","Seattle-Tacoma International","Lambert-St. Louis International","Tampa International","Dulles International Airport","Ronald Reagan Washington National"};
-		JComboBox comboBox = new JComboBox(airports);
+		JComboBox comboBox = new JComboBox(airports.toArray());
 		comboBox.setForeground(Color.BLUE);
 		comboBox.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		
@@ -103,7 +84,7 @@ public class welcome extends JFrame {
 		gbc_txtpnArrivalAirport.gridy = 2;
 		contentPane.add(txtpnArrivalAirport, gbc_txtpnArrivalAirport);
 		
-		JComboBox comboBox_1 = new JComboBox(airports);
+		JComboBox comboBox_1 = new JComboBox(airports.toArray());
 		comboBox_1.setForeground(Color.BLUE);
 		comboBox_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
@@ -133,23 +114,6 @@ public class welcome extends JFrame {
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnRoundWay);
 		group.add(rdbtnOneWay);
-		
-		
-		JLabel txtpnStopover = new JLabel();
-		GridBagConstraints gbc_txtpnStopover = new GridBagConstraints();
-		gbc_txtpnStopover.insets = new Insets(0, 0, 5, 5);
-		gbc_txtpnStopover.fill = GridBagConstraints.VERTICAL;
-		gbc_txtpnStopover.gridx = 0;
-		gbc_txtpnStopover.gridy = 4;
-		contentPane.add(txtpnStopover, gbc_txtpnStopover);
-		
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(0, null, 2, 1));
-		GridBagConstraints gbc_spinner = new GridBagConstraints();
-		gbc_spinner.insets = new Insets(0, 0, 5, 5);
-		gbc_spinner.gridx = 1;
-		gbc_spinner.gridy = 4;
-		contentPane.add(spinner, gbc_spinner);
 		
 		JLabel txtpnDataOfTravel = new JLabel();
 		txtpnDataOfTravel.setText("Data of travel");
@@ -202,9 +166,7 @@ public class welcome extends JFrame {
 		//rdbtnNewRadioButton_1.setActionCommand("coach");
 		rdbtnNewRadioButton_1_1.setSelected(true);
 		group1.add(rdbtnNewRadioButton_2);
-		group1.add(rdbtnNewRadioButton_1_1);
-		txtpnStopover.setText("Stopover");
-		
+		group1.add(rdbtnNewRadioButton_1_1);		
 		
 		JButton btnCheck = new JButton("check");
 		btnCheck.addActionListener(new ActionListener() {

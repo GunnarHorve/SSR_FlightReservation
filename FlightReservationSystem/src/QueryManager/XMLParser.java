@@ -28,6 +28,7 @@ public class XMLParser {
 	// Parse a given Airports.xml file into java objects 
 	protected static List<Airport> parseAirports(File file){
 		if(airports != null) { return airports; } // don't parse file more than once
+		airports = new ArrayList<Airport>();
 
 		try{
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -53,6 +54,7 @@ public class XMLParser {
 	// Parse a given Airplanes.xml file into java objects 
 	protected static List<Airplane> parseAirplanes(File file){
 		if(airplanes != null) { return airplanes; } // don't parse file more than once
+		airplanes = new ArrayList<Airplane>();
 
 		try{
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
