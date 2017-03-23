@@ -45,7 +45,7 @@ public class Flight {
 				+ "arrTime = "+arrTime+",firstPrice = "+firstPrice+",coachPrice = "+coachPrice+",firstSeats = "+firstSeats+",coachSeats = "+coachSeats+",]";
 	}
 	
-	public String getFli(){ return "Depature: "+dep.name+" "+"Arrival: "+arr.name+" "+"Depature Time: "+depTime;}
+	public String getFli(){ return "Depature: "+dep.name+" "+"Arrival: "+arr.name+" "+"Depature Time: "+depTime+"num"+num;}
 	/*
 	 * Returns departure time in ms since epoch
 	 */

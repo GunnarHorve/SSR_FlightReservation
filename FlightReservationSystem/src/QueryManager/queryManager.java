@@ -26,22 +26,32 @@ public class queryManager {
 //		String str = "2017 May 10 00:54 GMT";
 //		System.out.println(getDate(str));
 
-		Airport arrAirport = new Airport("arrAirport","BOS",5);
-		Airport depAirport = new Airport("depAirport","CVG",5);
-		List<Flight> flights = getFlights(arrAirport,depAirport, "2017 May 10 00:54 GMT");
+//		Airport arrAirport = new Airport("arrAirport","BOS",5);
+//		Airport depAirport = new Airport("depAirport","CVG",5);
+//		List<Flight> flights = getFlights(arrAirport,depAirport, "2017 May 10 00:54 GMT");
+//		for(Flight flight : flights){
+//			System.out.println(flight.toString());
+//		}
+//		
+//		
+//		List<Flight> depFlights = getDepFlights(depAirport,"2017 May 10 00:54 GMT");
+//		for(Flight flight : depFlights){
+//			System.out.println(flight.toString());
+//		}
+//		
+//		List<Flight> arrFlights = getArrFlights(arrAirport,"2017 May 10 02:31 GMT");
+//		for(Flight flight : arrFlights){
+//			System.out.println(flight.toString());
+//		}
+		String str = "Logan International";
+		String date = "2017 May 11 02:31 GMT";
+		Date temp = getEDTDate(date);
+		System.out.println(temp);
+		List<Flight> flights = getFlights_noDep(str,temp);
+		int i =0;
 		for(Flight flight : flights){
-			System.out.println(flight.toString());
-		}
-		
-		
-		List<Flight> depFlights = getDepFlights(depAirport,"2017 May 10 00:54 GMT");
-		for(Flight flight : depFlights){
-			System.out.println(flight.toString());
-		}
-		
-		List<Flight> arrFlights = getArrFlights(arrAirport,"2017 May 10 02:31 GMT");
-		for(Flight flight : arrFlights){
-			System.out.println(flight.toString());
+			System.out.println(i+flight.toString());
+			i++;
 		}
 	}
 
@@ -112,15 +122,21 @@ public static List<Airport> getAllAirports(){
 //	return str.substring(0, i);
 //	}
 	
-	public static List<Flight> getFlights_noDep(String arrAirport,Date date){
-		List<Flight> flights = getAllFlights();
+	@SuppressWarnings("deprecation")
+	public static List<Flight> getFlights_noDep(String depAirport,Date date){
+		List<Flight> flights = getAllFlights();	
 		List<Flight> selectedFlights = new ArrayList<>();
 		for(Flight flight:flights){
 			try{
 				Date depDate = getEDTDate(flight.depTime);
+
 				//System.out.println(depDate.getDate());
 				//System.out.println(depDate.getMonth());
-				if(arrAirport.equals(flight.arr.name)&&date.getMonth()==depDate.getMonth()&&date.getDate()==depDate.getDate()){
+				//if(arrAirport.equals(flight.arr.name)&&date.getMonth()==depDate.getMonth()&&date.getDate()==depDate.getDate()){
+
+				if(depAirport.equals(flight.dep.name)&&date.getMonth()==depDate.getMonth()&&date.getDate()==depDate.getDate()){
+//					System.out.println(flight.toString());
+
 					selectedFlights.add(flight);
 				}
 			}catch(Exception e){
@@ -128,6 +144,7 @@ public static List<Airport> getAllAirports(){
 			}
 		}
 		return selectedFlights;
+
 
 	}
 	public static List<Flight> getDepFlights(Airport depAirport, String date){
