@@ -36,7 +36,7 @@ public class XMLParser {
 //			System.out.println(airplane.toString());
 //		}
 //		File file2 = new File("src/Data/ArrivingFlights.xml");
-//		List<Flight> flights = readFlight(file2);
+//		List<Flight> flights = readAirport();
 //		for(Flight flight : flights){
 //			System.out.println(flight.toString());
 //		}

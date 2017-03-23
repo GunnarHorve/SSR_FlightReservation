@@ -1,5 +1,6 @@
 package GUI;
 import java.awt.Color;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -21,6 +22,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
 import Models.Flight;
+import QueryManager.queryManager;;
 
 public class welcome extends JFrame {
 
@@ -210,10 +212,15 @@ public class welcome extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				java.util.Date date=datepicker.getDate();
 				System.out.println(date.toString());
-				List <Flight> result= QueryManager.queryManager.getFlights_noDep(comboBox_1.getSelectedItem().toString(), date);
-				for (Flight flight:result){System.out.println(flight.toString());}
+				System.out.println(comboBox_1.getSelectedItem().toString());
+				List <Flight> result= queryManager.getFlights_noDep(comboBox.getSelectedItem().toString(), date);
+//				List <Flight> result1= queryManager.getAllFlights();
+				for (Flight flight:result)
+				{
+					System.out.println(flight.toString());
+				}
 
-				System.out.println(result);
+//				System.out.println(result);
 				if ((rdbtnRoundWay.isSelected())){
 					if (rdbtnNewRadioButton_2.isSelected()){
 						System.out.println("roundwaytravel, firstclass seat");
