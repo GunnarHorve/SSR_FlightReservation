@@ -1,6 +1,7 @@
-package XMLParser;
+package QueryManager;
 
 import java.io.File;
+import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import Models.Airplane;
 import Models.Airport;
@@ -25,6 +27,7 @@ import Models.Flight;
 
 public class XMLParser {
 	public static void main(String[] args){
+		
 //		File file = new File("src/Data/airports.xml");
 //		List<Airport> airports = readAirport(file);
 //		for(Airport airport : airports){
@@ -39,14 +42,11 @@ public class XMLParser {
 //		List<Flight> flights = readAirport();
 //		for(Flight flight : flights){
 //			System.out.println(flight.toString());
-//		}
-		String Time = "2017 May 10 20:21";
-		Date date = Format(Time);
-		System.out.println(date);
-		
-		
-		
+//		}		
 	}
+	// prevent this class from being instantiated
+	private XMLParser() { }
+	
 	//parse the airports xml file
 	public static List<Airport> readAirport(File file){
 		List<Airport> lists = new ArrayList<Airport>();
@@ -117,25 +117,11 @@ public class XMLParser {
 		return null;
 	}
 	
-	
-	public static Date Format(String time){
-		try{
-			DateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm"+"GMT",Locale.ENGLISH);
-			Date date = sdf.parse(time);
-			return date;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	//parse the arrivingFlight and departingFlight xml file
-	public static List<Flight> readFlight(File file){
+	//parse the arrivingFlight and departingFlight xml string
+	public static List<Flight> parseFlights(String xml){
 		List<Flight> lists = new ArrayList<Flight>();
 		try{
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(file);
+			Document doc = loadXMLFromString(xml);
 			NodeList flightList = doc.getElementsByTagName("Flight");
 			for(int i =0;i<flightList.getLength();i++){
 				Node flightNode = flightList.item(i);
@@ -190,5 +176,13 @@ public class XMLParser {
 			e.printStackTrace();
 		}
 		return lists;
-	}	
+	}
+	
+	public static Document loadXMLFromString(String xml) throws Exception
+	{
+	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	    DocumentBuilder builder = factory.newDocumentBuilder();
+	    InputSource is = new InputSource(new StringReader(xml));
+	    return builder.parse(is);
+	}
 }

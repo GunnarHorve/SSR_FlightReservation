@@ -2,7 +2,7 @@ import java.io.File;
 import java.util.List;
 
 import Models.Airport;
-import XMLParser.XMLParser;
+import QueryManager.XMLParser;
 
 public class main {
 	public static void main(String[] args) {

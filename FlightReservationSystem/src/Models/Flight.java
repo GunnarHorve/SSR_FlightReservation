@@ -16,9 +16,8 @@ public class Flight {
 	public Airport dep;			// departing airpot
 	public Airport arr;			// arrival airport
 	
-	public String depTime;		// departure time formatted as: "YYYY MMM DD HH:MM" + " GMT"
-	public String arrTime;		// arrival time   formatted as: "YYYY MMM DD HH:MM" + " GMT"
-	
+	public Date depDate;		// departure time
+	public Date arrDate;		// arrival time
 	
 	public double firstPrice;	// first class ticket price
 	public double coachPrice;	// coach class ticket price
@@ -32,8 +31,8 @@ public class Flight {
 		this.num = num;
 		this.dep = dep;
 		this.arr = arr;
-		this.depTime = depTime;
-		this.arrTime = arrTime;
+		this.depDate = getDateFromString(depTime);
+		this.arrDate = getDateFromString(arrTime);
 		this.firstPrice = firstPrice;
 		this.coachPrice = coachPrice;
 		this.firstSeats = firstSeats;
@@ -41,40 +40,18 @@ public class Flight {
 	}
 	
 	public String toString(){
-		return "Airplane[type = "+type+",duration = "+duration+",num = "+num+",dep = "+dep+",arr = "+arr+",depTime = "+depTime+","
-				+ "arrTime = "+arrTime+",firstPrice = "+firstPrice+",coachPrice = "+coachPrice+",firstSeats = "+firstSeats+",coachSeats = "+coachSeats+",]";
+		return "Flight " + this.num + ", " + this.dep.code + " --> " + this.arr.code;
 	}
 	
-	public String getFli(){ return "Depature: "+dep.name+" "+"Arrival: "+arr.name+" "+"Depature Time: "+depTime+"num"+num;}
-	/*
-	 * Returns departure time in ms since epoch
-	 */
-	
-	
-	public Long getEpochDeparture() {
+	public Date getDateFromString(String stringDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd hh:mm zzz");
 		
 		try {
-			Date date = sdf.parse(this.depTime);
-			return date.getTime();
+			Date date = sdf.parse(stringDate);
+			return date;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return -1L;
-	}
-	
-	/*
-	 * Returns arrival time in ms since epoch
-	 */
-	public Long getEpochArrival() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd hh:mm zzz");
-		
-		try {
-			Date date = sdf.parse(this.arrTime);
-			return date.getTime();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return -1L;
+		return null;
 	}
 }

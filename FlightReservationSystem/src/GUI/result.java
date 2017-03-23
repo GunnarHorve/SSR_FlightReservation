@@ -23,7 +23,7 @@ public class result extends JFrame {
 				//"Pittsburgh International","Portland International","Raleigh-Durham International","Sacramento International","Salt Lake City International","San Antonio International","Lindbergh Field International","San Francisco International",
 				//"Mineta San Jos¨¦ International","John Wayne Airport, Orange County","Seattle-Tacoma International","Lambert-St. Louis International","Tampa International","Dulles International Airport","Ronald Reagan Washington National"};
 		List<String> flig = new ArrayList<>();
-		for (Flight flight:flights){flig.add(flight.getFli());}
+		for (Flight flight:flights){flig.add(flight.toString());}
 		getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));;
 		String[] st=new String[flig.size()];
 		String[] a= flig.toArray(st);

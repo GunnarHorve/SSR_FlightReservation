@@ -1,20 +1,27 @@
 package QueryManager;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.text.ParseException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import Models.Airplane;
 import Models.Airport;
 import Models.Flight;
-import XMLParser.XMLParser;
 
 public class queryManager {
+	
+	private static String baseURL = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem?team=SSR&action=list";
+	
+	//prevent this class from being instantiated
+	private queryManager() { }
+	
 	public static void main(String[] args){
 
 //		Airport arrAirport = new Airport("arrAirport","BOS",5);
@@ -43,22 +50,18 @@ public class queryManager {
 //		for(Flight flight : arrFlights){
 //			System.out.println(flight.toString());
 //		}
-		String str = "Logan International";
-		String date = "2017 May 11 02:31 GMT";
-		Date temp = getEDTDate(date);
-		System.out.println(temp);
-		List<Flight> flights = getFlights_noDep(str,temp);
-		int i =0;
-		for(Flight flight : flights){
-			System.out.println(i+flight.toString());
-			i++;
-		}
+//		String str = "Logan International";
+//		String date = "2017 May 11 02:31 GMT";
+//		Date temp = getEDTDate(date);
+//		System.out.println(temp);
+//		List<Flight> flights = getFlights_noDep(str,temp);
+//		int i =0;
+//		for(Flight flight : flights){
+//			System.out.println(i+flight.toString());
+//			i++;
+//		}
+		System.out.println("Query Manager's main ran");
 	}
-
-	
-		
-	
-	
 	
 	public static List<Flight> requestFlights(){
 		List<Flight> lists = new ArrayList<>();
@@ -85,114 +88,57 @@ public static List<Airport> getAllAirports(){
 		return airplanes;
 	}
 	
-	public static List<Flight> getAllFlights(){
-		File file = new File("src/Data/ArrivingFlights.xml");
-		List<Flight> flights = XMLParser.readFlight(file);
-		File file1 = new File("src/Data/DepartingFlights.xml");
-		List<Flight> flights1 = XMLParser.readFlight(file1);
-		flights.addAll(flights1);
-		return flights;
+	public static List<Flight> getDepFlights(String airportCode, Date date) {
+		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
+		   String query = baseURL + "&list_type=departing&airport=" + airportCode + "&day=" + modifiedDate;
+		   return XMLParser.parseFlights(getXMLFromServer(query));
 	}
 	
-	public static List<Flight> getFlights(Airport arrAirport, Airport depAirport,String date){
-		List<Flight> flights = getAllFlights();
-		List<Flight> selectedFlights = new ArrayList<>();
-		for(Flight flight : flights){
-			try{
-				if(arrAirport.code.equals(flight.arr.code)&&
-				depAirport.code.equals(flight.dep.code)&&
-				date.equals(flight.depTime))
-				selectedFlights.add(flight);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		return selectedFlights;
+	public static List<Flight> getArrFlights(String airportCode, Date date) {
+		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
+		   String query = baseURL + "&list_type=arriving&airport=" + airportCode + "&day=" + modifiedDate;
+		   return XMLParser.parseFlights(getXMLFromServer(query));
 	}
 	
-//	public static String getDate(String str){
-//		//String temp = "";
-//		int count = 0;
-//		int i = 0;
-//		while(count<3){
-//			if(str.charAt(i)==' ') count++;
-//			++i;
-//		}
-//		
-//	return str.substring(0, i);
-//	}
-	
-	@SuppressWarnings("deprecation")
-	public static List<Flight> getFlights_noDep(String depAirport,Date date){
-		List<Flight> flights = getAllFlights();	
-		List<Flight> selectedFlights = new ArrayList<>();
-		for(Flight flight:flights){
-			try{
-				Date depDate = getEDTDate(flight.depTime);
+	public static String getXMLFromServer (String query) {
+		  URL url;
+		  HttpURLConnection connection;
+		  BufferedReader reader;
+		  String line;
+		  StringBuffer result = new StringBuffer();
 
-				//System.out.println(depDate.getDate());
-				//System.out.println(depDate.getMonth());
-				//if(arrAirport.equals(flight.arr.name)&&date.getMonth()==depDate.getMonth()&&date.getDate()==depDate.getDate()){
+		  try {
+		   /**
+		    * Create an HTTP connection to the server for a GET 
+		    */			  			  
+		   url = new URL(query);
+		   
+		   System.out.println(url.toString());
+		   connection = (HttpURLConnection) url.openConnection();
+		   connection.setRequestMethod("GET");
 
-				if(depAirport.equals(flight.dep.name)&&date.getMonth()==depDate.getMonth()&&date.getDate()==depDate.getDate()){
-//					System.out.println(flight.toString());
+		   /**
+		    * If response code of SUCCESS read the XML string returned
+		    * line by line to build the full return string
+		    */
+		   int responseCode = connection.getResponseCode();
+		   if ((responseCode >= 200) && (responseCode <= 299)) {
+		    InputStream inputStream = connection.getInputStream();
+		    String encoding = connection.getContentEncoding();
+		    encoding = (encoding == null ? "URF-8" : encoding);
 
-					selectedFlights.add(flight);
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		return selectedFlights;
+		    reader = new BufferedReader(new InputStreamReader(inputStream));
+		    while ((line = reader.readLine()) != null) {
+		     result.append(line);
+		    }
+		    reader.close();
+		   }
+		  } catch (Exception e) {
+		   e.printStackTrace();
+		  }
 
-
-	}
-	public static List<Flight> getDepFlights(Airport depAirport, String date){
-		List<Flight> flights = getAllFlights();
-		List<Flight> selectedFlights = new ArrayList<> ();
-		for(Flight flight: flights){
-			try{
-				if(depAirport.code.equals(flight.dep.code)&&
-						date.equals(flight.depTime))
-					selectedFlights.add(flight);
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		return selectedFlights;		
-	}
-	
-	public static List<Flight> getArrFlights(Airport arrAirport, String date){
-		List<Flight> flights = getAllFlights();
-		List<Flight> selectedFlights = new ArrayList<> ();
-		for(Flight flight: flights){
-			try{
-				if(arrAirport.code.equals(flight.arr.code)&&
-						date.equals(flight.arrTime))
-					selectedFlights.add(flight);
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		return selectedFlights;		
-	}
-	
-	
-	public static  Date getEDTDate(String str) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm zzz",Locale.ENGLISH);
-		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-		try {
-			
-			Date date = sdf.parse(str);
-			//System.out.println(date);
-			return date;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+		  return result.toString();
+		 }
 
 	public boolean lock(Flight flight){
 		return true;

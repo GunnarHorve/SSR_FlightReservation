@@ -211,7 +211,8 @@ public class welcome extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				java.util.Date date=datepicker.getDate();
 				//System.out.println(date.toString());
-				List <Flight> output= QueryManager.queryManager.getFlights_noDep(comboBox.getSelectedItem().toString(), date);
+				List <Flight> output= QueryManager.queryManager.getDepFlights("ATL", date);
+//				(comboBox.getSelectedItem().toString(), date);
 				//for (Flight flight:output){System.out.println(flight.num);}
 				//System.out.println(date.getMonth());System.out.println(date.getDate());
 				result re=new result(output);
