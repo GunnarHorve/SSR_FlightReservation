@@ -2,14 +2,8 @@ package QueryManager;
 
 import java.io.File;
 import java.io.StringReader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,30 +20,15 @@ import Models.Flight;
 
 
 public class XMLParser {
-	public static void main(String[] args){
-		
-//		File file = new File("src/Data/airports.xml");
-//		List<Airport> airports = readAirport(file);
-//		for(Airport airport : airports){
-//			System.out.println(airport.toString());
-//		}
-//		File file1 = new File("src/Data/Airplanes.xml");
-//		List<Airplane> airplanes = readAirplane(file1);
-//		for(Airplane airplane : airplanes){
-//			System.out.println(airplane.toString());
-//		}
-//		File file2 = new File("src/Data/ArrivingFlights.xml");
-//		List<Flight> flights = readAirport();
-//		for(Flight flight : flights){
-//			System.out.println(flight.toString());
-//		}		
-	}
-	// prevent this class from being instantiated
-	private XMLParser() { }
+	private XMLParser() { } // prevent this class from being instantiated
 	
-	//parse the airports xml file
-	public static List<Airport> readAirport(File file){
-		List<Airport> lists = new ArrayList<Airport>();
+	private static List<Airport> airports;
+	private static List<Airplane> airplanes;
+
+	// Parse a given Airports.xml file into java objects 
+	protected static List<Airport> parseAirports(File file){
+		if(airports != null) { return airports; } // don't parse file more than once
+
 		try{
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -62,18 +41,19 @@ public class XMLParser {
 					Airport airport = new Airport(airportElement.getAttribute("Name"),
 							airportElement.getAttribute("Code"),
 							Integer.valueOf(airportElement.getElementsByTagName("GMTOffset").item(0).getTextContent()));
-					lists.add(airport);
+					airports.add(airport);
 				}
 			}
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-		return lists;
+		return airports;
 	}
 	
-	//parse the Airplane xml file
-	public static List<Airplane> readAirplane(File file){
-		List<Airplane> lists = new ArrayList<Airplane>();
+	// Parse a given Airplanes.xml file into java objects 
+	protected static List<Airplane> parseAirplanes(File file){
+		if(airplanes != null) { return airplanes; } // don't parse file more than once
+
 		try{
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -86,40 +66,18 @@ public class XMLParser {
 					Airplane airplane = new Airplane(airplaneElement.getAttribute("Manufacturer"),airplaneElement.getAttribute("Model"),
 							Integer.valueOf(airplaneElement.getElementsByTagName("FirstClassSeats").item(0).getTextContent()),
 							Integer.valueOf(airplaneElement.getElementsByTagName("CoachSeats").item(0).getTextContent()));
-					lists.add(airplane);
+					airplanes.add(airplane);
 				}
 			}
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-		return lists;
-	}
-	
-	public static Airplane getAirplaneModel(String airplaneType){
-		File file = new File("src/Data/Airplanes.xml");
-		List<Airplane> airplanes = readAirplane(file);
-		for(Airplane airplane : airplanes){
-			if(airplane.model.equals(airplaneType)){
-				return airplane;
-			}
-		}
-		return null;
-	}
-	
-	public static Airport getAirport(String airportType){
-		File file = new File("src/Data/airports.xml");
-		List<Airport> airports = readAirport(file);
-		for(Airport airport : airports){
-			if(airport.code.equals(airportType)){
-				return airport;
-			}
-		}
-		return null;
+		return airplanes;
 	}
 	
 	//parse the arrivingFlight and departingFlight xml string
-	public static List<Flight> parseFlights(String xml){
-		List<Flight> lists = new ArrayList<Flight>();
+	protected static List<Flight> parseFlights(String xml){
+		List<Flight> flights = new ArrayList<Flight>();
 		try{
 			Document doc = loadXMLFromString(xml);
 			NodeList flightList = doc.getElementsByTagName("Flight");
@@ -169,20 +127,43 @@ public class XMLParser {
 					Flight flight = new Flight(getAirplaneModel(airplaneType),Integer.parseInt(flightElement.getAttribute("FlightTime")),
 							Integer.parseInt(flightElement.getAttribute("Number")),getAirport(departureCode),getAirport(arrivalCode),
 							depTime,arrTime,firstPrice,coachPrice,firstNum,coachNum);
-					lists.add(flight);
+					flights.add(flight);
 				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return lists;
+		return flights;
 	}
 	
-	public static Document loadXMLFromString(String xml) throws Exception
-	{
+	///////////////////////     HELPER METHODS BELOW HERE     //////////////////////////////////
+	
+	private static Document loadXMLFromString(String xml) throws Exception {
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder builder = factory.newDocumentBuilder();
 	    InputSource is = new InputSource(new StringReader(xml));
 	    return builder.parse(is);
+	}
+	
+	private static Airplane getAirplaneModel(String airplaneType){
+		File file = new File("src/Data/Airplanes.xml");
+		List<Airplane> airplanes = parseAirplanes(file);
+		for(Airplane airplane : airplanes){
+			if(airplane.model.equals(airplaneType)){
+				return airplane;
+			}
+		}
+		return null;
+	}
+	
+	private static Airport getAirport(String airportCode){
+		File file = new File("src/Data/airports.xml");
+		List<Airport> airports = parseAirports(file);
+		for(Airport airport : airports){
+			if(airport.code.equals(airportCode)){
+				return airport;
+			}
+		}
+		return null;
 	}
 }

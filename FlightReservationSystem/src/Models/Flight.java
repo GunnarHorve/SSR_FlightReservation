@@ -13,7 +13,7 @@ public class Flight {
 	public int duration;		// how long the flight is to last (in minutes)
 	public int num;				// UID flight number
 	
-	public Airport dep;			// departing airpot
+	public Airport dep;			// departing airport
 	public Airport arr;			// arrival airport
 	
 	public Date depDate;		// departure time

@@ -16,90 +16,52 @@ import Models.Airport;
 import Models.Flight;
 
 public class queryManager {
-	
 	private static String baseURL = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem?team=SSR&action=list";
 	
-	//prevent this class from being instantiated
-	private queryManager() { }
+	private queryManager() { } // prevent this class from being instantiated
 	
-	public static void main(String[] args){
-
-//		Airport arrAirport = new Airport("arrAirport","BOS",5);
-//		Airport depAirport = new Airport("depAirport","CVG",5);
-//		List<Flight> flights = getFlights(arrAirport,depAirport,"2017 May 10 00:54 GMT");
-//		for(Flight flight : flights){
-//			System.out.println(flight.toString());
-//		}
-//		String str = "2017 May 10 00:54 GMT";
-//		System.out.println(getDate(str));
-
-//		Airport arrAirport = new Airport("arrAirport","BOS",5);
-//		Airport depAirport = new Airport("depAirport","CVG",5);
-//		List<Flight> flights = getFlights(arrAirport,depAirport, "2017 May 10 00:54 GMT");
-//		for(Flight flight : flights){
-//			System.out.println(flight.toString());
-//		}
-//		
-//		
-//		List<Flight> depFlights = getDepFlights(depAirport,"2017 May 10 00:54 GMT");
-//		for(Flight flight : depFlights){
-//			System.out.println(flight.toString());
-//		}
-//		
-//		List<Flight> arrFlights = getArrFlights(arrAirport,"2017 May 10 02:31 GMT");
-//		for(Flight flight : arrFlights){
-//			System.out.println(flight.toString());
-//		}
-//		String str = "Logan International";
-//		String date = "2017 May 11 02:31 GMT";
-//		Date temp = getEDTDate(date);
-//		System.out.println(temp);
-//		List<Flight> flights = getFlights_noDep(str,temp);
-//		int i =0;
-//		for(Flight flight : flights){
-//			System.out.println(i+flight.toString());
-//			i++;
-//		}
-		System.out.println("Query Manager's main ran");
-	}
-	
-	public static List<Flight> requestFlights(){
-		List<Flight> lists = new ArrayList<>();
-		
-		
-		return lists;
-	}
-	public static void reserveFlight(Flight flight){
-		
-	}
-	public static void reserveFlights(ArrayList<Flight> lists){
-		
-	}
-	
-public static List<Airport> getAllAirports(){
+	/* 
+	 * Returns all viable airports within the WPI database
+	 */
+	public static List<Airport> getAllAirports() {
 		File file = new File("src/Data/airports.xml");
-		List<Airport> airports = XMLParser.readAirport(file);
+		List<Airport> airports = XMLParser.parseAirports(file);
 		return airports;
 	}
 	
-	public static List<Airplane> getAllAirplanes(){
+	/*
+	 * Returns all viable Airplanes within the WPI database
+	 */
+	public static List<Airplane> getAllAirplanes() {
 		File file = new File("src/Data/Airplanes.xml");
-		List<Airplane> airplanes = XMLParser.readAirplane(file);
+		List<Airplane> airplanes = XMLParser.parseAirplanes(file);
 		return airplanes;
 	}
 	
+	/*
+	 * Returns flights FROM a given airport on a given date
+	 */
 	public static List<Flight> getDepFlights(String airportCode, Date date) {
 		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
 		   String query = baseURL + "&list_type=departing&airport=" + airportCode + "&day=" + modifiedDate;
 		   return XMLParser.parseFlights(getXMLFromServer(query));
 	}
 	
+	/*
+	 * Returns flights TO a given airport on a given date
+	 */
 	public static List<Flight> getArrFlights(String airportCode, Date date) {
 		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
 		   String query = baseURL + "&list_type=arriving&airport=" + airportCode + "&day=" + modifiedDate;
 		   return XMLParser.parseFlights(getXMLFromServer(query));
 	}
 	
+	/*
+	 * Helper method within class--takes away the silly amounts of 
+	 * try/catch necessary for an API call.
+	 * 
+	 * Basically:  URL String --> XML String
+	 */
 	public static String getXMLFromServer (String query) {
 		  URL url;
 		  HttpURLConnection connection;
@@ -140,10 +102,25 @@ public static List<Airport> getAllAirports(){
 		  return result.toString();
 		 }
 
-	public boolean lock(Flight flight){
+	///////////////////////     UNIMPLEMENTED METHODS BELOW HERE     //////////////////////////////////
+	private static boolean lock(Flight flight){
 		return true;
 	}
-	public boolean unlock(Flight flight){
+	
+	private static boolean unlock(Flight flight){
 		return true;
+	}
+	
+	public static void reserveFlight(Flight flight){
+		lock(flight);
+		//something goes here
+		unlock(flight);
+		return;
+	}
+	
+	public static void reserveFlights(ArrayList<Flight> flights){
+		for(Flight f : flights) {
+			reserveFlight(f);
+		}
 	}
 }
