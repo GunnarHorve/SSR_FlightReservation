@@ -136,7 +136,6 @@ public class welcome extends JFrame {
 		
 		
 		JLabel txtpnStopover = new JLabel();
-		txtpnStopover.setText("Stopover");
 		GridBagConstraints gbc_txtpnStopover = new GridBagConstraints();
 		gbc_txtpnStopover.insets = new Insets(0, 0, 5, 5);
 		gbc_txtpnStopover.fill = GridBagConstraints.VERTICAL;
@@ -204,7 +203,7 @@ public class welcome extends JFrame {
 		rdbtnNewRadioButton_1_1.setSelected(true);
 		group1.add(rdbtnNewRadioButton_2);
 		group1.add(rdbtnNewRadioButton_1_1);
-		txtpnStopover.setText("Number of Tickets");
+		txtpnStopover.setText("Stopover");
 		
 		
 		JButton btnCheck = new JButton("check");
