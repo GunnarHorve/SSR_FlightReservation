@@ -118,6 +118,8 @@ public static List<Airport> getAllAirports(){
 		for(Flight flight:flights){
 			try{
 				Date depDate = getEDTDate(flight.depTime);
+				//System.out.println(depDate.getDate());
+				//System.out.println(depDate.getMonth());
 				if(arrAirport.equals(flight.arr.name)&&date.getMonth()==depDate.getMonth()&&date.getDate()==depDate.getDate()){
 					selectedFlights.add(flight);
 				}
@@ -167,7 +169,7 @@ public static List<Airport> getAllAirports(){
 		try {
 			
 			Date date = sdf.parse(str);
-			
+			//System.out.println(date);
 			return date;
 		} catch (ParseException e) {
 			e.printStackTrace();

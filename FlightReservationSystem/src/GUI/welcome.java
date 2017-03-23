@@ -1,10 +1,12 @@
 package GUI;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -209,11 +211,18 @@ public class welcome extends JFrame {
 		btnCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				java.util.Date date=datepicker.getDate();
-				System.out.println(date.toString());
-				List <Flight> result= QueryManager.queryManager.getFlights_noDep(comboBox_1.getSelectedItem().toString(), date);
-				for (Flight flight:result){System.out.println(flight.toString());}
+				//System.out.println(date.toString());
+				List <Flight> output= QueryManager.queryManager.getFlights_noDep(comboBox.getSelectedItem().toString(), date);
+				//for (Flight flight:output){System.out.println(flight.num);}
+				//System.out.println(date.getMonth());System.out.println(date.getDate());
+				result re=new result(output);
+				re.setVisible(true);
+				Dimension max=getSize();
+				Point loc =getLocation();
+				re.setLocation((max.width-re.getWidth())/2+loc.x,(max.height-re.getHeight())/2+loc.y);
+				re.setSize(500, 300);
 
-				System.out.println(result);
+				
 				if ((rdbtnRoundWay.isSelected())){
 					if (rdbtnNewRadioButton_2.isSelected()){
 						System.out.println("roundwaytravel, firstclass seat");

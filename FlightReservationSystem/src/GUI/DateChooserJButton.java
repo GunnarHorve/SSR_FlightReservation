@@ -162,6 +162,8 @@ public class DateChooserJButton extends JButton {
 
     public Date getDate() {
         String dateString = getText().substring(preLabel.length());
+        //System.out.println(dateString);
+       // System.out.println(getText());
         try {
             SimpleDateFormat currentSdf = getCurrentSimpleDateFormat();
             return currentSdf.parse(dateString);
@@ -437,6 +439,9 @@ public class DateChooserJButton extends JButton {
         private int getSelectedMonth() {
             return ((Integer) monthSpin.getValue()).intValue();
         }
+        private int getSelectedDay() {
+            return ((Integer) daySpin.getValue()).intValue();
+        }
 
         private int getSelectedHour() {
             return ((Integer) hourSpin.getValue()).intValue();
@@ -501,6 +506,11 @@ public class DateChooserJButton extends JButton {
             }
             if (source.getName().equals("Second")) {
                 c.set(Calendar.SECOND, getSelectedSecond());
+                setDate(c.getTime());
+                return;
+            }
+            if (source.getName().equals("Day")) {
+                c.set(Calendar.DATE, getSelectedDay());
                 setDate(c.getTime());
                 return;
             }
