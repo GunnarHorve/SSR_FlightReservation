@@ -62,9 +62,10 @@ public class welcome extends JFrame {
 		gbc_txtpnDepartAirport.gridy = 1;
 		contentPane.add(txtpnDepartAirport, gbc_txtpnDepartAirport);
 				
-		List<String> airports = queryManager.getAllAirports().stream().map(Airport::getName).collect(Collectors.toList());
+		List<Airport> airports = queryManager.getAllAirports();
+		List<String> airportStrings = airports.stream().map(Airport::getName).collect(Collectors.toList());
 		
-		JComboBox comboBox = new JComboBox(airports.toArray());
+		JComboBox comboBox = new JComboBox(airportStrings.toArray());
 		comboBox.setForeground(Color.BLUE);
 		comboBox.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		
@@ -84,7 +85,7 @@ public class welcome extends JFrame {
 		gbc_txtpnArrivalAirport.gridy = 2;
 		contentPane.add(txtpnArrivalAirport, gbc_txtpnArrivalAirport);
 		
-		JComboBox comboBox_1 = new JComboBox(airports.toArray());
+		JComboBox comboBox_1 = new JComboBox(airportStrings.toArray());
 		comboBox_1.setForeground(Color.BLUE);
 		comboBox_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
@@ -173,7 +174,8 @@ public class welcome extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				java.util.Date date=datepicker.getDate();
 				//System.out.println(date.toString());
-				List <Flight> output= QueryManager.queryManager.getDepFlights("ATL", date);
+				List <Flight> output= QueryManager.queryManager.getDepFlights(airports.get(comboBox.getSelectedIndex()).code, date);
+								
 //				(comboBox.getSelectedItem().toString(), date);
 				//for (Flight flight:output){System.out.println(flight.num);}
 				//System.out.println(date.getMonth());System.out.println(date.getDate());

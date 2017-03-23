@@ -118,7 +118,7 @@ public class XMLParser {
 					    Node firstNode = firstList.item(0);
 					    Element firstElement = (Element)firstNode;
 					    int len1 =  firstElement.getAttribute("Price").length();
-					    firstPrice = Double.valueOf(firstElement.getAttribute("Price").substring(1,len1-1));
+					    firstPrice = Double.valueOf(firstElement.getAttribute("Price").replaceAll(",", "").substring(1,len1-1));
 					    NodeList coachList = seatingElement.getElementsByTagName("Coach");
 					    coachNum = Integer.parseInt(seatingElement.getElementsByTagName("Coach").item(0).getTextContent());
 					    Node coachNode = coachList.item(0);
