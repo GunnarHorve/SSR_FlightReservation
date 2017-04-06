@@ -1,6 +1,7 @@
 package QueryManager;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,12 +9,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+import java.util.*;
 import Models.Airplane;
 import Models.Airport;
 import Models.Flight;
+import java.time.*;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class queryManager {
 	private static String baseURL = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem?team=SSR&action=list";
@@ -25,6 +30,7 @@ public class queryManager {
 	 */
 	public static List<Airport> getAllAirports() {
 		File file = new File("src/Data/airports.xml");
+		
 		List<Airport> airports = XMLParser.parseAirports(file);
 		return airports;
 	}
@@ -51,6 +57,7 @@ public class queryManager {
 	 * Returns flights TO a given airport on a given date
 	 */
 	public static List<Flight> getArrFlights(String airportCode, Date date) {
+	
 		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
 		   String query = baseURL + "&list_type=arriving&airport=" + airportCode + "&day=" + modifiedDate;
 		   return XMLParser.parseFlights(getXMLFromServer(query));
@@ -123,4 +130,14 @@ public class queryManager {
 			reserveFlight(f);
 		}
 	}
-}
+	
+	public static void main(String[] args){
+		List<Flight> ans = new ArrayList<Flight> ();
+		queryManager res = new queryManager();
+		
+		// System.out.println(d);
+		//  ans = res.getDepFlights("BOS",d);
+		//  for (Flight flight: ans){
+			//System.out.println(flight);
+		}
+	}

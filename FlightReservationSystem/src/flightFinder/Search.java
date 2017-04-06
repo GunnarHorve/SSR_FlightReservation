@@ -29,7 +29,7 @@ public class Search{
     private void dfs(String now_code, Date depTime, int depth, Stack<Flight> s){
         if (now_code == this.end_code){
         	//row.add(s.clone());
-            ans.add(s.clone()); // s.clone to list
+            ans.add((List)s.clone()); // s.clone to list
             return;
         }
         if (depth > 3) return;
@@ -42,13 +42,13 @@ public class Search{
         }
     }
 
-    private boolean canfly(Flight f, Date t){
-        Calendar c = Calendar.getInstance();
-        c.setTime(t);
+    private boolean canfly(Flight f, Date dep){
+        Calendar current = Calendar.getInstance();
+        current.setTime(dep);
         Calendar fdate = Calendar.getInstance();
-        fdate.setTime(f.depDate);
-        c.add(Calendar.HOUR,4);
-        return c.after(fdate);    
+        fdate.setTime(f.arrDate);
+        current.add(Calendar.HOUR,4);
+        return current.after(fdate);    
     }
     
     
