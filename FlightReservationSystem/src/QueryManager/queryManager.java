@@ -1,8 +1,9 @@
 package QueryManager;
 
 import java.io.BufferedReader;
-
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -111,11 +112,162 @@ public class queryManager {
 
 	///////////////////////     UNIMPLEMENTED METHODS BELOW HERE     //////////////////////////////////
 	private static boolean lock(Flight flight){
+		URL url;
+		HttpURLConnection connection;
+		try{
+			url = new URL(baseURL + "&list_type=arriving&airport=" + flight.arr.code + "&list_type=departing&airport=" + flight.dep.code);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("User-Agent", flight.toString());
+			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+			
+			String params = QueryFactory.lock(flight.toString());
+			
+			connection.setDoOutput(true);
+			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+			writer.writeBytes(params);
+			writer.flush();
+			writer.close();
+			
+			int responseCode = connection.getResponseCode();
+			System.out.println("\nSending 'POST' to lock database");
+			System.out.println("\nResponse Code : " + responseCode);
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line;
+			StringBuffer response = new StringBuffer();
+			
+			while((line = in.readLine()) !=null){
+				response.append(line);
+			}
+			in.close();
+			
+			System.out.println(response.toString());
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+			return false;
+		}
 		return true;
 	}
 	
 	private static boolean unlock(Flight flight){
+		URL url;
+		HttpURLConnection connection;
+		
+		try{
+			url = new URL(baseURL + "&list_type=arriving&airport=" + flight.arr.code + "&list_type=departing&airport=" + flight.dep.code);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			
+			String params = QueryFactory.unlock(flight.toString());
+			
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			
+			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+			writer.writeBytes(params);
+			writer.flush();
+			writer.close();
+			
+			int responseCode = connection.getResponseCode();
+			System.out.println("\nSending 'POST' to unlock database");
+			System.out.println("\nResponse Code : " + responseCode);
+			
+			if((responseCode>=200)&&(responseCode<=299)){
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String line;
+				StringBuffer response = new StringBuffer();
+				
+				while((line = in.readLine()) !=null){
+					response.append(line);
+				}
+				in.close();
+				
+				System.out.println(response.toString());
+			}
+		}
+		catch (IOException ex){
+			ex.printStackTrace();
+			return false;
+		}
+		catch (Exception ex){
+			ex.printStackTrace();
+			return false;
+		}
 		return true;
+	}
+	/**
+	 * Reserve a seat on one or more connecting flights
+	 * 
+	 * The XML string identifying the reserveation is created by the calling client. 
+	 * This method creates the HTTP POST request to reserve the fligt(s) as specified
+	 * 
+	 * @param team identifying the team making the reservation
+	 * @param xmlReservation is the string identifying the reservation to make
+	 * 
+	 * @return true if SUCCESS code returned from server
+	 */
+	public boolean buyTickets(String team, String xmlReservation) {
+		URL url;
+		HttpURLConnection connection;
+
+		try {
+			url = new URL(baseURL);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+
+			String params = QueryFactory.reserve(team, xmlReservation);
+
+			System.out.println("\nSending 'POST' to ReserveFlights");
+			System.out.println("\nSending " + params);
+			
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			
+			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+			writer.writeBytes(params);
+			writer.flush();
+			writer.close();
+			
+			int responseCode = connection.getResponseCode();
+			System.out.println("\nSending 'POST' to ReserveFlights");
+			System.out.println(("\nResponse Code : " + responseCode));
+
+			if ((responseCode >= 200) && (responseCode <= 299)) {
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String line;
+				StringBuffer response = new StringBuffer();
+
+				while ((line = in.readLine()) != null) {
+					response.append(line);
+				}
+				in.close();
+
+				System.out.println(response.toString());
+				return true;
+			} else {
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String line;
+				StringBuffer response = new StringBuffer();
+
+				while ((line = in.readLine()) != null) {
+					response.append(line);
+				}
+				in.close();
+
+				System.out.println(response.toString());
+				return false;
+			}
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
 	}
 	
 	public static void reserveFlight(Flight flight){

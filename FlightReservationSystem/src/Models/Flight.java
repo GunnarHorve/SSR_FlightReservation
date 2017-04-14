@@ -3,6 +3,7 @@ package Models;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /*
  * A model meant to contain data about a given flight.
@@ -44,7 +45,7 @@ public class Flight {
 	}
 	
 	public Date getDateFromString(String stringDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd hh:mm zzz");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd hh:mm zzz",Locale.ENGLISH);
 		
 		try {
 			Date date = sdf.parse(stringDate);
@@ -54,4 +55,6 @@ public class Flight {
 		}
 		return null;
 	}
+
+	
 }
