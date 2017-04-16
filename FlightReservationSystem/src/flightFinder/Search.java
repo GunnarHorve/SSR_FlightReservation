@@ -28,19 +28,15 @@ public class Search{
         this.dfs(start_code, depTime, 0 , s);
         return this.ans;
     }
-
     private void dfs(String now_code, Date depTime, int depth, Stack<Flight> s){
         if (now_code.equals(this.end_code)){
         	//row.add(s.clone());
             ans.add((List)s.clone()); // s.clone to list
-            
         }
-        if (depth > 3) return;
+        if (depth > 2) return;
         for (Flight arrival:queryManager.getDepFlights(now_code, depTime)){
-        	
-            if (depth==0 || canfly(arrival,depTime)){
-            		//&& canReserve(arrival, depTime, seat))){
-            	System.out.println(arrival);
+            if ((depth==0 || canfly(arrival,depTime)&& canReserve(arrival, depTime, seat))){
+//            	System.out.println(arrival);
                 s.add(arrival);
                 dfs(arrival.arr.code,arrival.arrDate,depth+1,s);
                 s.pop();
@@ -50,8 +46,15 @@ public class Search{
 
     // check whether the next flight departures no more than 4 hours
     // to do: more than 0.5 hour
-    private boolean canfly(Flight f, Date arr){
+    private boolean canfly(String dep,String arr){
     	
+    	
+    	return true;
+    }
+    
+    
+    private boolean canfly(Flight f, Date arr){
+//    	System.out.println(x);
     	boolean early = f.depDate.getTime() < arr.getTime() + 30*60*100; // 30*60*100 is 30 minutes in milliseconds
     	boolean late = f.depDate.getTime() > arr.getTime() + 4*60*60*100; // 4*60*60*100 is 4 hours in milliseconds
     	
@@ -77,5 +80,3 @@ public class Search{
     	return false;
     }
 }
-    
-    

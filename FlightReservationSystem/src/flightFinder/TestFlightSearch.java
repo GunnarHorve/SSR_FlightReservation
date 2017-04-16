@@ -1,5 +1,6 @@
 package flightFinder;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,16 +12,18 @@ import GUI.welcome;
 public class TestFlightSearch {
 	@Test
 	public void testFlishtSearch(){
-		int many = 0;
 		Search s = new Search();
-		List<List<Flight> >res = new LinkedList<>();
+		List<List<Flight>>res = new ArrayList<>();
 		Date dep = new Date("2017 May 09");
-		res = s.Search_Path("BOS", "SFO", dep);
-		int size = res.size();
-		for(int i = 0; i<size; i++){
-			System.out.println(res.get(i));
+		res = s.Search_Path("BOS", "DCA", dep);
+		System.out.println(res.size());
+		int i =1;
+		for(List<Flight> lf: res){
+			System.out.println(i++);
+			for(Flight f: lf){
+				System.out.println(f.toString());
+			}
 		}
-		//System.out.println(res.iterator().next().toString());
 	}
 
 }
