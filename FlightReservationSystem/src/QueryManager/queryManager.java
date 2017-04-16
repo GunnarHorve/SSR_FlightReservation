@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 public class queryManager {
 	private static String baseURL = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem?team=SSR&action=list";
 	
-	private queryManager() { } // prevent this class from being instantiated
+	queryManager() { } // prevent this class from being instantiated
 	
 	/* 
 	 * Returns all viable airports within the WPI database
