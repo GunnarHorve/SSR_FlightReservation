@@ -30,14 +30,17 @@ public class Search{
     }
 
     private void dfs(String now_code, Date depTime, int depth, Stack<Flight> s){
-        if (now_code == this.end_code){
+        if (now_code.equals(this.end_code)){
         	//row.add(s.clone());
             ans.add((List)s.clone()); // s.clone to list
-            return;
+            
         }
         if (depth > 3) return;
         for (Flight arrival:queryManager.getDepFlights(now_code, depTime)){
-            if ((depth==0 || canfly(arrival,depTime)&& canReserve(arrival, depTime, seat))){
+        	
+            if (depth==0 || canfly(arrival,depTime)){
+            		//&& canReserve(arrival, depTime, seat))){
+            	System.out.println(arrival);
                 s.add(arrival);
                 dfs(arrival.arr.code,arrival.arrDate,depth+1,s);
                 s.pop();
