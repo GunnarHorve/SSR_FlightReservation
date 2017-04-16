@@ -14,7 +14,7 @@ public class TestFlightSearch {
 		int many = 0;
 		Search s = new Search();
 		List<List<Flight> >res = new LinkedList<>();
-		Date dep = new Date("2017_May_09");
+		Date dep = new Date("2017 May 09");
 		res = s.Search_Path("BOS", "SFO", dep);
 		int size = res.size();
 		for(int i = 0; i<size; i++){
