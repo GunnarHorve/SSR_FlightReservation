@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 public class queryManager {
 	private static String baseURL = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem?team=SSR&action=list";
 	
-	private queryManager() { } // prevent this class from being instantiated
+	queryManager() { } // prevent this class from being instantiated
 	
 	/* 
 	 * Returns all viable airports within the WPI database
@@ -49,9 +49,12 @@ public class queryManager {
 	 * Returns flights FROM a given airport on a given date
 	 */
 	public static List<Flight> getDepFlights(String airportCode, Date date) {
+
 		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
 		   String query = baseURL + "&list_type=departing&airport=" + airportCode + "&day=" + modifiedDate;
+
 		   return XMLParser.parseFlights(getXMLFromServer(query));
+
 	}
 	
 	/*
@@ -63,6 +66,8 @@ public class queryManager {
 		   String query = baseURL + "&list_type=arriving&airport=" + airportCode + "&day=" + modifiedDate;
 		   return XMLParser.parseFlights(getXMLFromServer(query));
 	}
+	
+
 	
 	/*
 	 * Helper method within class--takes away the silly amounts of 
@@ -83,7 +88,7 @@ public class queryManager {
 		    */			  			  
 		   url = new URL(query);
 		   
-		   System.out.println(url.toString());
+//		   System.out.println(url.toString());
 		   connection = (HttpURLConnection) url.openConnection();
 		   connection.setRequestMethod("GET");
 
