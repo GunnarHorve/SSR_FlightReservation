@@ -24,6 +24,7 @@ public class Search{
     }
     
     public List<List<Flight>> Search_Path(String start_code, String end_code, Date depTime){
+    	
         Stack<Flight> s = new Stack<Flight>();
         this.end_code = end_code;
         this.dfs(start_code, depTime, 0 , s);
@@ -31,14 +32,21 @@ public class Search{
     }
     
     private void dfs(String now_code, Date depTime, int depth, Stack<Flight> s){
+    	int i = 0;
         if (now_code.equals(this.end_code)){
         	//row.add(s.clone());
             ans.add((List<Flight>)s.clone()); // s.clone to list
         }
         if (depth > 2) return;
         for (Flight arrival:queryManager.getDepFlights(now_code, depTime)){
-            if ((depth==0 || canfly(arrival,depTime)&& canReserve(arrival, depTime, seat))){
-//            	System.out.println(arrival);
+            if (depth==0){
+            		//|| (canfly(arrival,depTime) && canReserve(arrival, depTime, seat))){
+            	//System.out.println(++i);
+                s.add(arrival);
+                dfs(arrival.arr.code,arrival.arrDate,depth+1,s);
+                s.pop();
+            }else if (canfly(arrival,depTime)){
+            	//System.out.println(++i);
                 s.add(arrival);
                 dfs(arrival.arr.code,arrival.arrDate,depth+1,s);
                 s.pop();
