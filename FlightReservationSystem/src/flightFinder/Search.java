@@ -2,6 +2,7 @@ package flightFinder;
 import java.util.*;
 
 
+
 import Models.Airport;
 import Models.Flight;
 
@@ -28,10 +29,11 @@ public class Search{
         this.dfs(start_code, depTime, 0 , s);
         return this.ans;
     }
+    
     private void dfs(String now_code, Date depTime, int depth, Stack<Flight> s){
         if (now_code.equals(this.end_code)){
         	//row.add(s.clone());
-            ans.add((List)s.clone()); // s.clone to list
+            ans.add((List<Flight>)s.clone()); // s.clone to list
         }
         if (depth > 2) return;
         for (Flight arrival:queryManager.getDepFlights(now_code, depTime)){
@@ -46,11 +48,6 @@ public class Search{
 
     // check whether the next flight departures no more than 4 hours
     // to do: more than 0.5 hour
-    private boolean canfly(String dep,String arr){
-    	
-    	
-    	return true;
-    }
     
     
     private boolean canfly(Flight f, Date arr){

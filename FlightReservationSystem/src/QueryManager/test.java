@@ -12,7 +12,7 @@ public class test {
 		
 //		queryManager res = new queryManager();
 		
-		String airportCode = "BOS";
+		String airportCode = "BDL";
 		Date date= new Date("2017 May 09");
 		
 //		queryManager a = new queryManager();

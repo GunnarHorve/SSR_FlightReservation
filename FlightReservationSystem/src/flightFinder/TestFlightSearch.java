@@ -15,7 +15,7 @@ public class TestFlightSearch {
 		Search s = new Search();
 		List<List<Flight>>res = new ArrayList<>();
 		Date dep = new Date("2017 May 09");
-		res = s.Search_Path("BOS", "DCA", dep);
+		res = s.Search_Path("BOS", "CMH", dep);
 		System.out.println(res.size());
 		int i =1;
 		for(List<Flight> lf: res){
