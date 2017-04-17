@@ -26,15 +26,16 @@ import javax.swing.border.EmptyBorder;
 import Models.Airport;
 import Models.Flight;
 import QueryManager.queryManager;
+import javax.swing.JScrollBar;
 
 public class welcome extends JFrame {
 
-	JPanel contentPane;
-	JComboBox comboBox, comboBox_1;
-	JRadioButton rdbtnOneWay, rdbtnRoundWay, rdbtnNewRadioButton, rdbtnNewRadioButton_1;
-	DateChooserJButton datepicker;
-	JSpinner spinner,spinner_1;
-	JButton btncheck;
+	private JPanel contentPane;
+	private JComboBox comboBox, comboBox_1;
+	private JRadioButton rdbtnOneWay, rdbtnRoundWay, rdbtnNewRadioButton, rdbtnNewRadioButton_1;
+	private DateChooserJButton datepicker;
+	private JSpinner spinner,spinner_1;
+	private JButton btncheck;
 	
 
 	/**
@@ -70,7 +71,7 @@ public class welcome extends JFrame {
 		comboBox.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 1;
@@ -89,7 +90,7 @@ public class welcome extends JFrame {
 		comboBox_1.setForeground(Color.BLUE);
 		comboBox_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_1.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_1.gridx = 1;
 		gbc_comboBox_1.gridy = 2;
@@ -105,7 +106,7 @@ public class welcome extends JFrame {
 		
 		JRadioButton rdbtnOneWay = new JRadioButton("one way");
 		GridBagConstraints gbc_rdbtnOneWay = new GridBagConstraints();
-		gbc_rdbtnOneWay.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnOneWay.insets = new Insets(0, 0, 5, 0);
 		gbc_rdbtnOneWay.gridx = 1;
 		gbc_rdbtnOneWay.gridy = 3;
 		//rdbtnOneWay.setActionCommand("one way");
@@ -135,7 +136,7 @@ public class welcome extends JFrame {
 		gbc_datepicker.ipadx = 3;
 		gbc_datepicker.ipady = 1;
 		gbc_datepicker.fill = GridBagConstraints.BOTH;
-		gbc_datepicker.insets = new Insets(0, 0, 5, 5);
+		gbc_datepicker.insets = new Insets(0, 0, 5, 0);
 		gbc_datepicker.gridx = 1;
 		gbc_datepicker.gridy = 5;
 		//gbc_datepicker.weighty=6;
@@ -151,7 +152,7 @@ public class welcome extends JFrame {
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 7;
@@ -211,6 +212,15 @@ public class welcome extends JFrame {
 			}
 			
 		});
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setMaximum(2);
+		scrollBar.setValue(2);
+		GridBagConstraints gbc_scrollBar = new GridBagConstraints();
+		gbc_scrollBar.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollBar.gridx = 0;
+		gbc_scrollBar.gridy = 8;
+		contentPane.add(scrollBar, gbc_scrollBar);
 		GridBagConstraints gbc_btnCheck = new GridBagConstraints();
 		gbc_btnCheck.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnCheck.insets = new Insets(0, 0, 0, 64);

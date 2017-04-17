@@ -18,7 +18,7 @@ public class Search{
     private int coachReserved;
     private int firstReserved;
     //private List<Flight> row = null;
-    Search() {
+    public Search() {
         ans = new ArrayList<List<Flight>>();
         //row = new ArrayList<Flight> ();
     }
