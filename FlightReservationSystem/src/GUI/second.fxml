@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="425.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.firstcontroller2">
+<AnchorPane prefHeight="425.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.secondcontroller">
    <children>
       <GridPane hgap="5.0" layoutX="-82.0" layoutY="-229.0" prefHeight="352.0" prefWidth="423.0" vgap="5.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -29,31 +29,31 @@
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="221.0" text="Depart" textOverrun="CLIP" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="231.0" text="Arrive" GridPane.rowIndex="1" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="223.0" text="Label" GridPane.rowIndex="2" />
-            <DatePicker id="date2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <RadioButton id="first2" fx:id="first2" mnemonicParsing="false" onAction="#initialize" text="First Class" GridPane.rowIndex="3">
+            <DatePicker id="date2" fx:id="date2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <RadioButton id="first2" mnemonicParsing="false" text="First Class" GridPane.rowIndex="3">
                <padding>
                   <Insets left="60.0" />
                </padding>
             </RadioButton>
-            <RadioButton id="coach2" fx:id="coach2" mnemonicParsing="false" onAction="#initialize" text="Coach" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <RadioButton id="coach2" mnemonicParsing="false" text="Coach" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="40.0" />
                </GridPane.margin>
             </RadioButton>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="291.0" text="Stop:" GridPane.rowIndex="4" />
             <ComboBox id="stop2" prefWidth="150.0" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField id="depart2" prefHeight="25.0" prefWidth="177.0" GridPane.columnIndex="1">
+            <TextField id="depart2" fx:id="depart2" onAction="#initialize" prefHeight="25.0" prefWidth="177.0" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField id="arrive2" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField id="arrive2" fx:id="arrive2" onAction="#initialize" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </TextField>
          </children>
       </GridPane>
-      <Button id="btn2" fx:id="btn2" layoutX="186.0" layoutY="386.0" mnemonicParsing="false" text="Button" />
+      <Button id="btn2" fx:id="btn2" layoutX="186.0" layoutY="386.0" mnemonicParsing="false" onAction="#btnclick2" text="Button" />
    </children>
 </AnchorPane>

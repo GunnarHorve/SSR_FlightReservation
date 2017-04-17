@@ -38,7 +38,13 @@ public class firstcontroller{
 	@FXML ComboBox stop;
 	@FXML DatePicker datepicker;
 	List<Airport> airports = queryManager.getAllAirports();	
-
+	static List<List<Flight>> flight;
+	static Object dep;
+	static Object arr;
+	static Stage stage=new Stage();
+	static String dep1;
+	static String arr1;
+	static int i;
 
 
 	@FXML
@@ -72,17 +78,19 @@ public class firstcontroller{
 		List<Airport> airports = queryManager.getAllAirports();	
 
 		Object stopnum=stop.getSelectionModel().getSelectedItem();
-		String dep=airports.get(depart.getSelectionModel().getSelectedIndex()).code;
-		String arr=airports.get(arrive.getSelectionModel().getSelectedIndex()).code;
+		String dep1=airports.get(depart.getSelectionModel().getSelectedIndex()).code;
+		String arr1=airports.get(arrive.getSelectionModel().getSelectedIndex()).code;
+		dep=depart.getSelectionModel().getSelectedItem();
 		
-		
+		arr=arrive.getSelectionModel().getSelectedItem();
 		if(oneway.isSelected()){
+			firstcontroller.i=100;
 			Search search=new Search();
-			List<List<Flight>> flight=search.Search_Path(dep,arr,date);
-			
+			flight=search.Search_Path(dep1,arr1,date);
+			System.out.println(flight);
 			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/oneway.fxml"));
             
-			Stage stage=new Stage();
+			System.out.println(100);
 			
 			stage.setTitle("My Application");
             stage.setScene(new Scene(root));
@@ -96,6 +104,18 @@ public class firstcontroller{
 			else if(first.isSelected()){}
 		}
 		else if(roundway.isSelected()){
+			firstcontroller.i=1;
+			Search search=new Search();
+			flight=search.Search_Path(dep1,arr1,date);
+			System.out.println(flight);
+			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/oneway.fxml"));
+            
+            System.out.println(i);
+			
+			stage.setTitle("My Application");
+            stage.setScene(new Scene(root));
+            stage.show();
+
 			if(coach.isSelected()){}
 			else if(first.isSelected()){}
 		}

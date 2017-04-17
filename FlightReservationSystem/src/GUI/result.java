@@ -112,4 +112,11 @@ public void btnclick()
 
 
 
-
+if(e.getActionCommand().equals("reserve")){
+	
+	
+}
+else if(e.getActionCommand().equals("cancel")){
+	
+	
+}

@@ -6,21 +6,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="423.0" prefWidth="287.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="423.0" prefWidth="287.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.onewaycontroller">
    <children>
       <VBox alignment="CENTER" prefHeight="423.0" prefWidth="287.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="287.0" text="One Way" />
-            <ListView layoutY="150.0" prefHeight="250.0" prefWidth="287.0" />
+            <ListView id="onelist" fx:id="onelist" layoutY="150.0" prefHeight="250.0" prefWidth="287.0" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button id="reserve" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="reserve">
+                  <Button id="reserve" fx:id="reserve" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectitem" prefHeight="25.0" prefWidth="200.0" text="reserve">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button id="cancel" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="cancel" />
+                  <Button id="cancel" fx:id="cancel" mnemonicParsing="false" onAction="#cancelitem" prefHeight="25.0" prefWidth="200.0" text="cancel" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
