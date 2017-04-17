@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,9 +16,9 @@ public class test {
 		
 		
 		List<Flight> list = queryManager.getDepFlights(airportCode, date);
-		For(Flight flight : list){
+		/*For(Flight flight : list){
 			System.out.println(x);
-		}
+		}*/
 		
 		
 		// System.out.println(d);
