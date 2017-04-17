@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="425.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.firstcontroller">
+<AnchorPane prefHeight="425.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.firstcontroller2">
    <children>
       <GridPane hgap="5.0" layoutX="-82.0" layoutY="-229.0" prefHeight="352.0" prefWidth="423.0" vgap="5.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -42,12 +42,12 @@
             </RadioButton>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="291.0" text="Stop:" GridPane.rowIndex="4" />
             <ComboBox id="stop" prefWidth="150.0" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField prefHeight="25.0" prefWidth="177.0" GridPane.columnIndex="1">
+            <TextField id="depart2" prefHeight="25.0" prefWidth="177.0" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField id="arrive2" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
