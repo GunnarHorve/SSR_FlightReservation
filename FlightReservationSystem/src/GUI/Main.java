@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application{
-	@FXML ComboBox depart;
+	
 
 	@Override
 	public void start(Stage stage) throws Exception {

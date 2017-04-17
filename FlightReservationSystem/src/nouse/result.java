@@ -1,4 +1,4 @@
-package GUI;
+package nouse;
 
 import java.awt.EventQueue;
 import java.awt.FlowLayout;

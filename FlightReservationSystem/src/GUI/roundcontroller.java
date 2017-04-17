@@ -20,8 +20,9 @@ public class roundcontroller {
 	
 	
 	@FXML ListView roundlist;
-	firstcontroller first=new firstcontroller();
-	List<List<Flight>> aa = first.flight;
+	
+	List<List<Flight>> aa = secondcontroller.flight1;
+	
 	
 	@FXML
 	public void initialize(){
@@ -36,20 +37,20 @@ public class roundcontroller {
 	}
 	@FXML
 	public void selectitem() throws IOException{
-		//reserve
-		Object fly=roundlist.getSelectionModel().getSelectedItem();
-		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/second.fxml"));
-        
-		Stage stage=new Stage();
 		
-		stage.setTitle("My Application");
-        stage.setScene(new Scene(root));
-        stage.show();
+		
+		//reserve
+		System.out.println(4);
+		Object fly=roundlist.getSelectionModel().getSelectedItem();
+		
+			
+		
+		
 		
 	}
 	@FXML
 	public void cancelitem(){
-		first.stage.close();
+		secondcontroller.stage1.close();
 		
 	}
 

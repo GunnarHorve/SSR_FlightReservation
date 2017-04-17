@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
-import Models.Flight;   
-import GUI.welcome;
+import Models.Flight;
+import nouse.welcome;
 
 public class TestFlightSearch {
 	@Test

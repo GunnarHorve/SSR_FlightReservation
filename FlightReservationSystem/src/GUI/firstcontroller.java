@@ -44,6 +44,8 @@ public class firstcontroller{
 	static Stage stage=new Stage();
 	static String dep1;
 	static String arr1;
+	static Airport dep2;
+	static Airport arr2;
 	static int i;
 
 
@@ -80,9 +82,12 @@ public class firstcontroller{
 		Object stopnum=stop.getSelectionModel().getSelectedItem();
 		String dep1=airports.get(depart.getSelectionModel().getSelectedIndex()).code;
 		String arr1=airports.get(arrive.getSelectionModel().getSelectedIndex()).code;
+		
 		dep=depart.getSelectionModel().getSelectedItem();
 		
 		arr=arrive.getSelectionModel().getSelectedItem();
+		dep2=airports.get(depart.getSelectionModel().getSelectedIndex());
+		arr2=airports.get(arrive.getSelectionModel().getSelectedIndex());
 		if(oneway.isSelected()){
 			firstcontroller.i=100;
 			Search search=new Search();
