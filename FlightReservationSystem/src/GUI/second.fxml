@@ -29,19 +29,19 @@
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="221.0" text="Depart" textOverrun="CLIP" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="231.0" text="Arrive" GridPane.rowIndex="1" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="223.0" text="Label" GridPane.rowIndex="2" />
-            <DatePicker id="date" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <RadioButton id="first" fx:id="first" mnemonicParsing="false" onAction="#initialize" text="First Class" GridPane.rowIndex="3">
+            <DatePicker id="date2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <RadioButton id="first2" fx:id="first2" mnemonicParsing="false" onAction="#initialize" text="First Class" GridPane.rowIndex="3">
                <padding>
                   <Insets left="60.0" />
                </padding>
             </RadioButton>
-            <RadioButton id="coach" fx:id="coach" mnemonicParsing="false" onAction="#initialize" text="Coach" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <RadioButton id="coach2" fx:id="coach2" mnemonicParsing="false" onAction="#initialize" text="Coach" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="40.0" />
                </GridPane.margin>
             </RadioButton>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="291.0" text="Stop:" GridPane.rowIndex="4" />
-            <ComboBox id="stop" prefWidth="150.0" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox id="stop2" prefWidth="150.0" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField id="depart2" prefHeight="25.0" prefWidth="177.0" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="10.0" />
@@ -54,6 +54,6 @@
             </TextField>
          </children>
       </GridPane>
-      <Button id="btn" fx:id="btn" layoutX="186.0" layoutY="386.0" mnemonicParsing="false" text="Button" />
+      <Button id="btn2" fx:id="btn2" layoutX="186.0" layoutY="386.0" mnemonicParsing="false" text="Button" />
    </children>
 </AnchorPane>

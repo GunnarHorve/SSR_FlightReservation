@@ -28,7 +28,7 @@
          </padding>
          <children>
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="221.0" text="Depart" textOverrun="CLIP" />
-            <ComboBox id="depart" fx:id="depart" editable="true" onAction="#initialize" prefHeight="25.0" prefWidth="248.0" GridPane.columnIndex="1">
+            <ComboBox id="depart" fx:id="depart" onAction="#initialize" prefHeight="25.0" prefWidth="248.0" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin></ComboBox>
@@ -54,7 +54,7 @@
                </padding>
             </RadioButton>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="223.0" text="Label" GridPane.rowIndex="3" />
-            <DatePicker id="date" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <DatePicker id="datepicker" fx:id="datepicker" onAction="#initialize" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <RadioButton id="first" fx:id="first" mnemonicParsing="false" onAction="#initialize" text="First Class" GridPane.rowIndex="4">
                <padding>
                   <Insets left="60.0" />
@@ -66,9 +66,9 @@
                </GridPane.margin>
             </RadioButton>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="291.0" text="Stop:" GridPane.rowIndex="5" />
-            <ComboBox id="stop" prefWidth="150.0" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBox id="stop" fx:id="stop" onAction="#initialize" prefWidth="150.0" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <Button id="btn" fx:id="btn" layoutX="186.0" layoutY="386.0" mnemonicParsing="false" text="Button" />
+      <Button id="btn" fx:id="btn" layoutX="186.0" layoutY="386.0" mnemonicParsing="false" onAction="#btnclick" text="Button" />
    </children>
 </AnchorPane>
