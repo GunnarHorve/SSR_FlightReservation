@@ -49,7 +49,6 @@ public class queryManager {
 	 * Returns flights FROM a given airport on a given date
 	 */
 	public static List<Flight> getDepFlights(String airportCode, Date date) {
-
 		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
 		   String query = baseURL + "&list_type=departing&airport=" + airportCode + "&day=" + modifiedDate;
 

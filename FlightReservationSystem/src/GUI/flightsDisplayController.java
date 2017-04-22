@@ -1,7 +1,10 @@
 package GUI;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Stack;
 
+import Models.Flight;
 import Models.Order;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +31,14 @@ public class flightsDisplayController {
 		Order o = sm.order;
 		
 		if(!o.roundtrip || o.secondRound) { //to confirmation screen
-			Object fly=onelist.getSelectionModel().getSelectedItem();
+			sm.order.firstFlightPath = (Stack<Flight>) onelist.getSelectionModel().getSelectedItem();
+			sm.switchState(StateMachine.state.confirm_order);
+		} else if(o.secondRound) {
+			sm.order.secondFlightPath = (Stack<Flight>) onelist.getSelectionModel().getSelectedItem();
+			
+			
+			System.out.println(sm.order.secondFlightPath);
+			
 			sm.switchState(StateMachine.state.confirm_order);
 		} else { //input some more parameters
 			sm.switchState(StateMachine.state.input_params_second);

@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import Models.Airport;
-import Models.Flight;
 import Models.Order;
 import QueryManager.queryManager;
 import javafx.collections.FXCollections;
@@ -26,10 +25,10 @@ public class firstInputParamsController{
 	@FXML RadioButton coach;
 	@FXML RadioButton oneway;
 	@FXML RadioButton roundway;
-	@FXML ComboBox<String> depart;
-	@FXML ComboBox<String> arrive;
+	@FXML ComboBox depart;
+	@FXML ComboBox arrive;
 	
-	@FXML ComboBox<Integer> stop;
+	@FXML ComboBox stop;
 	@FXML DatePicker datepicker;
 	List<Airport> airports = queryManager.getAllAirports();	
 	static Stage stage=new Stage();
@@ -38,22 +37,16 @@ public class firstInputParamsController{
 	public void initialize() {
 		// TODO Auto-generated method stub
 		
-		// fill combo boxes
+
 		List<String> airportStrings = airports.stream().map(Airport::getName).collect(Collectors.toList());
 		ObservableList<String> list = FXCollections.observableArrayList(airportStrings);
 		depart.setItems(list);
 		arrive.setItems(list);
-
 		
 		List<Integer> intArrList = new ArrayList<Integer>();
 		intArrList.add(0); intArrList.add(1); intArrList.add(2);
 		ObservableList<Integer> intObsList = FXCollections.observableArrayList(intArrList);
 		stop.setItems(intObsList);
-		
-		// select some defaults
-		arrive.getSelectionModel().select(0);
-		depart.getSelectionModel().select(1);
-		stop.getSelectionModel().select(2);
 		
 		// group radio buttons
 		ToggleGroup flightClass = new ToggleGroup();
@@ -63,6 +56,7 @@ public class firstInputParamsController{
 		ToggleGroup specifyRoundTrip = new ToggleGroup();
 		oneway.setToggleGroup(specifyRoundTrip);
 		roundway.setToggleGroup(specifyRoundTrip);
+	
 
 	}
 	public void btnclick() throws IOException
@@ -75,16 +69,17 @@ public class firstInputParamsController{
 		Airport arr = airports.get(arrive.getSelectionModel().getSelectedIndex());
 		boolean isFirst = first.isSelected();
 		boolean roundtrip = roundway.isSelected();
-		int stopovers = stop.getSelectionModel().getSelectedItem();
+		int stopovers = stop.getSelectionModel().getSelectedIndex();
 		
-		if(!checkInputs(date, dep, arr)) { return; } //nope.
-		
+		if(!checkInputs(date, dep, arr, stopovers)) { return; } //nope.
+				
 		StateMachine sm = StateMachine.getInstance();
 		sm.order = new Order(dep, arr, date, isFirst, roundtrip, stopovers);
 		sm.switchState(StateMachine.state.display_flights);
 	}
-
-	private boolean checkInputs(Date date, Airport dep, Airport arr) {
+	
+	private boolean checkInputs(Date date, Airport dep, Airport arr, int stopovers) {
+		if(stopovers == -1) { return false; }
 		return true;
 	}
 

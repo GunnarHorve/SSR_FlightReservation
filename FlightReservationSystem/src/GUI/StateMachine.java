@@ -45,8 +45,7 @@ public class StateMachine {
 		
 	
 	private void performSearch() {
-		 System.out.println("searching flights.  Wait a moment!");
-		 if(order.secondRound) { //1st time searching
+		 if(!order.secondRound) { //1st time searching
 			 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.depDate);
 		 } else {
 			 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.secondDepDate);
