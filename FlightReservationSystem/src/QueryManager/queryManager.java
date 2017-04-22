@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 
 public class queryManager {
 	private static String baseURL = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem?team=SSR&action=list";
-	
+	private static String mUrlBase = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
 	queryManager() { } // prevent this class from being instantiated
 	
 	/* 
@@ -49,6 +49,7 @@ public class queryManager {
 	 * Returns flights FROM a given airport on a given date
 	 */
 	public static List<Flight> getDepFlights(String airportCode, Date date) {
+
 		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
 		   String query = baseURL + "&list_type=departing&airport=" + airportCode + "&day=" + modifiedDate;
 
@@ -115,17 +116,18 @@ public class queryManager {
 		 }
 
 	///////////////////////     UNIMPLEMENTED METHODS BELOW HERE     //////////////////////////////////
-	private static boolean lock(Flight flight){
+	public boolean lock (String team) {
 		URL url;
 		HttpURLConnection connection;
-		try{
-			url = new URL(baseURL + "&list_type=arriving&airport=" + flight.arr.code + "&list_type=departing&airport=" + flight.dep.code);
+
+		try {
+			url = new URL(mUrlBase);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
-			connection.setRequestProperty("User-Agent", flight.toString());
+			connection.setRequestProperty("User-Agent", team);
 			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 			
-			String params = QueryFactory.lock(flight.toString());
+			String params = QueryFactory.lock(team);
 			
 			connection.setDoOutput(true);
 			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
@@ -135,36 +137,36 @@ public class queryManager {
 			
 			int responseCode = connection.getResponseCode();
 			System.out.println("\nSending 'POST' to lock database");
-			System.out.println("\nResponse Code : " + responseCode);
+			System.out.println(("\nResponse Code : " + responseCode));
 			
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String line;
 			StringBuffer response = new StringBuffer();
 			
-			while((line = in.readLine()) !=null){
+			while ((line = in.readLine()) != null) {
 				response.append(line);
 			}
 			in.close();
 			
 			System.out.println(response.toString());
 		}
-		catch(Exception ex){
+		catch (Exception ex) {
 			ex.printStackTrace();
 			return false;
 		}
 		return true;
 	}
 	
-	private static boolean unlock(Flight flight){
+	public boolean unlock (String team) {
 		URL url;
 		HttpURLConnection connection;
 		
-		try{
-			url = new URL(baseURL + "&list_type=arriving&airport=" + flight.arr.code + "&list_type=departing&airport=" + flight.dep.code);
+		try {
+			url = new URL(mUrlBase);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			
-			String params = QueryFactory.unlock(flight.toString());
+			String params = QueryFactory.unlock(team);
 			
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
@@ -173,29 +175,29 @@ public class queryManager {
 			writer.writeBytes(params);
 			writer.flush();
 			writer.close();
-			
+		    
 			int responseCode = connection.getResponseCode();
 			System.out.println("\nSending 'POST' to unlock database");
-			System.out.println("\nResponse Code : " + responseCode);
-			
-			if((responseCode>=200)&&(responseCode<=299)){
+			System.out.println(("\nResponse Code : " + responseCode));
+
+			if ((responseCode >= 200) && (responseCode <= 299)) {
 				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
 				StringBuffer response = new StringBuffer();
-				
-				while((line = in.readLine()) !=null){
+
+				while ((line = in.readLine()) != null) {
 					response.append(line);
 				}
 				in.close();
-				
+
 				System.out.println(response.toString());
 			}
 		}
-		catch (IOException ex){
+		catch (IOException ex) {
 			ex.printStackTrace();
 			return false;
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			ex.printStackTrace();
 			return false;
 		}
@@ -212,7 +214,27 @@ public class queryManager {
 	 * 
 	 * @return true if SUCCESS code returned from server
 	 */
-	public boolean buyTickets(String team, String xmlReservation) {
+	
+	public boolean reserveFlights(List<Flight> listFlights, boolean isFirstClass) {
+		String flightClass = "";				
+		if(isFirstClass) {
+			flightClass = "FirstClass";
+		} else {
+			flightClass = "Coach";
+		}
+		String ans ="";
+		ans=ans+"<Flights>";
+		for(Flight flight : listFlights){
+			ans=ans+"<Flight number="+flight.num+" seating = "+flightClass+"/>";
+		}
+		ans=ans+"</Flights>";
+		lock("TeamSSR");
+		boolean success = buyTickets("TeamSSR", ans);
+		unlock("TeamSSR");
+		return success;
+	}
+	
+	private boolean buyTickets(String team, String xmlReservation) {
 		URL url;
 		HttpURLConnection connection;
 
@@ -273,27 +295,4 @@ public class queryManager {
 			return false;
 		}
 	}
-	
-	public static void reserveFlight(Flight flight){
-		lock(flight);
-		//something goes here
-		unlock(flight);
-		return;
-	}
-	
-	public static void reserveFlights(ArrayList<Flight> flights){
-		for(Flight f : flights) {
-			reserveFlight(f);
-		}
-	}
-	
-	public static void main(String[] args){
-		List<Flight> ans = new ArrayList<Flight> ();
-		queryManager res = new queryManager();
-		
-		// System.out.println(d);
-		//  ans = res.getDepFlights("BOS",d);
-		//  for (Flight flight: ans){
-			//System.out.println(flight);
-		}
-	}
+}
