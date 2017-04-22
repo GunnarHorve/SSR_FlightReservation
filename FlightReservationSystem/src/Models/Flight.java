@@ -42,7 +42,8 @@ public class Flight {
 	
 	public String toString(){
 		return "Flight " + this.num + ", " + this.dep.code + " --> " + this.arr.code + " DepDate " + this.depDate
-				     +" duration " + this.duration ;
+				     +" duration " + this.duration + " Arrival Date " + this.arrDate + " firstSeats Available" + this.firstSeats 
+				     +" coachSeats " + this.coachSeats;
 	}
 	
 	public Date getDateFromString(String stringDate) {
