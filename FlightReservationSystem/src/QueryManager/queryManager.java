@@ -24,10 +24,11 @@ import java.text.SimpleDateFormat;
 public class queryManager {
 	private static String baseURL = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem?team=SSR&action=list";
 	private static String mUrlBase = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
+
 	queryManager() { } // prevent this class from being instantiated
 	
-	/* 
-	 * Returns all viable airports within the WPI database
+	/**
+	 * @return All viable airports within the WPI database
 	 */
 	public static List<Airport> getAllAirports() {
 		File file = new File("src/Data/airports.xml");
@@ -36,8 +37,8 @@ public class queryManager {
 		return airports;
 	}
 	
-	/*
-	 * Returns all viable Airplanes within the WPI database
+	/**
+	 * @return All viable Airplanes within the WPI database
 	 */
 	public static List<Airplane> getAllAirplanes() {
 		File file = new File("src/Data/Airplanes.xml");
@@ -45,8 +46,11 @@ public class queryManager {
 		return airplanes;
 	}
 	
-	/*
-	 * Returns flights FROM a given airport on a given date
+	/**
+	 * 
+	 * @param airportCode airport code of the flights
+	 * @param date date of flights
+	 * @return flights FROM a given airport on a given date
 	 */
 	public static List<Flight> getDepFlights(String airportCode, Date date) {
 
@@ -57,24 +61,24 @@ public class queryManager {
 
 	}
 	
-	/*
-	 * Returns flights TO a given airport on a given date
+	/**
+	 * @param airportCode Airport code of the flights
+	 * @param date Date of flights
+	 * @return flights TO a given airport on a given date
 	 */
 	public static List<Flight> getArrFlights(String airportCode, Date date) {
-	
 		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
 		   String query = baseURL + "&list_type=arriving&airport=" + airportCode + "&day=" + modifiedDate;
 		   return XMLParser.parseFlights(getXMLFromServer(query));
 	}
 	
-
-	
-	/*
+	/**
 	 * Helper method within class--takes away the silly amounts of 
 	 * try/catch necessary for an API call.
-	 * 
-	 * Basically:  URL String --> XML String
+	 * @param query 
+	 * @return String of XML file
 	 */
+	
 	public static String getXMLFromServer (String query) {
 		  URL url;
 		  HttpURLConnection connection;
@@ -115,8 +119,14 @@ public class queryManager {
 		  return result.toString();
 		 }
 
-	///////////////////////     UNIMPLEMENTED METHODS BELOW HERE     //////////////////////////////////
-	public boolean lock (String team) {
+	/**
+	 * Lock the server database in preparation to making a reservation
+	 * 
+	 * @param team identifies the team locking the database
+	 * 
+	 * @return true if database locked successfully
+	 */
+	public static boolean lock (String team) {
 		URL url;
 		HttpURLConnection connection;
 
@@ -156,8 +166,14 @@ public class queryManager {
 		}
 		return true;
 	}
-	
-	public boolean unlock (String team) {
+	/**
+	 * Unlock the server database previously locked
+	 * 
+	 * @param team identifies the team requestiong the server database be unlocked
+	 * 
+	 * @return true if server database successfully unlocked
+	 */
+	public static boolean unlock (String team) {
 		URL url;
 		HttpURLConnection connection;
 		
@@ -204,6 +220,30 @@ public class queryManager {
 		return true;
 	}
 	/**
+	 * Reserve a seat according to the flight number and seating type
+	 * @param listFlights list of flights
+	 * @param isFirstClass seating type
+	 * @return true if SUCCESS code return from server
+	 */
+	public static boolean reserveFlights(List<Flight> listFlights, boolean isFirstClass) {
+		String flightClass = "";				
+		if(isFirstClass) {
+			flightClass = "FirstClass";
+		} else {
+			flightClass = "Coach";
+		}
+		String ans ="";
+		ans=ans+"<Flights>";
+		for(Flight flight : listFlights){
+			ans=ans+"<Flight number=\""+flight.num+"\" seating=\""+flightClass+"\"/>";
+			}
+		ans=ans+"</Flights>";
+		lock("SSR");
+		boolean success = buyTickets("SSR", ans);
+		unlock("SSR");
+		return success;
+	}
+	/**
 	 * Reserve a seat on one or more connecting flights
 	 * 
 	 * The XML string identifying the reserveation is created by the calling client. 
@@ -214,32 +254,12 @@ public class queryManager {
 	 * 
 	 * @return true if SUCCESS code returned from server
 	 */
-	
-	public boolean reserveFlights(List<Flight> listFlights, boolean isFirstClass) {
-		String flightClass = "";				
-		if(isFirstClass) {
-			flightClass = "FirstClass";
-		} else {
-			flightClass = "Coach";
-		}
-		String ans ="";
-		ans=ans+"<Flights>";
-		for(Flight flight : listFlights){
-			ans=ans+"<Flight number="+flight.num+" seating = "+flightClass+"/>";
-		}
-		ans=ans+"</Flights>";
-		lock("TeamSSR");
-		boolean success = buyTickets("TeamSSR", ans);
-		unlock("TeamSSR");
-		return success;
-	}
-	
-	private boolean buyTickets(String team, String xmlReservation) {
+	private static boolean buyTickets(String team, String xmlReservation) {
 		URL url;
 		HttpURLConnection connection;
 
 		try {
-			url = new URL(baseURL);
+			url = new URL(mUrlBase);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 

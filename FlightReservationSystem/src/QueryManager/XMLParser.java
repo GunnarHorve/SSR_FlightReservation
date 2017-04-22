@@ -2,6 +2,7 @@ package QueryManager;
 
 import java.io.File;
 
+
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,11 @@ public class XMLParser {
 	private static List<Airport> airports;
 	private static List<Airplane> airplanes;
 
-	// Parse a given Airports.xml file into java objects 
+	/**
+	 * Parse a given Airports.xml file into java objects 
+	 * @param file File to get the airports
+	 * @return List Get a list of airports
+	 */
 	protected static List<Airport> parseAirports(File file){
 		if(airports != null) { return airports; } // don't parse file more than once
 		airports = new ArrayList<Airport>();
@@ -52,7 +57,11 @@ public class XMLParser {
 		return airports;
 	}
 	
-	// Parse a given Airplanes.xml file into java objects 
+	/**
+	 * Parse a given Airplanes.xml file into java objects 
+	 * @param file File to get the airplanes
+	 * @return return a list of airplanes
+	 */
 	protected static List<Airplane> parseAirplanes(File file){
 		if(airplanes != null) { return airplanes; } // don't parse file more than once
 		airplanes = new ArrayList<Airplane>();
@@ -78,7 +87,11 @@ public class XMLParser {
 		return airplanes;
 	}
 	
-	//parse the arrivingFlight and departingFlight xml string
+	/**
+	 * parse the arrivingFlight and departingFlight xml string
+	 * @param xml XML to get the list of flights
+	 * @return list of flights
+	 */
 	protected static List<Flight> parseFlights(String xml){
 		List<Flight> flights = new ArrayList<Flight>();
 		try{
@@ -138,16 +151,23 @@ public class XMLParser {
 		}
 		return flights;
 	}
-	
-	///////////////////////     HELPER METHODS BELOW HERE     //////////////////////////////////
-	
+	/**
+	 * Small wrapper method to handle xml from a string, as opposed to a file.
+	 * @param xml
+	 * @return a ducument
+	 * @throws Exception
+	 */
 	private static Document loadXMLFromString(String xml) throws Exception {
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder builder = factory.newDocumentBuilder();
 	    InputSource is = new InputSource(new StringReader(xml));
 	    return builder.parse(is);
 	}
-	
+	/**
+	 * get all airplanes according to the sample XML file
+	 * @param airplaneType aiport type
+	 * @return all airplanes according to the sample XML file
+	 */
 	private static Airplane getAirplaneModel(String airplaneType){
 		File file = new File("src/Data/Airplanes.xml");
 		List<Airplane> airplanes = parseAirplanes(file);
@@ -158,7 +178,11 @@ public class XMLParser {
 		}
 		return null;
 	}
-	
+	/**
+	 * get all airports according to the sample XML file
+	 * @param airportCode
+	 * @return all airports according to the sample 
+	 */
 	private static Airport getAirport(String airportCode){
 		File file = new File("src/Data/airports.xml");
 		List<Airport> airports = parseAirports(file);
