@@ -15,13 +15,13 @@ public class TestFlightSearch {
 		Search s = new Search();
 		List<List<Flight>>res = new ArrayList<>();
 		Date dep = new Date("2017 May 09");
-		res = s.Search_Path("BOS", "EWR", dep, 1);
+		res = s.Search_Path("BOS", "RDU", dep, 1);
 		//System.out.println(res.size());
 		int i =1;
 		for(List<Flight> lf: res){
 			//System.out.println(i++);
 			for(Flight f: lf){
-				System.out.println(lf.toString());
+				System.out.println(f.toString());
 			}
 		}
 	}
