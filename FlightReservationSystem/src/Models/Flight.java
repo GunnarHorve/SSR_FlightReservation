@@ -25,7 +25,7 @@ public class Flight {
 	
 	public int firstSeats;		// # of already reserved first class seats
 	public int coachSeats; // # of already reserved coach class seats
-	public static long totalDuration; //initiate here, will use it in search to store multiple stopover flights' time.
+	//public static long totalDuration; //initiate here, will use it in search to store multiple stopover flights' time.
 	
 	public Flight(Airplane type, int duration, int num, Airport dep, Airport arr, String depTime, String arrTime, double firstPrice, double coachPrice, int firstSeats, int coachSeats) {
 		this.type = type;
@@ -39,13 +39,13 @@ public class Flight {
 		this.coachPrice = coachPrice;
 		this.firstSeats = firstSeats;
 		this.coachSeats = coachSeats;
-		this.totalDuration = 0;
+		//this.totalDuration = 0;
 	}
 	
 	public String toString(){
 		return "Flight " + this.num + ", " + this.dep.code + " --> " + this.arr.code + " DepDate " +"|"+ this.depDate+"|"
 				     +" duration " + "|"+ this.duration+"|" + " Arrival Date "+"|" + this.arrDate+"|" + " firstSeats" + this.firstSeats 
-				     +" coachSeats " + this.coachSeats +"\n" +  " total Duration " + this.totalDuration;
+				     +" coachSeats " + this.coachSeats;
 	}
 	
 	public Date getDateFromString(String stringDate) {
