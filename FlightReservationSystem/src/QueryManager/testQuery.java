@@ -15,16 +15,10 @@ public class testQuery {
 		List<Flight> ans = new LinkedList<>();
 		queryManager q = new queryManager();
 		Date dep = new Date("2017 May 09 12:20:21");
-		ans = q.getDepFlights("BOS",dep);
-		/*int many = 0;
-		Search s = new Search();
-		List<List<Flight> >res = new LinkedList<>();
-		Date dep = new Date("2017 May 09 10:20:21");
-		res = s.Search_Path("BOS", "SFO", dep);*/
+		ans = q.getDepFlights("DCA",dep);
 		int size = ans.size();
 		for(int i = 0;i<size; i++){
 			System.out.println(ans.get(i));
 		}
-		//System.out.println(ans.iterator().next().iterator().next().toString());
 	}
 }
