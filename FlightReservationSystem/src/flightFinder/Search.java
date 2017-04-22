@@ -29,8 +29,11 @@ public class Search{
 
      
     /**
-     *  
-     * @param start_code  
+     * 
+     * A main method of the class, which is to return all the result list.
+     * 
+     * 
+     * @param start_code 	the departure airport   
      * @param end_code
      * @param depTime
      * @param maxStopOver
