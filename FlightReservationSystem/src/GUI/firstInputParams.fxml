@@ -37,7 +37,7 @@
                   <Insets right="10.0" />
                </GridPane.margin></ComboBox>
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="231.0" text="Arrival Airport" GridPane.rowIndex="1" />
-            <RadioButton id="oneway" fx:id="oneway" contentDisplay="CENTER" mnemonicParsing="false" onAction="#initialize" prefHeight="58.0" prefWidth="204.0" text="One Way" GridPane.rowIndex="2">
+            <RadioButton id="oneway" fx:id="oneway" contentDisplay="CENTER" mnemonicParsing="false" onAction="#initialize" prefHeight="58.0" prefWidth="204.0" selected="true" text="One Way" GridPane.rowIndex="2">
                <padding>
                   <Insets left="60.0" />
                </padding>
@@ -55,7 +55,7 @@
             </RadioButton>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="223.0" text="Departure Date" GridPane.rowIndex="3" />
             <DatePicker id="datepicker" fx:id="datepicker" onAction="#initialize" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <RadioButton id="first" fx:id="first" mnemonicParsing="false" onAction="#initialize" text="First Class" GridPane.rowIndex="4">
+            <RadioButton id="first" fx:id="first" mnemonicParsing="false" onAction="#initialize" selected="true" text="First Class" GridPane.rowIndex="4">
                <padding>
                   <Insets left="60.0" />
                </padding>

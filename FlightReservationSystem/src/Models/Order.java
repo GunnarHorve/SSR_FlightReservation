@@ -11,17 +11,20 @@ public class Order {
 	
 	public Airport dep;			// departing airpot
 	public Airport arr;			// arrival airport
-	public Date depDate;
-	public boolean roundtrip;  // whether we have a round trip or not
+	public Date depDate;		// date of departure
+	public boolean roundtrip;	// whether we have a round trip or not
+	public int stopovers;		// maximum number of stopovers
+	
 	
 	public boolean secondRound = false;
 	public Date secondDepDate = null;
 	
-	public Order(Airport dep, Airport arr, Date depDate, boolean firstClass, boolean roundtrip) {
+	public Order(Airport dep, Airport arr, Date depDate, boolean firstClass, boolean roundtrip, int stopovers) {
 		this.firstClass = firstClass;
 		this.dep = dep;
 		this.arr = arr;
 		this.depDate = depDate;
 		this.roundtrip = roundtrip;
+		this.stopovers = stopovers;
 	}
 }
