@@ -41,7 +41,7 @@ public class flightsDisplayController {
 
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<flightdisplaytableview, String> param) {
-                return param.getValue().getTripProperty();
+                return param.getValue().trip;
             }
         });
         //firstColumn.setCellValueFactory(new PropertyValueFactory<flightdisplaytableview,String>("firstName"));第二种用法
@@ -51,13 +51,13 @@ public class flightsDisplayController {
         durColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<flightdisplaytableview, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<flightdisplaytableview, String> param) {
-                return param.getValue().getDurProperty();
+                return param.getValue().dur;
             }
         });
         priColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<flightdisplaytableview, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<flightdisplaytableview, String> param) {
-                return param.getValue().getPriProperty();
+                return param.getValue().pri;
             }
         });
         System.out.println(table1); 

@@ -41,7 +41,7 @@ public class StateMachine {
 	private static StateMachine sm;
 	public Order order;
 	public SceneSwitcher sceneSwitcher;
-	public List<List<Flight>> flights = new ArrayList<List<Flight>>();
+	public ArrayList<List<Flight>> flights = new ArrayList<List<Flight>>();
 		
 	
 	private void performSearch() {

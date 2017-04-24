@@ -9,19 +9,19 @@ import QueryManager.queryManager;
 
 
 public class Search{
-    private List<List<Flight>> ans = null;
-    private List<List<Flight>> finalAns = null;
+    private ArrayList<ArrayList<Flight>> ans = null;
+    private ArrayList<ArrayList<Flight>> finalAns = null;
     private String end_code = null;
     private String seat;
     private int coachReserved;
     private int firstReserved;
-    private HashMap<String, List<Flight>> myMap = new HashMap<String, List<Flight>>();
+    private HashMap<String, ArrayList<Flight>> myMap = new HashMap<String, ArrayList<Flight>>();
 
    
     String startAirport;
   
     public Search() {
-        ans = new ArrayList<List<Flight>>();
+        ans = new ArrayList<ArrayList<Flight>>();
         //finalAns = new ArrayList<List<Flight>>();
      
     }
@@ -44,7 +44,7 @@ public class Search{
      * @return				the final result to present in GUI
      */
     
-    public List<List<Flight>> Search_Path(String start_code, String end_code, Date depTime, int maxStopOver, boolean isFirstClass){
+    public ArrayList<ArrayList<Flight>> Search_Path(String start_code, String end_code, Date depTime, int maxStopOver, boolean isFirstClass){
         ArrayList<Flight> s = new ArrayList<Flight>();
         this.end_code = end_code;
         this.dfs(start_code, depTime, 0 , s, isFirstClass, maxStopOver);
@@ -76,7 +76,7 @@ public class Search{
     private void dfs(String now_code, Date depTime, int depth, ArrayList<Flight> s, boolean isFirstClass, int maxStopOver){
     	
         if (now_code.equals(this.end_code)&&!now_code.equals(this.startAirport)){
-            ans.add((List<Flight>)s.clone()); // s.clone to list
+            ans.add((ArrayList<Flight>)s.clone()); // s.clone to list
         }
         if (depth > maxStopOver) return;
         for (Flight getArrival : getFlights(now_code, depTime)){
@@ -136,7 +136,7 @@ public class Search{
     private List<Flight> getFlights(String now_code, Date depTime) {
     	
     	if(!myMap.containsKey(now_code)) {
-        	List<Flight> myQuery = queryManager.getDepFlights(now_code, depTime);
+    		ArrayList<Flight> myQuery = queryManager.getDepFlights(now_code, depTime);
         	myMap.put(now_code, myQuery);
     	}
     	
