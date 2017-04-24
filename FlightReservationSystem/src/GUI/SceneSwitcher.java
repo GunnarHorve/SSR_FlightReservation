@@ -10,10 +10,10 @@ import javafx.stage.Stage;
 public class SceneSwitcher {
 	private static Stage primaryStage;
 
-	private static final String firstFXMLPath = "GUI/firstInputParams.fxml";
-	private static final String onewayFXMLPath = "GUI/flightsDisplay.fxml";
-	private static final String secondFXMLPath = "GUI/secondInputParams.fxml";
-	private static final String confirmFXMLPath="GUI/confirm.fxml";
+	private static final String firstFXMLPath = "GUI/fxml/firstInputParams.fxml";
+	private static final String onewayFXMLPath = "GUI/fxml/flightsDisplay.fxml";
+	private static final String secondFXMLPath = "GUI/fxml/secondInputParams.fxml";
+	private static final String confirmFXMLPath="GUI/fxml/confirm.fxml";
 	public SceneSwitcher(Stage primaryStage) {
 		SceneSwitcher.primaryStage = primaryStage;
 	}

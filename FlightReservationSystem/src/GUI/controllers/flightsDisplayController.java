@@ -1,10 +1,10 @@
-package GUI;
+package GUI.controllers;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-
+import GUI.StateMachine;
 import Models.Flight;
 import Models.Order;
 import javafx.beans.property.SimpleStringProperty;

@@ -1,4 +1,4 @@
-package GUI;
+package GUI.controllers;
 
 
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import GUI.StateMachine;
 import Models.Airport;
 import Models.Flight;
 import Models.Order;

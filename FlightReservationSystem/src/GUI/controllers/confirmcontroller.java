@@ -1,7 +1,8 @@
-package GUI;
+package GUI.controllers;
 
 import java.util.ArrayList;
 
+import GUI.StateMachine;
 import GUI.StateMachine.state;
 import Models.Flight;
 import javafx.beans.property.SimpleStringProperty;

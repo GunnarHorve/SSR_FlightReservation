@@ -1,4 +1,4 @@
-package GUI;
+package GUI.controllers;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import GUI.StateMachine;
 import Models.Airport;
 import Models.Order;
 import QueryManager.queryManager;
