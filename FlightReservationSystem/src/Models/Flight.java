@@ -59,6 +59,4 @@ public class Flight {
 		}
 		return null;
 	}
-
-	
 }

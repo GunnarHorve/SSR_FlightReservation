@@ -43,10 +43,7 @@ public class flightsDisplayController {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<flightdisplaytableview, String> param) {
                 return param.getValue().trip;
             }
-        });
-        //firstColumn.setCellValueFactory(new PropertyValueFactory<flightdisplaytableview,String>("firstName"));第二种用法
-        System.out.println("zhge s  ces hide ");
-        
+        });        
         
         durColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<flightdisplaytableview, String>, ObservableValue<String>>() {
             @Override
