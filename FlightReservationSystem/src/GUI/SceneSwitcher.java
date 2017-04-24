@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class SceneSwitcher {
-	private static Stage primaryStage;
+	public static Stage primaryStage;
 
 	private static final String firstFXMLPath = "GUI/fxml/firstInputParams.fxml";
 	private static final String onewayFXMLPath = "GUI/fxml/flightsDisplay.fxml";

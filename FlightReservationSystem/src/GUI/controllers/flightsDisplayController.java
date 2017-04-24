@@ -42,7 +42,7 @@ public class flightsDisplayController {
 	@FXML
 	public void initialize(){		
 		data = FXCollections.observableArrayList(StateMachine.getInstance().flights);
-		table.getColumns().addAll(columnFactory.getColumns());
+		table.getColumns().addAll(guiHelpers.getColumns());
         table.setItems(data);
 	}
 	

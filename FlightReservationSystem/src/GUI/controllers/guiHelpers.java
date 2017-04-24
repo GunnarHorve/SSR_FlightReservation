@@ -4,14 +4,20 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
+import GUI.SceneSwitcher;
 import Models.Flight;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class columnFactory {
-	private columnFactory() { } //don't allow instantiation
+public class guiHelpers {
+	private guiHelpers() { } //don't allow instantiation
 	
 	public static ArrayList<TableColumn<ArrayList<Flight>, String>> getColumns() {
 		ArrayList<TableColumn<ArrayList<Flight>, String>> toReturn = new ArrayList<TableColumn<ArrayList<Flight>, String>>();
@@ -21,6 +27,17 @@ public class columnFactory {
 		toReturn.add(makeDurColumn());
 		toReturn.add(makePriColumn());		
 		return toReturn;
+	}
+	
+	public static void throwPopup(String toYell) {
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(SceneSwitcher.primaryStage);
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(new Text(toYell));
+        Scene dialogScene = new Scene(dialogVbox, 400, 100);
+        dialog.setScene(dialogScene);
+        dialog.show();
 	}
 	
 	private static TableColumn<ArrayList<Flight>,String> makeDepTimeColumn() {

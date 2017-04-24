@@ -29,7 +29,7 @@ public class confirmcontroller {
 		if(sm.order.roundtrip) { tmp.add(sm.order.secondFlightPath); }
 		ObservableList<ArrayList<Flight>> list = FXCollections.observableArrayList(tmp);
 		
-		table.getColumns().addAll(columnFactory.getColumns());
+		table.getColumns().addAll(guiHelpers.getColumns());
 		table.setItems(list);
 	}
 	

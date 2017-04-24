@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import GUI.SceneSwitcher;
 import GUI.StateMachine;
 import Models.Airport;
 import Models.Order;
@@ -16,9 +17,13 @@ import QueryManager.queryManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class firstInputParamsController{
@@ -48,21 +53,24 @@ public class firstInputParamsController{
 	}
 	public void btnclick() throws IOException
 	{
-		LocalDate day=datepicker.getValue();
-		Instant instant = Instant.from(day.atStartOfDay(ZoneId.systemDefault()));
+		guiHelpers.throwPopup("please input all search parameters before proceeding");
+		return;
 		
-		Date date = Date.from(instant);
-		Airport dep = airports.get(depart.getSelectionModel().getSelectedIndex());
-		Airport arr = airports.get(arrive.getSelectionModel().getSelectedIndex());
-		boolean isFirst = first.isSelected();
-		boolean roundtrip = roundway.isSelected();
-		int stopovers = stop.getSelectionModel().getSelectedIndex();
-		
-		if(!checkInputs(date, dep, arr, stopovers)) { return; } //nope.
-				
-		StateMachine sm = StateMachine.getInstance();
-		sm.order = new Order(dep, arr, date, isFirst, roundtrip, stopovers);
-		sm.switchState(StateMachine.state.display_flights);
+//		LocalDate day=datepicker.getValue();
+//		Instant instant = Instant.from(day.atStartOfDay(ZoneId.systemDefault()));
+//		
+//		Date date = Date.from(instant);
+//		Airport dep = airports.get(depart.getSelectionModel().getSelectedIndex());
+//		Airport arr = airports.get(arrive.getSelectionModel().getSelectedIndex());
+//		boolean isFirst = first.isSelected();
+//		boolean roundtrip = roundway.isSelected();
+//		int stopovers = stop.getSelectionModel().getSelectedIndex();
+//		
+//		if(!checkInputs(date, dep, arr, stopovers)) { return; } //nope.
+//				
+//		StateMachine sm = StateMachine.getInstance();
+//		sm.order = new Order(dep, arr, date, isFirst, roundtrip, stopovers);
+//		sm.switchState(StateMachine.state.display_flights);
 	}
 	
 	private boolean checkInputs(Date date, Airport dep, Airport arr, int stopovers) {
