@@ -1,6 +1,7 @@
 package Models;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Stack;
 
 /*
@@ -20,8 +21,8 @@ public class Order {
 	public boolean secondRound = false;
 	public Date secondDepDate = null;
 	
-	public Stack<Flight> firstFlightPath = null;
-	public Stack<Flight> secondFlightPath = null;
+	public List<Flight> firstFlightPath = null;
+	public List<Flight> secondFlightPath = null;
 	
 	public Order(Airport dep, Airport arr, Date depDate, boolean firstClass, boolean roundtrip, int stopovers) {		
 		this.firstClass = firstClass;

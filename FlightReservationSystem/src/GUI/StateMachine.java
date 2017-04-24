@@ -46,9 +46,9 @@ public class StateMachine {
 	
 	private void performSearch() {
 		 if(!order.secondRound) { //1st time searching
-			 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.depDate);
+			 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.depDate,order.stopovers,order.firstClass);
 		 } else {
-			 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.secondDepDate);
+			 this.flights =  new Search().Search_Path(order.arr.code, order.dep.code, order.secondDepDate,order.stopovers,order.firstClass);
 		 }
 		 System.out.println("finished searching flights.  Sorry it took so long!");
 	}
@@ -66,8 +66,7 @@ public class StateMachine {
 			this.sceneSwitcher.displayFlightsDisplay();
 			break;
 		case confirm_order:
-			System.out.println("confirm order called");
-			switchState(state.finish);
+			this.sceneSwitcher.displayConfirm();			
 			break;
 		case finish:
 			System.out.println("finish called");

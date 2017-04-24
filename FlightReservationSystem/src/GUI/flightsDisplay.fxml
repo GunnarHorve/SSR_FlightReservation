@@ -6,12 +6,30 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="423.0" prefWidth="287.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.flightsDisplayController">
+<AnchorPane prefHeight="511.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.flightsDisplayController">
    <children>
       <VBox alignment="CENTER" prefHeight="423.0" prefWidth="287.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="287.0" text="Select Your Desired Flight" />
-            <ListView id="onelist" fx:id="onelist" layoutY="150.0" prefHeight="250.0" prefWidth="287.0" />
+            <HBox>
+               <children>
+                  <TableView id="table1" fx:id="table1" prefHeight="344.0" prefWidth="400.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button id="sortbytime" mnemonicParsing="false" prefHeight="48.0" prefWidth="375.0" text="Sort by time">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button id="sortbyprice" mnemonicParsing="false" prefHeight="48.0" prefWidth="372.0" text="Sort by price">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button id="reserve" fx:id="reserve" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectitem" prefHeight="25.0" prefWidth="200.0" text="confirm">
