@@ -23,8 +23,8 @@ public class confirmcontroller {
 		StateMachine sm = StateMachine.getInstance();
 		
 		// create an observable list of all necessary flights
-		ArrayList<Flight> flightsTo = sm.getInstance().order.firstFlightPath;
-		ArrayList<Flight> flightsFrom = sm.getInstance().order.secondFlightPath;
+		ArrayList<Flight> flightsTo = sm.order.firstFlightPath;
+		ArrayList<Flight> flightsFrom = sm.order.secondFlightPath;
 		if(flightsFrom != null) {
 			flightsTo.addAll(flightsFrom);
 		}
