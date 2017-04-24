@@ -14,6 +14,7 @@ public class Airport {
 		this.code = code;
 		this.name = name;
 	}
+	
 	public String toString(){
 		return "Airport[code = "+code+",name = "+name+",GMTOffset = "+gmtOffset+"]";
 	}

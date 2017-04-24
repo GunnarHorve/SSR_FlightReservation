@@ -1,10 +1,14 @@
 package GUI.controllers;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import GUI.StateMachine;
@@ -40,9 +44,37 @@ public class flightsDisplayController {
 		data = FXCollections.observableArrayList(StateMachine.getInstance().flights);
 		
 		makeFliColumn();
+		makeDepTimeColumn();
+		makeArrTimeColumn();
 		makeDurColumn();
 		makePriColumn();  
         table.setItems(data);
+	}
+	
+	private void makeDepTimeColumn() {
+        TableColumn<ArrayList<Flight>,String> depTimeColumn = new TableColumn<ArrayList<Flight>,String>("Departure Time (local)");
+        depTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
+            	Flight flight = param.getValue().get(0);
+            	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(flight.dep.gmtOffset)));            	
+            	return new SimpleStringProperty(flight.depDate.toString());
+        	}
+        });
+        table.getColumns().add(depTimeColumn);
+	}
+	
+	private void makeArrTimeColumn() {
+        TableColumn<ArrayList<Flight>,String> arrTimeColumn = new TableColumn<ArrayList<Flight>,String>("Arrival Time (local)");
+        arrTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
+            	Flight flight = param.getValue().get(param.getValue().size() - 1);
+            	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(flight.dep.gmtOffset)));            	
+            	return new SimpleStringProperty(flight.arrDate.toString());            	
+        	}
+        });
+        table.getColumns().add(arrTimeColumn);
 	}
 	
 	private void makeFliColumn() {
@@ -69,10 +101,7 @@ public class flightsDisplayController {
         durColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
-            	int tot = 0;
-            	for (Flight f : param.getValue()) {
-            		tot += f.duration;
-            	}
+            	int tot = param.getValue().stream().filter(f -> f.getDuration() > 10).mapToInt(f -> f.getDuration()).sum();
             	return new SimpleStringProperty(tot + " minutes");
         	}
         });
@@ -84,19 +113,11 @@ public class flightsDisplayController {
         priColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
-            	double tot = 0.0;
-            	for (Flight f : param.getValue()) {
-            		if(StateMachine.getInstance().order.firstClass) {
-            			tot += f.firstPrice;
-            		} else {
-            			tot += f.coachPrice;
-            		}
-            	}
-            	DecimalFormat df = new DecimalFormat("#.00");
-            	return  new SimpleStringProperty("$" + df.format(tot));
+            	double tot = param.getValue().stream().filter(f -> f.getPrice() > 10).mapToDouble(f -> f.getPrice()).sum();
+            	return  new SimpleStringProperty("$" +  new DecimalFormat("#.00").format(tot));
             }
         });
-        table.getColumns().add(priColumn);
+        table.getColumns().add(priColumn);  
 	}
 	
 	@FXML
