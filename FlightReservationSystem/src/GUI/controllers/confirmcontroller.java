@@ -43,6 +43,7 @@ public class confirmcontroller {
 		StateMachine.getInstance().switchState(state.finish);		
 	}
 	public void cancel(){
+		StateMachine sm = StateMachine.getInstance();
 		sm.switchState(state.finish);
 	}
 	
