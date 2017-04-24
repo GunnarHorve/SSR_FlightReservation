@@ -13,7 +13,7 @@ public class TestFlightSearch {
 	@Test
 	public void testFlishtSearch(){
 		Search s = new Search();
-		List<List<Flight>>res = new ArrayList<>();
+		ArrayList<ArrayList<Flight>>res = new ArrayList<>();
 		Date dep = new Date("2017 May 09");
 		res = s.Search_Path("BOS", "RDU", dep, 1, true);
 		//System.out.println(res.size());
