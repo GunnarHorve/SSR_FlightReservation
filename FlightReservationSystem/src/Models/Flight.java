@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import GUI.StateMachine;
+
 /*
  * A model meant to contain data about a given flight.
  * Ideally, this class only holds data queried from server.
@@ -59,4 +61,15 @@ public class Flight {
 		}
 		return null;
 	}
+	
+	public double getPrice() {
+		if(StateMachine.getInstance().order.firstClass) {
+			return this.firstPrice;
+		} else {
+			return this.coachPrice;
+		}
+	}
+	
+	public int getDuration() { return this.duration; }
+	public Date getDate() { return this.depDate; }
 }

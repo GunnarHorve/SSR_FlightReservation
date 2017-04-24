@@ -3,8 +3,12 @@ package GUI.controllers;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 import GUI.StateMachine;
+import Models.Airport;
 import Models.Flight;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -113,11 +117,30 @@ public class flightsDisplayController {
 	@FXML
 	public void sortList(ActionEvent event) {
 		if(this.priceRadio.isSelected()) { //price
-			System.out.println("sort by price pl0x");
+			Collections.sort(data, new Comparator<ArrayList<Flight>> () {
+			    @Override
+			    public int compare(ArrayList<Flight> a, ArrayList<Flight> b) {
+			    	double totA = a.stream().filter(f -> f.getPrice() > 10).mapToDouble(f -> f.getPrice()).sum();
+			    	double totB = b.stream().filter(f -> f.getPrice() > 10).mapToDouble(f -> f.getPrice()).sum();
+			    	return Double.compare(totA, totB);
+			    }
+			});			
 		} else if(this.durationRadio.isSelected()) { //duration
-			System.out.println("sort by duration pl0x");
+			Collections.sort(data, new Comparator<ArrayList<Flight>> () {
+			    @Override
+			    public int compare(ArrayList<Flight> a, ArrayList<Flight> b) {
+			    	int totA = a.stream().filter(f -> f.getDuration() > 10).mapToInt(f -> f.getDuration()).sum();
+			    	int totB = b.stream().filter(f -> f.getDuration() > 10).mapToInt(f -> f.getDuration()).sum();
+			    	return Integer.compare(totA, totB);
+			    }
+			});					
 		} else { //departure time
-			System.out.println("sort by departure time pl0x");
+			Collections.sort(data, new Comparator<ArrayList<Flight>> () {
+			    @Override
+			    public int compare(ArrayList<Flight> a, ArrayList<Flight> b) {
+			    	return Long.compare(a.get(0).getDate().getTime(), b.get(0).getDate().getTime());
+			    }
+			});	
 		}
 	}
 }
