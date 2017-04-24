@@ -42,82 +42,8 @@ public class flightsDisplayController {
 	@FXML
 	public void initialize(){		
 		data = FXCollections.observableArrayList(StateMachine.getInstance().flights);
-		
-		makeFliColumn();
-		makeDepTimeColumn();
-		makeArrTimeColumn();
-		makeDurColumn();
-		makePriColumn();  
+		table.getColumns().addAll(columnFactory.getColumns());
         table.setItems(data);
-	}
-	
-	private void makeDepTimeColumn() {
-        TableColumn<ArrayList<Flight>,String> depTimeColumn = new TableColumn<ArrayList<Flight>,String>("Departure Time (local)");
-        depTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
-            	Flight flight = param.getValue().get(0);
-            	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(flight.dep.gmtOffset)));            	
-            	return new SimpleStringProperty(flight.depDate.toString());
-        	}
-        });
-        table.getColumns().add(depTimeColumn);
-	}
-	
-	private void makeArrTimeColumn() {
-        TableColumn<ArrayList<Flight>,String> arrTimeColumn = new TableColumn<ArrayList<Flight>,String>("Arrival Time (local)");
-        arrTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
-            	Flight flight = param.getValue().get(param.getValue().size() - 1);
-            	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(flight.dep.gmtOffset)));            	
-            	return new SimpleStringProperty(flight.arrDate.toString());            	
-        	}
-        });
-        table.getColumns().add(arrTimeColumn);
-	}
-	
-	private void makeFliColumn() {
-		TableColumn<ArrayList<Flight>,String> fliColumn=new TableColumn<ArrayList<Flight>,String>("Flights & Connections");
-        fliColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
-            	ArrayList<Flight> path = param.getValue();
-            	String s = "";
-            	for(int i = 0; i < path.size(); i++) {
-            		s = s + path.get(i).dep.code + " --> ";
-            		if(i == path.size() - 1) {
-            			s = s + path.get(i).arr.code;
-            		}
-            	}	
-                return new SimpleStringProperty(s);
-            }
-        });
-        table.getColumns().add(fliColumn);
-	}
-	
-	private void makeDurColumn() {
-        TableColumn<ArrayList<Flight>,String> durColumn=new TableColumn<ArrayList<Flight>,String>("Total Duration");
-        durColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
-            	int tot = param.getValue().stream().filter(f -> f.getDuration() > 10).mapToInt(f -> f.getDuration()).sum();
-            	return new SimpleStringProperty(tot + " minutes");
-        	}
-        });
-        table.getColumns().add(durColumn);
-	}
-	
-	private void makePriColumn() {
-        TableColumn<ArrayList<Flight>,String> priColumn=new TableColumn<ArrayList<Flight>,String>("Total Price");
-        priColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
-            	double tot = param.getValue().stream().filter(f -> f.getPrice() > 10).mapToDouble(f -> f.getPrice()).sum();
-            	return  new SimpleStringProperty("$" +  new DecimalFormat("#.00").format(tot));
-            }
-        });
-        table.getColumns().add(priColumn);  
 	}
 	
 	@FXML

@@ -1,0 +1,94 @@
+package GUI.controllers;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.TimeZone;
+
+import Models.Flight;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.TableColumn;
+import javafx.util.Callback;
+
+public class columnFactory {
+	private columnFactory() { } //don't allow instantiation
+	
+	public static ArrayList<TableColumn<ArrayList<Flight>, String>> getColumns() {
+		ArrayList<TableColumn<ArrayList<Flight>, String>> toReturn = new ArrayList<TableColumn<ArrayList<Flight>, String>>();
+		toReturn.add(makeFliColumn());
+		toReturn.add(makeDepTimeColumn());
+		toReturn.add(makeArrTimeColumn());
+		toReturn.add(makeDurColumn());
+		toReturn.add(makePriColumn());		
+		return toReturn;
+	}
+	
+	private static TableColumn<ArrayList<Flight>,String> makeDepTimeColumn() {
+        TableColumn<ArrayList<Flight>,String> depTimeColumn = new TableColumn<ArrayList<Flight>,String>("Departure Time (local)");
+        depTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
+            	Flight flight = param.getValue().get(0);
+            	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(flight.dep.gmtOffset)));            	
+            	return new SimpleStringProperty(flight.depDate.toString());
+        	}
+        });
+        return depTimeColumn;
+	}
+	
+	private static TableColumn<ArrayList<Flight>,String> makeArrTimeColumn() {
+        TableColumn<ArrayList<Flight>,String> arrTimeColumn = new TableColumn<ArrayList<Flight>,String>("Arrival Time (local)");
+        arrTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
+            	Flight flight = param.getValue().get(param.getValue().size() - 1);
+            	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(flight.dep.gmtOffset)));            	
+            	return new SimpleStringProperty(flight.arrDate.toString());            	
+        	}
+        });
+        return arrTimeColumn;
+	}
+	
+	private static TableColumn<ArrayList<Flight>,String> makeFliColumn() {
+		TableColumn<ArrayList<Flight>,String> fliColumn = new TableColumn<ArrayList<Flight>,String>("Flights & Connections");
+        fliColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
+            	ArrayList<Flight> path = param.getValue();
+            	String s = "";
+            	for(int i = 0; i < path.size(); i++) {
+            		s = s + path.get(i).dep.code + " --> ";
+            		if(i == path.size() - 1) {
+            			s = s + path.get(i).arr.code;
+            		}
+            	}	
+                return new SimpleStringProperty(s);
+            }
+        });
+        return fliColumn;
+	}
+	
+	private static TableColumn<ArrayList<Flight>,String> makeDurColumn() {
+        TableColumn<ArrayList<Flight>,String> durColumn = new TableColumn<ArrayList<Flight>,String>("Total Duration");
+        durColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
+            	int tot = param.getValue().stream().filter(f -> f.getDuration() > 10).mapToInt(f -> f.getDuration()).sum();
+            	return new SimpleStringProperty(tot + " minutes");
+        	}
+        });
+        return durColumn;
+	}
+	
+	private static TableColumn<ArrayList<Flight>,String> makePriColumn() {
+        TableColumn<ArrayList<Flight>,String> priColumn = new TableColumn<ArrayList<Flight>,String>("Total Price");
+        priColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
+            	double tot = param.getValue().stream().filter(f -> f.getPrice() > 10).mapToDouble(f -> f.getPrice()).sum();
+            	return  new SimpleStringProperty("$" +  new DecimalFormat("#.00").format(tot));
+            }
+        });
+        return priColumn;  
+	}
+}
