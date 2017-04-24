@@ -77,13 +77,15 @@ public class Search{
     	
         if (now_code.equals(this.end_code)&&!now_code.equals(this.startAirport)){
             ans.add((List<Flight>)s.clone()); // s.clone to list
+            return;
         }
         if (depth > maxStopOver) return;
         for (Flight getArrival : getFlights(now_code, depTime)){
             	if (canfly(getArrival,depTime,isFirstClass,depth)){
                 s.add(getArrival);
                 dfs(getArrival.arr.code,getArrival.arrDate,depth+1,s,isFirstClass, maxStopOver);
-                s.remove(s.size()-1);
+                int last = s.size()-1;
+                s.remove(last);
             }
         }
     }
@@ -106,6 +108,9 @@ public class Search{
     private boolean canfly(Flight f, Date arr, boolean isFirstClass, int depth){
     	
     	boolean validTime = true;
+    	if(depth == 0){
+    		this.startAirport = f.dep.code;
+    	}
     	if(depth != 0) {
         	boolean early = f.depDate.getTime() < arr.getTime() + 30*60*1000; // 30*60*100 is 30 minutes in milliseconds
         	boolean late = f.depDate.getTime() > arr.getTime() + 4*60*60*1000; //+ f.duration*60*100; // 4*60*60*100 is 4 hours in milliseconds
