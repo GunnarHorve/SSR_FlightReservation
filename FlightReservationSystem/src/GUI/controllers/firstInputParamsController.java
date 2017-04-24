@@ -52,29 +52,49 @@ public class firstInputParamsController{
 		stop.setItems(intObsList);
 	}
 	public void btnclick() throws IOException
-	{
-		guiHelpers.throwPopup("please input all search parameters before proceeding");
-		return;
+	{		
+		if(!verifyInputs()) { return; }
 		
-//		LocalDate day=datepicker.getValue();
-//		Instant instant = Instant.from(day.atStartOfDay(ZoneId.systemDefault()));
-//		
-//		Date date = Date.from(instant);
-//		Airport dep = airports.get(depart.getSelectionModel().getSelectedIndex());
-//		Airport arr = airports.get(arrive.getSelectionModel().getSelectedIndex());
-//		boolean isFirst = first.isSelected();
-//		boolean roundtrip = roundway.isSelected();
-//		int stopovers = stop.getSelectionModel().getSelectedIndex();
-//		
-//		if(!checkInputs(date, dep, arr, stopovers)) { return; } //nope.
-//				
-//		StateMachine sm = StateMachine.getInstance();
-//		sm.order = new Order(dep, arr, date, isFirst, roundtrip, stopovers);
-//		sm.switchState(StateMachine.state.display_flights);
+		LocalDate day=datepicker.getValue();
+		Instant instant = Instant.from(day.atStartOfDay(ZoneId.systemDefault()));
+		
+		Date date = Date.from(instant);
+		Airport dep = airports.get(depart.getSelectionModel().getSelectedIndex());
+		Airport arr = airports.get(arrive.getSelectionModel().getSelectedIndex());
+		boolean isFirst = first.isSelected();
+		boolean roundtrip = roundway.isSelected();
+		int stopovers = stop.getSelectionModel().getSelectedIndex();
+		
+				
+		StateMachine sm = StateMachine.getInstance();
+		sm.order = new Order(dep, arr, date, isFirst, roundtrip, stopovers);
+		sm.switchState(StateMachine.state.display_flights);
 	}
 	
-	private boolean checkInputs(Date date, Airport dep, Airport arr, int stopovers) {
-		if(stopovers == -1) { return false; }
+	private boolean verifyInputs() {
+		int departIndex = depart.getSelectionModel().getSelectedIndex();
+		int arriveIndex = arrive.getSelectionModel().getSelectedIndex();
+		LocalDate day   = datepicker.getValue();
+		int stopIndex   = stop.getSelectionModel().getSelectedIndex();
+		
+		// check for failed inputs
+		if(departIndex == -1 || arriveIndex == -1 || day == null || stopIndex == -1) {
+			guiHelpers.throwPopup("You must input all search parameters before proceeding");
+			return false;
+		}
+		
+		// check for repeated airports
+		if(departIndex == arriveIndex) {
+			guiHelpers.throwPopup("If you're flying to the same place you already are,\nyou don't need our help, now do ye?");
+			return false;
+		}
+		
+		// check for bookings in the past
+		Instant instant = Instant.from(day.atStartOfDay(ZoneId.systemDefault()));
+		if(Date.from(instant).getTime() < new Date().getTime()) {
+			guiHelpers.throwPopup("If you're aiming to travel in the past,\nyou'll need the help of a time machine, not an airplane.");
+			return false;
+		}
 		return true;
 	}
 
