@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="425.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.firstInputParamsController">
+<AnchorPane prefHeight="425.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.controllers.firstInputParamsController">
    <children>
       <GridPane hgap="5.0" layoutX="-82.0" layoutY="-229.0" prefHeight="352.0" prefWidth="423.0" vgap="5.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -41,8 +41,11 @@
                <padding>
                   <Insets left="60.0" />
                </padding>
+               <toggleGroup>
+                  <ToggleGroup fx:id="direction" />
+               </toggleGroup>
             </RadioButton>
-            <RadioButton id="roundway" fx:id="roundway" mnemonicParsing="false" onAction="#initialize" prefHeight="57.0" prefWidth="204.0" text="Round Trip" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <RadioButton id="roundway" fx:id="roundway" mnemonicParsing="false" onAction="#initialize" prefHeight="57.0" prefWidth="204.0" text="Round Trip" toggleGroup="$direction" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -59,8 +62,11 @@
                <padding>
                   <Insets left="60.0" />
                </padding>
+               <toggleGroup>
+                  <ToggleGroup fx:id="seat_class" />
+               </toggleGroup>
             </RadioButton>
-            <RadioButton id="coach" fx:id="coach" mnemonicParsing="false" onAction="#initialize" text="Coach" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <RadioButton id="coach" fx:id="coach" mnemonicParsing="false" onAction="#initialize" text="Coach" toggleGroup="$seat_class" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="40.0" />
                </GridPane.margin>

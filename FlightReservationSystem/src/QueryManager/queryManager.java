@@ -10,16 +10,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.*;
 import Models.Airplane;
 import Models.Airport;
 import Models.Flight;
-import java.time.*;
-import java.util.Calendar;
-import java.text.SimpleDateFormat;
 
 public class queryManager {
 	private static String baseURL = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem?team=SSR&action=list";
@@ -30,19 +24,19 @@ public class queryManager {
 	/**
 	 * @return All viable airports within the WPI database
 	 */
-	public static List<Airport> getAllAirports() {
+	public static ArrayList<Airport> getAllAirports() {
 		File file = new File("src/Data/airports.xml");
 		
-		List<Airport> airports = XMLParser.parseAirports(file);
+		ArrayList<Airport> airports = XMLParser.parseAirports(file);
 		return airports;
 	}
 	
 	/**
 	 * @return All viable Airplanes within the WPI database
 	 */
-	public static List<Airplane> getAllAirplanes() {
+	public static ArrayList<Airplane> getAllAirplanes() {
 		File file = new File("src/Data/Airplanes.xml");
-		List<Airplane> airplanes = XMLParser.parseAirplanes(file);
+		ArrayList<Airplane> airplanes = XMLParser.parseAirplanes(file);
 		return airplanes;
 	}
 	
@@ -52,7 +46,7 @@ public class queryManager {
 	 * @param date date of flights
 	 * @return flights FROM a given airport on a given date
 	 */
-	public static List<Flight> getDepFlights(String airportCode, Date date) {
+	public static ArrayList<Flight> getDepFlights(String airportCode, Date date) {
 
 		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
 		   String query = baseURL + "&list_type=departing&airport=" + airportCode + "&day=" + modifiedDate;
@@ -66,7 +60,7 @@ public class queryManager {
 	 * @param date Date of flights
 	 * @return flights TO a given airport on a given date
 	 */
-	public static List<Flight> getArrFlights(String airportCode, Date date) {
+	public static ArrayList<Flight> getArrFlights(String airportCode, Date date) {
 		   String modifiedDate= new SimpleDateFormat("yyyy_MM_dd").format(date);		   
 		   String query = baseURL + "&list_type=arriving&airport=" + airportCode + "&day=" + modifiedDate;
 		   return XMLParser.parseFlights(getXMLFromServer(query));
@@ -225,7 +219,7 @@ public class queryManager {
 	 * @param isFirstClass seating type
 	 * @return true if SUCCESS code return from server
 	 */
-	public static boolean reserveFlights(List<Flight> listFlights, boolean isFirstClass) {
+	public static boolean reserveFlights(ArrayList<Flight> listFlights, boolean isFirstClass) {
 		String flightClass = "";				
 		if(isFirstClass) {
 			flightClass = "FirstClass";

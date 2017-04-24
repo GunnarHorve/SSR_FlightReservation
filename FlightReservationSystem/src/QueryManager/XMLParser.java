@@ -24,15 +24,15 @@ import Models.Flight;
 public class XMLParser {
 	private XMLParser() { } // prevent this class from being instantiated
 	
-	private static List<Airport> airports;
-	private static List<Airplane> airplanes;
+	private static ArrayList<Airport> airports;
+	private static ArrayList<Airplane> airplanes;
 
 	/**
 	 * Parse a given Airports.xml file into java objects 
 	 * @param file File to get the airports
 	 * @return List Get a list of airports
 	 */
-	protected static List<Airport> parseAirports(File file){
+	protected static ArrayList<Airport> parseAirports(File file){
 		if(airports != null) { return airports; } // don't parse file more than once
 		airports = new ArrayList<Airport>();
 
@@ -62,7 +62,7 @@ public class XMLParser {
 	 * @param file File to get the airplanes
 	 * @return return a list of airplanes
 	 */
-	protected static List<Airplane> parseAirplanes(File file){
+	protected static ArrayList<Airplane> parseAirplanes(File file){
 		if(airplanes != null) { return airplanes; } // don't parse file more than once
 		airplanes = new ArrayList<Airplane>();
 
@@ -92,8 +92,8 @@ public class XMLParser {
 	 * @param xml XML to get the list of flights
 	 * @return list of flights
 	 */
-	protected static List<Flight> parseFlights(String xml){
-		List<Flight> flights = new ArrayList<Flight>();
+	protected static ArrayList<Flight> parseFlights(String xml){
+		ArrayList<Flight> flights = new ArrayList<Flight>();
 		try{
 			Document doc = loadXMLFromString(xml);
 			NodeList flightList = doc.getElementsByTagName("Flight");
@@ -170,7 +170,7 @@ public class XMLParser {
 	 */
 	private static Airplane getAirplaneModel(String airplaneType){
 		File file = new File("src/Data/Airplanes.xml");
-		List<Airplane> airplanes = parseAirplanes(file);
+		ArrayList<Airplane> airplanes = parseAirplanes(file);
 		for(Airplane airplane : airplanes){
 			if(airplane.model.equals(airplaneType)){
 				return airplane;
@@ -185,7 +185,7 @@ public class XMLParser {
 	 */
 	private static Airport getAirport(String airportCode){
 		File file = new File("src/Data/airports.xml");
-		List<Airport> airports = parseAirports(file);
+		ArrayList<Airport> airports = parseAirports(file);
 		for(Airport airport : airports){
 			if(airport.code.equals(airportCode)){
 				return airport;

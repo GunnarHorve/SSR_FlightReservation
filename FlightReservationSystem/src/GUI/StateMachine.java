@@ -1,29 +1,11 @@
 package GUI;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import Models.Flight;
 import Models.Order;
 import flightFinder.Search;
 
-/*
- * TODO's:
- *  +actually load a confirmation screen (and save selected items to do so)
- *  +display flight data in a table -->calculate necessary information (per specs)
- *  
- *  +UI error checking
- *  	No flights found
- *  	No departure || arrival date before today
- *  	No departure airport same as arrival airport
- *  	No flight specified
- *  
- *  	Error window --> "no flights found"
- *  
- * 	+add more variables to search
- *  +optimize search
-
- */
 public class StateMachine {
 
 	
@@ -41,16 +23,10 @@ public class StateMachine {
 	private static StateMachine sm;
 	public Order order;
 	public SceneSwitcher sceneSwitcher;
-	public List<List<Flight>> flights = new ArrayList<List<Flight>>();
-		
+	public ArrayList<ArrayList<Flight>> flights = new ArrayList<ArrayList<Flight>>();
 	
 	private void performSearch() {
-		 if(!order.secondRound) { //1st time searching
-			 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.depDate);
-		 } else {
-			 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.secondDepDate);
-		 }
-		 System.out.println("finished searching flights.  Sorry it took so long!");
+		 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.depDate,order.stopovers,order.firstClass);
 	}
 	
 	public void switchState(state s) {
@@ -66,11 +42,9 @@ public class StateMachine {
 			this.sceneSwitcher.displayFlightsDisplay();
 			break;
 		case confirm_order:
-			System.out.println("confirm order called");
-			switchState(state.finish);
+			this.sceneSwitcher.displayConfirm();			
 			break;
 		case finish:
-			System.out.println("finish called");
 			sceneSwitcher.close();
 			break;
 		default:

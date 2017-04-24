@@ -8,12 +8,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class SceneSwitcher {
-	private static Stage primaryStage;
+	public static Stage primaryStage;
 
-	private static final String firstFXMLPath = "GUI/firstInputParams.fxml";
-	private static final String onewayFXMLPath = "GUI/flightsDisplay.fxml";
-	private static final String secondFXMLPath = "GUI/secondInputParams.fxml";
-
+	private static final String firstFXMLPath = "GUI/fxml/firstInputParams.fxml";
+	private static final String onewayFXMLPath = "GUI/fxml/flightsDisplay.fxml";
+	private static final String secondFXMLPath = "GUI/fxml/secondInputParams.fxml";
+	private static final String confirmFXMLPath="GUI/fxml/confirm.fxml";
 	public SceneSwitcher(Stage primaryStage) {
 		SceneSwitcher.primaryStage = primaryStage;
 	}
@@ -26,7 +26,14 @@ public class SceneSwitcher {
 			e.printStackTrace();
 		}        
 	}
-	
+	public void displayConfirm(){
+		try {
+			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(confirmFXMLPath));
+			primaryStage.setScene(new Scene(root));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}  
+	}
 	public void displaySecond() {
 		try {
 			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(secondFXMLPath));
