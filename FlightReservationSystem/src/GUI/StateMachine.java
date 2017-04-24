@@ -45,7 +45,6 @@ public class StateMachine {
 	
 	private void performSearch() {
 		 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.depDate,order.stopovers,order.firstClass);
-		 System.out.println("finished searching flights.  Sorry it took so long!");
 	}
 	
 	public void switchState(state s) {
