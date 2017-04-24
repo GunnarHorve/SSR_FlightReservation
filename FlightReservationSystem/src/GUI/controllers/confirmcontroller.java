@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import GUI.StateMachine;
 import GUI.StateMachine.state;
 import Models.Flight;
+import QueryManager.queryManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,10 +35,14 @@ public class confirmcontroller {
 	}
 	
 	public void select(){
+		StateMachine sm = StateMachine.getInstance();
+		ArrayList<Flight> toReserve = new ArrayList<Flight>();
+		toReserve.addAll(sm.order.firstFlightPath);
+		toReserve.addAll(sm.order.secondFlightPath);
+		queryManager.reserveFlights(toReserve, sm.order.firstClass);
 		StateMachine.getInstance().switchState(state.finish);		
 	}
 	public void cancel(){
-		StateMachine sm=StateMachine.getInstance();
 		sm.switchState(state.finish);
 	}
 	

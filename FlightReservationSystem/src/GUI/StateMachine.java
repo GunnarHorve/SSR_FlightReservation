@@ -63,11 +63,6 @@ public class StateMachine {
 			this.sceneSwitcher.displayConfirm();			
 			break;
 		case finish:
-			System.out.println("finish called");
-			ArrayList<Flight> toReserve = new ArrayList<Flight>();
-			toReserve.addAll(order.firstFlightPath);
-			toReserve.addAll(order.secondFlightPath);
-			queryManager.reserveFlights(toReserve, order.firstClass);
 			sceneSwitcher.close();
 			break;
 		default:
