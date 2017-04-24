@@ -125,9 +125,22 @@ public class flightsDisplayController {
 		// Order which tells us if we're round trip or one way
 		StateMachine sm = StateMachine.getInstance();
 		int in =  table.getSelectionModel().getSelectedIndex();
-		sm.order.firstFlightPath = StateMachine.getInstance().flights.get(in);
-		System.out.println(sm.order.firstFlightPath);
-		sm.switchState(StateMachine.state.confirm_order);
+		
+		if(sm.order.roundtrip) {
+			if(sm.order.secondRound) {
+				System.out.println(1);
+				sm.order.secondFlightPath = StateMachine.getInstance().flights.get(in);
+				sm.switchState(StateMachine.state.confirm_order);
+			} else {
+				System.out.println(2);
+				sm.order.firstFlightPath = StateMachine.getInstance().flights.get(in);
+				sm.switchState(StateMachine.state.input_params_second);
+			}
+		} else {
+			System.out.println(3);
+			sm.order.firstFlightPath = StateMachine.getInstance().flights.get(in);
+			sm.switchState(StateMachine.state.confirm_order);
+		}
 	}
 	@FXML
 	public void cancelitem(){

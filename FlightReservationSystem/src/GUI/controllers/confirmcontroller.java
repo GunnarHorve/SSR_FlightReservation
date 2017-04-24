@@ -26,7 +26,7 @@ public class confirmcontroller {
 		// create an observable list of all necessary flights
 		ArrayList<Flight> flightsTo = sm.order.firstFlightPath;
 		ArrayList<Flight> flightsFrom = sm.order.secondFlightPath;
-		if(flightsFrom != null) {
+		if(sm.order.secondRound) {
 			flightsTo.addAll(flightsFrom);
 		}
 		
@@ -72,14 +72,7 @@ public class confirmcontroller {
         table.setItems(list);
 	}
 	public void select(){
-		StateMachine sm= StateMachine.getInstance();
-		if(sm.order.roundtrip){
-			sm.switchState(state.input_params_second);
-		}
-		else{
-			sm.switchState(state.finish);
-		}
-		
+		StateMachine.getInstance().switchState(state.finish);		
 	}
 	public void cancel(){
 		StateMachine sm=StateMachine.getInstance();

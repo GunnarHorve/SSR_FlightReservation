@@ -30,11 +30,14 @@ public class secondInputParamsController {
 		Date date = Date.from(instant);
 	
 		StateMachine sm = StateMachine.getInstance();
-		sm.order.secondDepDate = Date.from(instant);
-		sm.order.secondRound = true;
 		Airport arr = sm.order.dep;
 		Airport dep = sm.order.arr;
+		
+		sm.order.arr = arr;
+		sm.order.dep = dep;
+		sm.order.depDate = date;
+		sm.order.secondRound = true;
+		
 		sm.switchState(StateMachine.state.display_flights);
-		sm.order = new Order(dep, arr, date, sm.order.firstClass, true, sm.order.stopovers);
 	}
 }

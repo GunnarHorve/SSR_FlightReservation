@@ -10,16 +10,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.*;
 import Models.Airplane;
 import Models.Airport;
 import Models.Flight;
-import java.time.*;
-import java.util.Calendar;
-import java.text.SimpleDateFormat;
 
 public class queryManager {
 	private static String baseURL = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem?team=SSR&action=list";
