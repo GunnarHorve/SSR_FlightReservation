@@ -19,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 public class firstInputParamsController{
@@ -36,10 +35,7 @@ public class firstInputParamsController{
 	static Stage stage=new Stage();
 
 	@FXML
-	public void initialize() {
-		// TODO Auto-generated method stub
-		
-
+	public void initialize() {		
 		List<String> airportStrings = airports.stream().map(Airport::getName).collect(Collectors.toList());
 		ObservableList<String> list = FXCollections.observableArrayList(airportStrings);
 		depart.setItems(list);
@@ -49,17 +45,6 @@ public class firstInputParamsController{
 		intArrList.add(0); intArrList.add(1); intArrList.add(2);
 		ObservableList<Integer> intObsList = FXCollections.observableArrayList(intArrList);
 		stop.setItems(intObsList);
-		
-		// group radio buttons
-		ToggleGroup flightClass = new ToggleGroup();
-		first.setToggleGroup(flightClass);
-		coach.setToggleGroup(flightClass);
-		
-		ToggleGroup specifyRoundTrip = new ToggleGroup();
-		oneway.setToggleGroup(specifyRoundTrip);
-		roundway.setToggleGroup(specifyRoundTrip);
-	
-
 	}
 	public void btnclick() throws IOException
 	{

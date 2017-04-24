@@ -6,13 +6,16 @@ import java.util.ArrayList;
 
 import GUI.StateMachine;
 import Models.Flight;
-import Models.Order;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
 import javafx.util.Callback;
 
 public class flightsDisplayController {
@@ -20,14 +23,22 @@ public class flightsDisplayController {
 	
 	//@FXML ListView onelist;
 		
-	@FXML TableView<ArrayList<Flight>> table1;
+	@FXML TableView<ArrayList<Flight>> table;
+	
+	@FXML RadioButton priceRadio;
+	@FXML RadioButton durationRadio;
+	@FXML RadioButton departureRadio;
+	
+	ObservableList<ArrayList<Flight>> data;
 	
 	@FXML
-	public void initialize(){				
+	public void initialize(){		
+		data = FXCollections.observableArrayList(StateMachine.getInstance().flights);
+		
 		makeFliColumn();
 		makeDurColumn();
 		makePriColumn();  
-        table1.setItems(FXCollections.observableArrayList(StateMachine.getInstance().flights));
+        table.setItems(data);
 	}
 	
 	private void makeFliColumn() {
@@ -42,12 +53,11 @@ public class flightsDisplayController {
             		if(i == path.size() - 1) {
             			s = s + path.get(i).arr.code;
             		}
-            	}
-            	
+            	}	
                 return new SimpleStringProperty(s);
             }
         });
-        table1.getColumns().add(fliColumn);
+        table.getColumns().add(fliColumn);
 	}
 	
 	private void makeDurColumn() {
@@ -62,7 +72,7 @@ public class flightsDisplayController {
             	return new SimpleStringProperty(tot + " minutes");
         	}
         });
-        table1.getColumns().add(durColumn);
+        table.getColumns().add(durColumn);
 	}
 	
 	private void makePriColumn() {
@@ -82,15 +92,14 @@ public class flightsDisplayController {
             	return  new SimpleStringProperty("$" + df.format(tot));
             }
         });
-        table1.getColumns().add(priColumn);
+        table.getColumns().add(priColumn);
 	}
 	
 	@FXML
 	public void selectitem() throws IOException{
 		// Order which tells us if we're round trip or one way
 		StateMachine sm = StateMachine.getInstance();
-		Order o = sm.order;
-		int in =  table1.getSelectionModel().getSelectedIndex();
+		int in =  table.getSelectionModel().getSelectedIndex();
 		sm.order.firstFlightPath = StateMachine.getInstance().flights.get(in);
 		System.out.println(sm.order.firstFlightPath);
 		sm.switchState(StateMachine.state.confirm_order);
@@ -99,5 +108,16 @@ public class flightsDisplayController {
 	public void cancelitem(){
 		StateMachine sm = StateMachine.getInstance();
 		sm.switchState(StateMachine.state.finish);
+	}
+	
+	@FXML
+	public void sortList(ActionEvent event) {
+		if(this.priceRadio.isSelected()) { //price
+			System.out.println("sort by price pl0x");
+		} else if(this.durationRadio.isSelected()) { //duration
+			System.out.println("sort by duration pl0x");
+		} else { //departure time
+			System.out.println("sort by departure time pl0x");
+		}
 	}
 }
