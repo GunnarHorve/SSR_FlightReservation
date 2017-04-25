@@ -77,6 +77,7 @@ public class Search{
     	
         if (now_code.equals(this.end_code)&&!now_code.equals(this.startAirport)){
             ans.add((ArrayList<Flight>)s.clone()); // s.clone to list
+            return;
         }
         if (depth > maxStopOver) return;
         for (Flight getArrival : getFlights(now_code, depTime)){
