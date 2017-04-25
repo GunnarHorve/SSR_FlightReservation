@@ -76,12 +76,7 @@ public class Search{
     private void dfs(String now_code, Date depTime, int depth, ArrayList<Flight> s, boolean isFirstClass, int maxStopOver){
     	
         if (now_code.equals(this.end_code)&&!now_code.equals(this.startAirport)){
-<<<<<<< HEAD
-            ans.add((List<Flight>)s.clone()); // s.clone to list
-            return;
-=======
             ans.add((ArrayList<Flight>)s.clone()); // s.clone to list
->>>>>>> branch 'master' of https://github.com/GunnarHorve/SSR_FlightReservation/
         }
         if (depth > maxStopOver) return;
         for (Flight getArrival : getFlights(now_code, depTime)){
