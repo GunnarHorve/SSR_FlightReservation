@@ -3,31 +3,19 @@ import java.util.*;
 import Models.Airport;
 import Models.Flight;
 
-import java.text.DateFormat;
 import QueryManager.queryManager;
 
 
 
 public class Search{
-    private ArrayList<ArrayList<Flight>> ans = null;
-    private ArrayList<ArrayList<Flight>> finalAns = null;
+    private ArrayList<ArrayList<Flight>> ans = new ArrayList<ArrayList<Flight>>();
     private String end_code = null;
-    private String seat;
-    private int coachReserved;
-    private int firstReserved;
+    private Date localStartTime = null;
+    private int maxStopOver = -1;
+	private boolean isFirstClass = false; 
+    
     private HashMap<String, ArrayList<Flight>> myMap = new HashMap<String, ArrayList<Flight>>();
 
-   
-    String startAirport;
-  
-    public Search() {
-        ans = new ArrayList<ArrayList<Flight>>();
-        //finalAns = new ArrayList<List<Flight>>();
-     
-    }
-    
-
-     
     /**
      * 
      * A main method of the class, which is to return all the result list.
@@ -36,21 +24,23 @@ public class Search{
      * would like to have and the seat class the users has chosen, then it would call dfs(depth first search) function 
      * later and the searching result corresponding to users' requirement. 
      * 
-     * @param start_code 	departure airport's code users has selected in GUI
-     * @param end_code		arrival airport's code users has selected in GUI
-     * @param depTime		departure date users would like to leave  
-     * @param maxStopOver	how many stop overs the users would like to take, the choice includes 0,1 and 2 
+     * @param start 		departure airport
+     * @param end			arrival airport
+     * @param depTime		departure date users would like to leave (GMT)
+     * @param maxStopOver	how many stop overs the users would like to take [0,2]
      * @param isFirstClass	boolean is true when it is first class, false when it is coach class
-     * @return				the final result to present in GUI
+     * @return				ArrayList<ArrayList<Flight>>() e.g., valid flights
      */
     
-    public ArrayList<ArrayList<Flight>> Search_Path(String start_code, String end_code, Date depTime, int maxStopOver, boolean isFirstClass){
-        ArrayList<Flight> s = new ArrayList<Flight>();
-        this.end_code = end_code;
-        this.dfs(start_code, depTime, 0 , s, isFirstClass, maxStopOver);
+    public ArrayList<ArrayList<Flight>> Search_Path(Airport start, Airport end, Date depTime, int maxStopOver, boolean isFirstClass){
+        this.end_code = end.code;
+        this.maxStopOver = maxStopOver;
+        this.isFirstClass = isFirstClass;
+		this.localStartTime = new Date(depTime.getTime() - start.gmtOffset * 60 * 60 * 1000);
+        
+        this.dfs(start.code, depTime, 0 , new ArrayList<Flight>());
         return this.ans;
     }
-    
     
     /**
      * This is where we implement the Depth First Search algorithm, the main idea is to recursively call the dfs until
@@ -60,93 +50,75 @@ public class Search{
      * Update now_code, depTime, depth and s repeatedly until we get the desired arrival airport, which meets time limit and has space. 
      * We have avoided the situation when the user flies back to where he has departed before.
      *  
-     * @param now_code 		Meaning current departure airport code, if depth is not 0, it is 
-     * 						the arrival airport from the previous layer; if depth is 0, then it is the 
-     * 						departure airport the users would like to leave
-     * 
-     * @param depTime 		Meaning to pass current departure date, if depth is not 0, it is 
-     * 						the arrival airport's arrival date from the previous layer; if depth is 0, then it is the 
-     * 						departure date the users would like to leave.
-     * @param depth			Means stopover.
+     * @param landCode 		the current airport to search from (assumed to have just landed in)
+     * @param landTime 		the arrival time from flight (null if beginning search)
+     * @param depth			search depth
      * @param s				To store the arrival airports.
-     * @param isFirstClass	whether the seat is first class or coach class
-     * @param maxStopOver	how many stop overs users would like to take in maxium, 0,1 or 2.
      */
     
-    private void dfs(String now_code, Date depTime, int depth, ArrayList<Flight> s, boolean isFirstClass, int maxStopOver){
-    	
-        if (now_code.equals(this.end_code)&&!now_code.equals(this.startAirport)){
-            ans.add((ArrayList<Flight>)s.clone()); // s.clone to list
+    private void dfs(String landCode, Date landTime, int depth, ArrayList<Flight> s){
+        if (landCode.equals(end_code)){
+            ans.add((ArrayList<Flight>) s.clone()); // s.clone to list
             return;
         }
         if (depth > maxStopOver) return;
-        for (Flight getArrival : getFlights(now_code, depTime)){
-            	if (canfly(getArrival,depTime,isFirstClass,depth)){
-                s.add(getArrival);
-                dfs(getArrival.arr.code,getArrival.arrDate,depth+1,s,isFirstClass, maxStopOver);
+        
+        for (Flight f : getFlights(landCode, landTime)){
+        	if (canfly(f, landTime, depth)){
+                s.add(f);
+                dfs(f.arr.code, f.arrDate, depth+1,s);
                 int last = s.size()-1;
                 s.remove(last);
             }
         }
     }
-
-    
     
     /**
      * A helper function, to check whether the flight has met the time constraint and seat constraint.
      * 
      * To check whether the stop over time is between 0.5 hour to 4 hours, and the flight has space for chosen seat class.
      * 
-     * @param f  			the flight info of the arrival airpot of last layer.	
-     * @param arr			departure time
-     * @param isFirstClass 	true when it is first class, false when it is not
+     * @param Flight		proposed flight to take form current airport (item to validate)	
+     * @param landTime		arrival time at current airport (constraint to meet)
      * @param depth			stopover time constraint should just work when depth is to 0.
-     * @return
+     * 
+     * @return canFly		boolean corresponding to input legitimacy
      */
     
-    
-    private boolean canfly(Flight f, Date arr, boolean isFirstClass, int depth){
-    	
-    	boolean validTime = true;
-    	if(depth == 0){
-    		this.startAirport = f.dep.code;
-    	}
+    private boolean canfly(Flight f, Date landTime, int depth){
+    	boolean validDate = true;
+    	boolean validLayover = true;
     	if(depth != 0) {
-        	boolean early = f.depDate.getTime() < arr.getTime() + 30*60*1000; // 30*60*100 is 30 minutes in milliseconds
-        	boolean late = f.depDate.getTime() > arr.getTime() + 4*60*60*1000; //+ f.duration*60*100; // 4*60*60*100 is 4 hours in milliseconds
-        	validTime = !early && !late;
+        	boolean early = f.depDate.getTime() < landTime.getTime() + 30*60*1000;	// 30*60*1000 is 30 minutes in milliseconds
+        	boolean late = f.depDate.getTime() > landTime.getTime() + 4*60*60*1000;	// 4*60*60*1000 is 4 hours in milliseconds
+        	validLayover = !early && !late;
+    	} else {
+    		validDate = f.depDate.getTime() > localStartTime.getTime();
     	}
     	
     	boolean hasSpace = true;
     	if(isFirstClass){
-    		hasSpace = f.type.totFirst - f.firstSeats >= 0;
-    				
+    		hasSpace = f.type.totFirst - f.firstSeats >= 0;	
     	} else {
     		hasSpace = f.type.totCoach - f.coachSeats >= 0;
     	}
-    		return hasSpace && validTime;
+    		return hasSpace && validLayover && validDate;
     }
     
     /**
-     * A helper fucntion to optimize the DFS and make it more efficient.
+     * A helper function to optimize the DFS and make it more efficient.
+     * Basically "Don't query server if we've queried it before"
      * 
-     * If we have searched flight info given the departure airport and departure date, then we retrive its info from hashmap,
-     * else, we put the airpot code and flight info into the hash map together.
-     * 
-     * @param now_code		current departure airport code
-     * @param depTime		current layer's departure date
-     * @return				i
+     * @param landCode		current departure airport code
+     * @param landTime		current layer's arrival time
+     * @return				
      */
     
-    private List<Flight> getFlights(String now_code, Date depTime) {
-    	
-    	if(!myMap.containsKey(now_code)) {
-    		ArrayList<Flight> myQuery = queryManager.getDepFlights(now_code, depTime);
-        	myMap.put(now_code, myQuery);
+    private List<Flight> getFlights(String landCode, Date landTime) {
+    	if(!myMap.containsKey(landCode)) {
+    		ArrayList<Flight> myQuery = queryManager.getDepFlights(landCode, landTime);
+        	myMap.put(landCode, myQuery);
     	}
-    	
-    	return myMap.get(now_code);
+    	return myMap.get(landCode);
     }
-    
-    
 }

@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import GUI.SceneSwitcher;
@@ -55,16 +56,17 @@ public class firstInputParamsController{
 	{		
 		if(!verifyInputs()) { return; }
 		
-		LocalDate day=datepicker.getValue();
-		Instant instant = Instant.from(day.atStartOfDay(ZoneId.systemDefault()));
-		
-		Date date = Date.from(instant);
+
 		Airport dep = airports.get(depart.getSelectionModel().getSelectedIndex());
 		Airport arr = airports.get(arrive.getSelectionModel().getSelectedIndex());
 		boolean isFirst = first.isSelected();
 		boolean roundtrip = roundway.isSelected();
 		int stopovers = stop.getSelectionModel().getSelectedIndex();
 		
+		LocalDate day=datepicker.getValue();		
+		ZoneId zoneId = ZoneId.of("Etc/GMT+" + Math.abs(dep.gmtOffset));
+		Instant instant = Instant.from(day.atStartOfDay(zoneId));
+		Date date = Date.from(instant);
 				
 		StateMachine sm = StateMachine.getInstance();
 		sm.order = new Order(dep, arr, date, isFirst, roundtrip, stopovers);
@@ -90,7 +92,9 @@ public class firstInputParamsController{
 		}
 		
 		// check for bookings in the past
-		Instant instant = Instant.from(day.atStartOfDay(ZoneId.systemDefault()));
+		Airport dep = airports.get(depart.getSelectionModel().getSelectedIndex());
+		ZoneId zoneId = ZoneId.of("Etc/GMT+" + Math.abs(dep.gmtOffset));
+		Instant instant = Instant.from(day.atStartOfDay(zoneId));
 		if(Date.from(instant).getTime() < new Date().getTime()) {
 			guiHelpers.throwPopup("If you're aiming to travel in the past,\nyou'll need the help of a time machine, not an airplane.");
 			return false;

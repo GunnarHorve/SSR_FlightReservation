@@ -64,7 +64,7 @@ public class guiHelpers {
             	String s = "";
             	for(Flight f : param.getValue()) {
                 	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(f.arr.gmtOffset)));     
-                	s = s + f.depDate.toString() + "\n";
+                	s = s + f.arrDate.toString() + "\n";
             	}
             	return new SimpleStringProperty(s);
         	}

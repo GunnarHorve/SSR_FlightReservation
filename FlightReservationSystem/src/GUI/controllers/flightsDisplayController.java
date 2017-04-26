@@ -46,9 +46,7 @@ public class flightsDisplayController {
 		table.getColumns().addAll(guiHelpers.getColumns());
         table.setItems(data);
         
-        if(!verifyInputs()) {
-        	StateMachine.getInstance().switchState(StateMachine.state.finish);
-        }
+        verifyInputs();
 	}
 	
 	private boolean verifyInputs() {

@@ -26,7 +26,8 @@ public class StateMachine {
 	public ArrayList<ArrayList<Flight>> flights = new ArrayList<ArrayList<Flight>>();
 	
 	private void performSearch() {
-		 this.flights =  new Search().Search_Path(order.dep.code, order.arr.code, order.depDate,order.stopovers,order.firstClass);
+		 this.flights =  new Search().Search_Path(order.dep, order.arr, order.depDate,order.stopovers,order.firstClass);
+		 System.out.println("hi");
 	}
 	
 	public void switchState(state s) {

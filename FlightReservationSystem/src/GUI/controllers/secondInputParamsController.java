@@ -25,13 +25,14 @@ public class secondInputParamsController {
 	
 	@FXML
 	public void btnclickk() throws IOException{
-		if(!verifyInputs()) { return; }
+		StateMachine sm = StateMachine.getInstance();
+		if(!verifyInputs(sm.order.arr)) { return; }
 		
 		LocalDate day = date.getValue();
-		Instant instant = Instant.from(day.atStartOfDay(ZoneId.systemDefault()));
+		ZoneId zoneId = ZoneId.of("Etc/GMT+" + Math.abs(sm.order.arr.gmtOffset));
+		Instant instant = Instant.from(day.atStartOfDay(zoneId));
 		Date date = Date.from(instant);
 	
-		StateMachine sm = StateMachine.getInstance();
 		Airport arr = sm.order.dep;
 		Airport dep = sm.order.arr;
 		
@@ -43,11 +44,17 @@ public class secondInputParamsController {
 		sm.switchState(StateMachine.state.display_flights);
 	}
 	
-	private boolean verifyInputs() {
+	private boolean verifyInputs(Airport a) {
 		LocalDate day   = date.getValue();
 		
+		if(day == null) {
+			guiHelpers.throwPopup("Please input a date");
+			return false;
+		}
+		
 		// check for bookings prior to your original departure
-		Instant instant = Instant.from(day.atStartOfDay(ZoneId.systemDefault()));
+		ZoneId zoneId = ZoneId.of("Etc/GMT+" + Math.abs(a.gmtOffset));
+		Instant instant = Instant.from(day.atStartOfDay(zoneId));		
 		if(Date.from(instant).getTime() <= StateMachine.getInstance().order.depDate.getTime()) {
 			guiHelpers.throwPopup("No matter how much of a jetsetter you are,\nyou cannot fly back before you fly out");
 			return false;
