@@ -45,9 +45,12 @@ public class guiHelpers {
         depTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
-            	Flight flight = param.getValue().get(0);
-            	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(flight.dep.gmtOffset)));            	
-            	return new SimpleStringProperty(flight.depDate.toString());
+            	String s = "";
+            	for(Flight f : param.getValue()) {
+                	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(f.dep.gmtOffset)));     
+                	s = s + f.depDate.toString() + "\n";
+            	}
+            	return new SimpleStringProperty(s);
         	}
         });
         return depTimeColumn;
@@ -58,9 +61,12 @@ public class guiHelpers {
         arrTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ArrayList<Flight>, String> param) {
-            	Flight flight = param.getValue().get(param.getValue().size() - 1);
-            	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(flight.dep.gmtOffset)));            	
-            	return new SimpleStringProperty(flight.arrDate.toString());            	
+            	String s = "";
+            	for(Flight f : param.getValue()) {
+                	TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+" + Math.abs(f.arr.gmtOffset)));     
+                	s = s + f.depDate.toString() + "\n";
+            	}
+            	return new SimpleStringProperty(s);
         	}
         });
         return arrTimeColumn;
@@ -74,10 +80,7 @@ public class guiHelpers {
             	ArrayList<Flight> path = param.getValue();
             	String s = "";
             	for(int i = 0; i < path.size(); i++) {
-            		s = s + path.get(i).dep.code + " --> ";
-            		if(i == path.size() - 1) {
-            			s = s + path.get(i).arr.code;
-            		}
+            		s = s + path.get(i).dep.code + " --> " + path.get(i).arr.code + "\n";
             	}	
                 return new SimpleStringProperty(s);
             }

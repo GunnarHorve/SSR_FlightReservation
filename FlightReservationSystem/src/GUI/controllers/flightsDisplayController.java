@@ -54,7 +54,7 @@ public class flightsDisplayController {
 	private boolean verifyInputs() {
 		// check for failed inputs
 		if(data.size() == 0) {
-			guiHelpers.throwPopup("No flights found that match your search parameters.s");
+			guiHelpers.throwPopup("No flights found that match your search parameters.");
 			return false;
 		}
 		return true;
