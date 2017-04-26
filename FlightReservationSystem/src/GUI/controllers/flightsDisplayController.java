@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,6 +45,19 @@ public class flightsDisplayController {
 		data = FXCollections.observableArrayList(StateMachine.getInstance().flights);
 		table.getColumns().addAll(guiHelpers.getColumns());
         table.setItems(data);
+        
+        if(!verifyInputs()) {
+        	StateMachine.getInstance().switchState(StateMachine.state.finish);
+        }
+	}
+	
+	private boolean verifyInputs() {
+		// check for failed inputs
+		if(data.size() == 0) {
+			guiHelpers.throwPopup("No flights found that match your search parameters.s");
+			return false;
+		}
+		return true;
 	}
 	
 	@FXML
