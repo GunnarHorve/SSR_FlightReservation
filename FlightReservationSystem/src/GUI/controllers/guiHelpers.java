@@ -80,7 +80,7 @@ public class guiHelpers {
             	ArrayList<Flight> path = param.getValue();
             	String s = "";
             	for(int i = 0; i < path.size(); i++) {
-            		s = s + path.get(i).dep.code + " --> " + path.get(i).arr.code + "\n";
+            		s = s + path.get(i).dep.code + " --> " + path.get(i).arr.code + "  |  " + path.get(i).num + "\n";
             	}	
                 return new SimpleStringProperty(s);
             }
