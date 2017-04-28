@@ -7,9 +7,10 @@ import java.util.Locale;
 
 import GUI.StateMachine;
 
-/*
- * A model meant to contain data about a given flight.
- * Ideally, this class only holds data queried from server.
+/**
+ * Data type to hold XML args of WPI-defined Flight
+ * @author gunna
+ *
  */
 public class Flight {
 	public Airplane type;		// type of airplane

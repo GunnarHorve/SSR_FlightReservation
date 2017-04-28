@@ -20,6 +20,13 @@ public class confirmcontroller {
 	@FXML TableView<ArrayList<Flight>> table;
 	@FXML Button select;
 	@FXML Button cancel;
+	
+    /**
+     * 
+     * An initialization method of the controller, used to handle state transitions
+     * and populate GUI elements
+     * 
+     */
 	@FXML
 	public void initialize(){
 		StateMachine sm = StateMachine.getInstance();
@@ -34,6 +41,9 @@ public class confirmcontroller {
 		table.setItems(list);
 	}
 	
+    /**
+     * A callback to be run when the "confirm" button is pressed
+     */
 	public void select(){
 		StateMachine sm = StateMachine.getInstance();
 		ArrayList<Flight> toReserve = new ArrayList<Flight>();
@@ -42,6 +52,10 @@ public class confirmcontroller {
 		queryManager.reserveFlights(toReserve, sm.order.firstClass);
 		StateMachine.getInstance().switchState(state.finish);		
 	}
+	
+	/**
+	 * A callback to be run when the "cancel" button is pressed
+	 */
 	public void cancel(){
 		StateMachine sm = StateMachine.getInstance();
 		sm.switchState(state.finish);

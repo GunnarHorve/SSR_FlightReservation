@@ -1,8 +1,9 @@
 package Models;
 
-/*
- * A model meant to contain data about a given US airport.
- * Ideally, this class only holds data queried from server.
+/**
+ * Data type to hold XML args of WPI-defined Airport
+ * @author gunna
+ *
  */
 public class Airport {
 	public int gmtOffset; // offset for local time, from GMT

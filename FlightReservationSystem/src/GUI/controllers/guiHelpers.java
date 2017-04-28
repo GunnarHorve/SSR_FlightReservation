@@ -19,6 +19,11 @@ import javafx.util.Callback;
 public class guiHelpers {
 	private guiHelpers() { } //don't allow instantiation
 	
+	/**
+	 * The public facing method for UI table population--call to recieve commonly-
+	 * reused TableColumn objects
+	 * @return columns ArrayList<TableColumn<ArrayList<Flight>, String>>
+	 */
 	public static ArrayList<TableColumn<ArrayList<Flight>, String>> getColumns() {
 		ArrayList<TableColumn<ArrayList<Flight>, String>> toReturn = new ArrayList<TableColumn<ArrayList<Flight>, String>>();
 		toReturn.add(makeFliColumn());
@@ -29,6 +34,11 @@ public class guiHelpers {
 		return toReturn;
 	}
 	
+	/**
+	 * Displays a modal popup with the given string
+	 * 
+	 * @param toYell string to display
+	 */
 	public static void throwPopup(String toYell) {
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
@@ -40,6 +50,10 @@ public class guiHelpers {
         dialog.show();
 	}
 	
+	/**
+	 * Helper method to create departure time column
+	 * @return depTimeColumn
+	 */
 	private static TableColumn<ArrayList<Flight>,String> makeDepTimeColumn() {
         TableColumn<ArrayList<Flight>,String> depTimeColumn = new TableColumn<ArrayList<Flight>,String>("Departure Time (local)");
         depTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
@@ -56,6 +70,10 @@ public class guiHelpers {
         return depTimeColumn;
 	}
 	
+	/**
+	 * Helper method to create arrival time column
+	 * @return arrTimeColumn
+	 */
 	private static TableColumn<ArrayList<Flight>,String> makeArrTimeColumn() {
         TableColumn<ArrayList<Flight>,String> arrTimeColumn = new TableColumn<ArrayList<Flight>,String>("Arrival Time (local)");
         arrTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
@@ -72,6 +90,10 @@ public class guiHelpers {
         return arrTimeColumn;
 	}
 	
+	/**
+	 * Helper method to create flights column
+	 * @return fliColumn
+	 */
 	private static TableColumn<ArrayList<Flight>,String> makeFliColumn() {
 		TableColumn<ArrayList<Flight>,String> fliColumn = new TableColumn<ArrayList<Flight>,String>("Flights & Connections");
         fliColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
@@ -88,6 +110,10 @@ public class guiHelpers {
         return fliColumn;
 	}
 	
+	/**
+	 * Helper method to create flight duration
+	 * @return durColumn
+	 */
 	private static TableColumn<ArrayList<Flight>,String> makeDurColumn() {
         TableColumn<ArrayList<Flight>,String> durColumn = new TableColumn<ArrayList<Flight>,String>("Total Duration");
         durColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {
@@ -100,6 +126,10 @@ public class guiHelpers {
         return durColumn;
 	}
 	
+	/**
+	 * Helper method to create price column
+	 * @return priColumn
+	 */
 	private static TableColumn<ArrayList<Flight>,String> makePriColumn() {
         TableColumn<ArrayList<Flight>,String> priColumn = new TableColumn<ArrayList<Flight>,String>("Total Price");
         priColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ArrayList<Flight>, String>, ObservableValue<String>>() {

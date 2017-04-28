@@ -1,5 +1,10 @@
 package Models;
 
+/**
+ * Data type to hold XML args of WPI-defined Airplane
+ * @author gunna
+ *
+ */
 public class Airplane {
 
 

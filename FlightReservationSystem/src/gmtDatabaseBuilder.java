@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
 public class gmtDatabaseBuilder {
 	private gmtDatabaseBuilder() {}
 	
-	/*
+	/**
 	 * Provided that there is a file at src/Data/airports.xml,
 	 * this will ensure that the airports.xml file contains GMTOffset fields.
 	 */
@@ -67,7 +67,7 @@ public class gmtDatabaseBuilder {
 		}
 	}
 	
-	/*
+	/**
 	 * queries an API to get a GMT offset in hours (requires 1s between queries)
 	 */
 	private static int getGMTOffsetFromAPI(double[] coords) {
@@ -112,7 +112,7 @@ public class gmtDatabaseBuilder {
 		return -1;
 	}
 	
-	/*
+	/**
 	 *  Inserts a GMT offset field into the given DOM,
 	 *  then saves to file
 	 */
@@ -139,7 +139,7 @@ public class gmtDatabaseBuilder {
 		}
 	}
 	
-	/*
+	/**
 	 * converts java string object to DOM parsable xml document
 	 */
     public static Document convertStringToDocument(String xmlStr) {

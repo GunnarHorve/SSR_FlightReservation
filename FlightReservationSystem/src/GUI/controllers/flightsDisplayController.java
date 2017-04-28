@@ -41,6 +41,12 @@ public class flightsDisplayController {
 	ObservableList<ArrayList<Flight>> data;
 	
 	@FXML
+    /**
+     * 
+     * An initialization method of the controller, used to handle state transitions
+     * and populate GUI elements
+     * 
+     */
 	public void initialize(){		
 		data = FXCollections.observableArrayList(StateMachine.getInstance().flights);
 		table.getColumns().addAll(guiHelpers.getColumns());
@@ -49,6 +55,10 @@ public class flightsDisplayController {
         verifyInputs();
 	}
 	
+    /**
+     * A helper method used to verify GUI inputs
+     * @return	 Boolean validInputs
+     */
 	private boolean verifyInputs() {
 		// check for failed inputs
 		if(data.size() == 0) {
@@ -58,6 +68,9 @@ public class flightsDisplayController {
 		return true;
 	}
 	
+    /**
+     * A callback method to be used when "select flight" is pressed
+     */
 	@FXML
 	public void selectitem() throws IOException{
 		// Order which tells us if we're round trip or one way
@@ -77,12 +90,19 @@ public class flightsDisplayController {
 			sm.switchState(StateMachine.state.confirm_order);
 		}
 	}
+	/**
+	 * A callback method to be used when "cancel flight" is pressed"
+	 */
 	@FXML
 	public void cancelitem(){
 		StateMachine sm = StateMachine.getInstance();
 		sm.switchState(StateMachine.state.finish);
 	}
 	
+	/**
+	 * A callback metod to be used when any of the "sort" radiobuttons are toggled
+	 * @param event RadioButtonPress
+	 */
 	@FXML
 	public void sortList(ActionEvent event) {
 		if(this.priceRadio.isSelected()) { //price

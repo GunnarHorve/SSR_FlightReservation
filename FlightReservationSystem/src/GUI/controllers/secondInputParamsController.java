@@ -21,9 +21,19 @@ public class secondInputParamsController {
 	@FXML private DatePicker date;
 		
 	@FXML
+    /**
+     * 
+     * An initialization method of the controller, used to handle state transitions
+     * and populate GUI elements
+     * 
+     */
 	public void initialize(){ }
 	
 	@FXML
+    /**
+     * A callback to be run when the "select flight" button is pressed
+     * 
+     */
 	public void btnclickk() throws IOException{
 		StateMachine sm = StateMachine.getInstance();
 		if(!verifyInputs(sm.order.arr)) { return; }
@@ -44,6 +54,10 @@ public class secondInputParamsController {
 		sm.switchState(StateMachine.state.display_flights);
 	}
 	
+    /**
+     * A helper method used to verify GUI inputs
+     * @return	 Boolean validInputs
+     */
 	private boolean verifyInputs(Airport a) {
 		LocalDate day   = date.getValue();
 		
