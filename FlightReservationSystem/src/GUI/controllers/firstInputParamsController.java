@@ -40,6 +40,12 @@ public class firstInputParamsController{
 	List<Airport> airports = queryManager.getAllAirports();	
 	static Stage stage=new Stage();
 
+    /**
+     * 
+     * An initialization method of the controller, used to handle state transitions
+     * and populate GUI elements
+     * 
+     */
 	@FXML
 	public void initialize() {		
 		List<String> airportStrings = airports.stream().map(Airport::getName).collect(Collectors.toList());
@@ -52,6 +58,12 @@ public class firstInputParamsController{
 		ObservableList<Integer> intObsList = FXCollections.observableArrayList(intArrList);
 		stop.setItems(intObsList);
 	}
+	
+    /**
+     * 
+     * A callback to be run when the "select flight" button is pressed
+     * 
+     */
 	public void btnclick() throws IOException
 	{		
 		if(!verifyInputs()) { return; }
@@ -73,6 +85,11 @@ public class firstInputParamsController{
 		sm.switchState(StateMachine.state.display_flights);
 	}
 	
+	
+    /**
+     * A helper method used to verify GUI inputs
+     * @return	 Boolean validInputs
+     */
 	private boolean verifyInputs() {
 		int departIndex = depart.getSelectionModel().getSelectedIndex();
 		int arriveIndex = arrive.getSelectionModel().getSelectedIndex();

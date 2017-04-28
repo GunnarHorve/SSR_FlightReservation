@@ -5,9 +5,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
-/*
- * A model meant to contain data about a given customer flight order.
- * Ideally, this class only holds data that was input from UI.
+/**
+ * Data type to define customer-given inputs for specific GUI order
+ * @author gunna
+ *
  */
 public class Order {
 	public boolean firstClass;	// whether order is first class
