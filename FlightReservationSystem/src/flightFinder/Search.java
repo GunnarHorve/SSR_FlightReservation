@@ -98,9 +98,9 @@ public class Search{
     	
     	boolean hasSpace = true;
     	if(isFirstClass){
-    		hasSpace = f.type.totFirst - f.firstSeats >= 0;	
+    		hasSpace = f.type.totFirst - f.firstSeats > 0;	
     	} else {
-    		hasSpace = f.type.totCoach - f.coachSeats >= 0;
+    		hasSpace = f.type.totCoach - f.coachSeats > 0;
     	}
     		return hasSpace && validLayover && validDate;
     }
